@@ -1,0 +1,26 @@
+{
+  "name": "vkit",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "electron": "^1.8.4",
+    "electron-packager": "^12.0.0",
+    "foreman": "^2.0.0",
+    "react-scripts": "1.1.4"
+  },
+  "dependencies": {
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
+  },
+  "homepage": "./",
+  "main": "src/electron-starter.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "dev": "nf start -p 3000",
+    "package":"electron-packager . app exe"
+  }
+}
