@@ -2,6 +2,13 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import styles from './App.module.less';
 import {Button} from 'antd';
+const {ipcRenderer} =window.require('electron')
+console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+
+ipcRenderer.on('asynchronous-reply', (event, arg) => {
+  console.log(arg) // prints "pong"
+})
+ipcRenderer.send('asynchronous-message', 'p11111ng')
 
 class App extends Component {
   render() {
