@@ -25,7 +25,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "cross-env node ./src/electron-wait-react.js",
+    "dev": "cross-env node ./electron-wait-react.js",
     "electron": "electron . ",
     "package": "electron-packager . app exe"
   },

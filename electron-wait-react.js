@@ -16,7 +16,6 @@ exec('npm start')
     .stdout
     .on('data', function (data) {
         debugReact(data.toString())
-        console.log(data.toString());
     })
 let startedElectron = false;
 const tryConnection = () => client.connect({
