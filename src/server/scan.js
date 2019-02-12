@@ -56,4 +56,4 @@ function scanMedia(targetPath, regex) {
   });
 }
 
-exports.scanMedia = scanMedia;
+export { scanMedia };

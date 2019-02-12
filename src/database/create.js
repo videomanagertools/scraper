@@ -1,13 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-module.exports = createDb;
+var fs = require('fs');
+var path = require('path');
+export default createDb;
 var sql = require('sql.js');
 // const fs = require('fs');
 
 var db = new sql.Database();
 
 function createDb() {
-  sqlstr = 'CREATE TABLE movies (id int, name text, img text, path text);';
+  let sqlstr = 'CREATE TABLE movies (id int, name text, img text, path text);';
   sqlstr += 'CREATE TABLE favorites (fid int, name text, value array);';
 
   db.run(sqlstr);

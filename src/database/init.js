@@ -1,5 +1,5 @@
 var sql = require('sql.js');
-const fs = require('fs');
+var fs = require('fs');
 const createDb = require('./create');
 const db = null;
 fs.readFile('./data.sqlite', (err, data) => {
@@ -9,3 +9,4 @@ fs.readFile('./data.sqlite', (err, data) => {
     db = new sql.Database(new Uint8Array(data));
   }
 });
+export default undefined;
