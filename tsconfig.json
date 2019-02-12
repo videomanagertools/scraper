@@ -1,29 +1,16 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "baseUrl": "./",
+    "rootDir": "./",
+    "jsx": "react",
+    "module": "es2015",
     "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "pretty": true,
+    "sourceMap": true,
     "resolveJsonModule": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "isolatedModules": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ]
+    "lib": ["es2015", "dom"]
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "electron_main/electron-starter.js"
-  ]
+  "exclude": ["node_modules", "**/node_modules/*"]
 }
