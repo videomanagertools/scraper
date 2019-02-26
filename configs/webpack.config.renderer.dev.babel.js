@@ -74,6 +74,21 @@ export default merge.smart(baseConfig, {
         ]
       },
       {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ],
+        include: /node_modules/
+      },
+      {
         test: /^((?!\.global).)*\.css$/,
         use: [
           {
@@ -88,7 +103,8 @@ export default merge.smart(baseConfig, {
               localIdentName: '[name]__[local]__[hash:base64:5]'
             }
           }
-        ]
+        ],
+        exclude: /node_modules/
       },
       // SASS support - compile all .global.scss files and pipe it to style.css
       {
