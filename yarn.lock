@@ -6020,7 +6020,7 @@ hoist-non-react-statics@^2.5.0:
   version "2.5.5"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
-hoist-non-react-statics@^3.2.1:
+hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.2.1:
   version "3.3.0"
   resolved "http://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-3.3.0.tgz#b09178f0122184fb95acf525daaecb4d8f45958b"
   integrity sha1-sJF48BIhhPuVrPUl2q7LTY9FlYs=
@@ -8036,6 +8036,19 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
+mobx-react@^5.4.3:
+  version "5.4.3"
+  resolved "http://registry.npm.taobao.org/mobx-react/download/mobx-react-5.4.3.tgz#6709b7dd89670c40e9815914ac2ca49cc02bfb47"
+  integrity sha1-Zwm33YlnDEDpgVkUrCyknMAr+0c=
+  dependencies:
+    hoist-non-react-statics "^3.0.0"
+    react-lifecycles-compat "^3.0.2"
+
+mobx@^5.9.0:
+  version "5.9.0"
+  resolved "http://registry.npm.taobao.org/mobx/download/mobx-5.9.0.tgz#a08edd7132787f771409c9c33788a5df66ff7ce7"
+  integrity sha1-oI7dcTJ4f3cUCcnDN4il32b/fOc=
+
 module-not-found-error@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/module-not-found-error/-/module-not-found-error-1.0.1.tgz#cf8b4ff4f29640674d6cdd02b0e3bc523c2bbdc0"
@@ -9631,7 +9644,7 @@ react-is@^16.7.0, react-is@^16.8.1:
   resolved "http://registry.npm.taobao.org/react-is/download/react-is-16.8.1.tgz#a80141e246eb894824fb4f2901c0c50ef31d4cdb"
   integrity sha1-qAFB4kbriUgk+08pAcDFDvMdTNs=
 
-react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
+import { Provider } from 'mobx-react';
+import { HashRouter as Router } from 'react-router-dom';
 import Routes from '../Routes';
 import { History } from 'history';
 
@@ -12,12 +12,12 @@ type Props = {
 
 export default class Root extends Component<Props> {
   render() {
-    const { store, history } = this.props;
+    const { store } = this.props;
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <Router>
           <Routes />
-        </ConnectedRouter>
+        </Router>
       </Provider>
     );
   }
