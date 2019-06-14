@@ -2,11 +2,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 export const generateFileTree = (paths: Array<string>) => {
-    const result = {
-        title: 'res',
-        key: "0",
-        children: []
-    }
+    const result = []
     function walk(wpath, key) {
         let walkRes = {
             title: '',
@@ -31,7 +27,7 @@ export const generateFileTree = (paths: Array<string>) => {
         return walkRes
     }
     paths.forEach((spath, index) => {
-        result.children.push(walk(spath, `0-${index}`))
+        result.push(walk(spath, `0-${index}`))
     })
     return result
 }

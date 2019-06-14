@@ -8,17 +8,17 @@ import * as R from 'ramda';
 import { generateFileTree } from '../utils';
 
 export default () => {
-  const [tree, setTree] = useState([{}]);
+  const [tree, setTree] = useState([]);
   function handleSelect(paths) {
     dialog.showOpenDialog(
       {
-        title: '122',
+        title: 'Select',
         properties: ['openDirectory', 'openFile', 'multiSelections']
       },
       filePaths => {
         if (!R.is(Array, filePaths) || R.isEmpty(filePaths)) return;
-        let a = generateFileTree(filePaths);
-        setTree([a]);
+        let tree = generateFileTree(filePaths);
+        setTree(tree);
       }
     );
   }
@@ -26,7 +26,7 @@ export default () => {
     <div>
       <Layout>
         <Header>
-          <Button onClick={handleSelect}>dddd</Button>
+          <Button onClick={handleSelect}>选取文件</Button>
         </Header>
         <Layout>
           <Sider width={300} theme="light">

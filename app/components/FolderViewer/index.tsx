@@ -6,12 +6,13 @@ const { TreeNode } = Tree;
 
 type Props = {
   tree: Object;
+  onSelect?: Function;
+  onCheck?: Function;
 };
 class Demo extends React.Component<Props> {
   state = {
-    expandedKeys: ['0-0-0', '0-0-1'],
     autoExpandParent: true,
-    checkedKeys: ['0-0-0'],
+    checkedKeys: [],
     selectedKeys: []
   };
   componentDidMount() {}
@@ -20,7 +21,6 @@ class Demo extends React.Component<Props> {
     // if not set autoExpandParent to false, if children expanded, parent can not collapse.
     // or, you can remove all expanded children keys.
     this.setState({
-      expandedKeys,
       autoExpandParent: false
     });
   };
@@ -31,7 +31,7 @@ class Demo extends React.Component<Props> {
   };
 
   onSelect = (selectedKeys, info) => {
-    console.log('onSelect', info);
+    console.log('onSelect', info, selectedKeys);
     this.setState({ selectedKeys });
   };
 
@@ -48,17 +48,15 @@ class Demo extends React.Component<Props> {
     });
 
   render() {
-    console.log(this.props.tree);
     return (
       <div className={styles.wrapper}>
         <Tree
           checkable
-          onExpand={this.onExpand}
-          expandedKeys={this.state.expandedKeys}
+          multiple
           autoExpandParent={this.state.autoExpandParent}
           onCheck={this.onCheck}
-          checkedKeys={this.state.checkedKeys}
           onSelect={this.onSelect}
+          checkedKeys={this.state.checkedKeys}
           selectedKeys={this.state.selectedKeys}
         >
           {this.renderTreeNodes(this.props.tree)}
