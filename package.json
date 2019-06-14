@@ -185,7 +185,9 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
     "@babel/register": "^7.0.0",
+    "@types/fs-extra": "^7.0.0",
     "@types/jest": "^23.3.11",
+    "@types/ramda": "^0.26.9",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "@types/react-redux": "^6.0.12",
@@ -204,8 +206,9 @@
     "cross-env": "^5.2.0",
     "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.0",
+    "css-modules-typescript-loader": "^2.0.2",
     "detect-port": "^1.3.0",
-    "electron": "^4.0.1",
+    "electron": "^4.2.4",
     "electron-builder": "^20.38.4",
     "electron-devtools-installer": "^2.2.4",
     "enzyme": "^3.8.0",
@@ -271,7 +274,9 @@
     "electron-debug": "^2.0.0",
     "electron-log": "^2.2.17",
     "electron-updater": "^4.0.6",
+    "fs-extra": "^8.0.1",
     "history": "^4.7.2",
+    "ramda": "^0.26.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-hot-loader": "^4.6.3",
@@ -290,5 +295,6 @@
   "collective": {
     "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
-  "browserslist": "electron 1.6"
+  "browserslist": "electron 1.6",
+  "__npminstall_done": false
 }
