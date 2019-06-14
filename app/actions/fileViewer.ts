@@ -11,13 +11,15 @@ interface ChangeCheckedAction {
     checkedKeys: Object[]
 }
 export type FileActionTypes = ChangeCheckedAction | ChangeSelectedAction
-export function changeSelected() {
+export function changeSelected(checkedKeys) {
     return {
-        type: FileActionTypeKeys.CHANGE_SELECTED_KEYS
+        type: FileActionTypeKeys.CHANGE_SELECTED_KEYS,
+        checkedKeys
     }
 }
-export function changeChecked() {
+export function changeChecked(checkedKeys) {
     return {
-        type: FileActionTypeKeys.CHANGE_CHECKED_KEYS
+        type: FileActionTypeKeys.CHANGE_CHECKED_KEYS,
+        checkedKeys
     }
 }

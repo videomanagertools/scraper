@@ -1,11 +1,9 @@
-import configureStoreDev from './configureStore.dev';
-import configureStoreProd from './configureStore.prod';
 
-const selectedConfigureStore =
-  process.env.NODE_ENV === 'production'
-    ? configureStoreProd
-    : configureStoreDev;
-
-export const { configureStore } = selectedConfigureStore;
-
-export const { history } = selectedConfigureStore;
+import { createStore, compose } from 'redux'
+import rootReducer from '../reducers';
+declare global {
+  interface Window { devToolsExtension: any; }
+}
+export function configureStore(init?: any) {
+  return createStore(rootReducer(), init, compose(window.devToolsExtension ? window.devToolsExtension() : f => f))
+}

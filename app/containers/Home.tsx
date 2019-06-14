@@ -7,7 +7,7 @@ const { dialog } = require('electron').remote;
 import * as R from 'ramda';
 import { generateFileTree } from '../utils';
 
-export default () => {
+function Home(props) {
   const [tree, setTree] = useState([]);
   function handleSelect(paths) {
     dialog.showOpenDialog(
@@ -37,4 +37,6 @@ export default () => {
       </Layout>
     </div>
   );
-};
+}
+
+export default Home;

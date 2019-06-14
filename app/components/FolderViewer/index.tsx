@@ -3,13 +3,16 @@ import React from 'react';
 import * as styles from './index.less';
 import { Tree } from 'antd';
 const { TreeNode } = Tree;
+import { connect } from 'react-redux';
+import { changeChecked } from '../../actions/fileViewer';
 
 type Props = {
   tree: Object;
   onSelect?: Function;
   onCheck?: Function;
+  dispatch?: any;
 };
-class Demo extends React.Component<Props> {
+class FileViewer extends React.Component<Props> {
   state = {
     autoExpandParent: true,
     checkedKeys: [],
@@ -26,8 +29,10 @@ class Demo extends React.Component<Props> {
   };
 
   onCheck = checkedKeys => {
+    let { dispatch } = this.props;
     console.log('onCheck', checkedKeys);
     this.setState({ checkedKeys });
+    dispatch(changeChecked(checkedKeys));
   };
 
   onSelect = (selectedKeys, info) => {
@@ -66,4 +71,4 @@ class Demo extends React.Component<Props> {
   }
 }
 
-export default Demo;
+export default connect()(FileViewer);
