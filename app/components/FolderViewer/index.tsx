@@ -57,7 +57,6 @@ class FileViewer extends React.Component<Props> {
       <div className={styles.wrapper}>
         <Tree
           checkable
-          multiple
           autoExpandParent={this.state.autoExpandParent}
           onCheck={this.onCheck}
           onSelect={this.onSelect}

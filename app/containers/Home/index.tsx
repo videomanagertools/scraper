@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 import { Layout, Button } from 'antd';
-import FolderViewer from '../components/FolderViewer/index';
+import FolderViewer from '../../components/FolderViewer/index';
 const { Header, Sider, Content } = Layout;
 const { dialog } = require('electron').remote;
 import * as R from 'ramda';
-import { generateFileTree } from '../utils';
+import { generateFileTree } from '../../utils';
+import { selectFiles } from '../../actions/fileViewer';
 
 function Home(props) {
   const [tree, setTree] = useState([]);
@@ -17,8 +18,10 @@ function Home(props) {
       },
       filePaths => {
         if (!R.is(Array, filePaths) || R.isEmpty(filePaths)) return;
-        let tree = generateFileTree(filePaths);
-        setTree(tree);
+        let trees = generateFileTree(filePaths);
+        setTree(trees);
+        let { dispatch } = this.props;
+        dispatch(selectFiles(trees));
       }
     );
   }

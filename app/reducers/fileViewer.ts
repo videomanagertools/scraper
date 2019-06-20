@@ -3,11 +3,13 @@ import { FileActionTypes, FileActionTypeKeys } from '../actions/fileViewer';
 
 const defaultState = {
     selectedKeys: [],
-    checkedKeys: []
+    checkedKeys: [],
+    trees: []
 }
 type defaultState = {
     selectedKeys: Object[],
-    checkedKeys: Object[]
+    checkedKeys: Object[],
+    trees: Object[]
 }
 export default (state: defaultState = defaultState, action: FileActionTypes) => {
     switch (action.type) {
@@ -16,6 +18,9 @@ export default (state: defaultState = defaultState, action: FileActionTypes) => 
             return state
         case FileActionTypeKeys.CHANGE_CHECKED_KEYS:
             state.checkedKeys = action.checkedKeys;
+            return state
+        case FileActionTypeKeys.SELECT_FILES:
+            state.trees = action.trees;
             return state
         default:
             return state
