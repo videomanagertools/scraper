@@ -14,14 +14,11 @@ type defaultState = {
 export default (state: defaultState = defaultState, action: FileActionTypes) => {
     switch (action.type) {
         case FileActionTypeKeys.CHANGE_SELECTED_KEYS:
-            state.selectedKeys = action.selectedKeys;
-            return state
+            return { ...state, checkedKeys: action.selectedKeys }
         case FileActionTypeKeys.CHANGE_CHECKED_KEYS:
-            state.checkedKeys = action.checkedKeys;
-            return state
+            return { ...state, checkedKeys: action.checkedKeys }
         case FileActionTypeKeys.SELECT_FILES:
-            state.trees = action.trees;
-            return state
+            return { ...state, trees: action.trees }
         default:
             return state
     }

@@ -11,7 +11,6 @@ type Props = {
 export default class Root extends Component<Props> {
   render() {
     const { store } = this.props;
-    console.log(store.getState());
     return (
       <Provider store={store}>
         <Router>

@@ -30,7 +30,7 @@ class FileViewer extends React.Component<Props> {
 
   onCheck = checkedKeys => {
     let { dispatch } = this.props;
-    console.log('onCheck', checkedKeys);
+    // console.log('onCheck', checkedKeys);
     this.setState({ checkedKeys });
     dispatch(changeChecked(checkedKeys));
   };
@@ -57,6 +57,7 @@ class FileViewer extends React.Component<Props> {
       <div className={styles.wrapper}>
         <Tree
           checkable
+          defaultExpandAll
           autoExpandParent={this.state.autoExpandParent}
           onCheck={this.onCheck}
           onSelect={this.onSelect}
