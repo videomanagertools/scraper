@@ -5,7 +5,7 @@ export enum FileActionTypeKeys {
 }
 interface ChangeSelectedAction {
     type: FileActionTypeKeys.CHANGE_SELECTED_KEYS,
-    selectedKeys: Object[]
+    selectedKey: string
 }
 interface ChangeCheckedAction {
     type: FileActionTypeKeys.CHANGE_CHECKED_KEYS,
@@ -16,10 +16,10 @@ interface SelectFilesAction {
     trees: Object[]
 }
 export type FileActionTypes = ChangeCheckedAction | ChangeSelectedAction | SelectFilesAction
-export function changeSelected(checkedKeys) {
+export function changeSelected(selectedKey) {
     return {
         type: FileActionTypeKeys.CHANGE_SELECTED_KEYS,
-        checkedKeys
+        selectedKey
     }
 }
 export function changeChecked(checkedKeys) {

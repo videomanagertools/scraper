@@ -53,3 +53,17 @@ export function isDir(spath: string) {
     return stats.isDirectory()
 }
 
+export function flatTrees(trees: Object[]): Object {
+    const result = {}
+    function walk(arr) {
+        arr.forEach(node => {
+            result[node.key] = node
+            if (node.children) {
+                walk(node.children)
+            }
+        });
+    }
+    walk(trees)
+    return result
+}
+

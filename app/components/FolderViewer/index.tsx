@@ -4,7 +4,7 @@ import * as styles from './index.less';
 import { Tree } from 'antd';
 const { TreeNode } = Tree;
 import { connect } from 'react-redux';
-import { changeChecked } from '../../actions/fileViewer';
+import { changeChecked, changeSelected } from '../../actions/fileViewer';
 
 type Props = {
   tree: Object;
@@ -36,8 +36,9 @@ class FileViewer extends React.Component<Props> {
   };
 
   onSelect = (selectedKeys, info) => {
-    console.log('onSelect', info, selectedKeys);
+    let { dispatch } = this.props;
     this.setState({ selectedKeys });
+    dispatch(changeSelected(selectedKeys[0]));
   };
 
   renderTreeNodes = data =>
