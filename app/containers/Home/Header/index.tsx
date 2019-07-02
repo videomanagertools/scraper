@@ -4,6 +4,7 @@ import { Button, Row, Col, Input } from 'antd';
 import * as R from 'ramda';
 import { generateFileTree } from '../../../utils';
 import { selectFiles, setSelectedFilename } from '../../../actions/fileViewer';
+import scrape from '../../../core';
 
 const { dialog } = require('electron').remote;
 
@@ -14,16 +15,7 @@ type Props = {
   selectedFilename: string;
 };
 class Header extends Component<Props> {
-  //   static getDerivedStateFromProps(nextProps) {
-  //     console.log(nextProps);
-  //     if (nextProps.selectedFilename) {
-  //       return {
-  //         filename: nextProps.selectedFilename
-  //       };
-  //     }
-  //     return null;
-  //   }
-  handleSelect = paths => {
+  handleSelect = () => {
     const { setTree, dispatch } = this.props;
     dialog.showOpenDialog(
       {
@@ -44,6 +36,10 @@ class Header extends Component<Props> {
     dispatch(setSelectedFilename(filename));
   };
 
+  handleScrape = filename => {
+    scrape(filename);
+  };
+
   render() {
     const { selectedFilename } = this.props;
     return (
@@ -62,7 +58,9 @@ class Header extends Component<Props> {
             />
           </Col>
           <Col span={4} offset={1}>
-            <Button onClick={this.handleSelect}>爬取信息</Button>
+            <Button onClick={() => this.handleScrape(selectedFilename)}>
+              爬取信息
+            </Button>
           </Col>
           <Col span={4}>
             <Button onClick={this.handleSelect}>写入信息</Button>

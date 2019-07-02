@@ -37,7 +37,10 @@ export default {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.json']
+    extensions: ['.js', '.ts', '.tsx', '.json'],
+    alias: {
+      actions: path.resolve(__dirname, '../app/actions')
+    }
   },
 
   plugins: [
