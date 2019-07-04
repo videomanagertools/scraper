@@ -5,7 +5,7 @@ import douban from '../scraper/douban';
 // const path = require('path');
 
 export default async (queryString: string) => {
-  douban('sss')
+  douban(queryString)
     .then(res => {
       console.log(res, queryString);
       return queryString;

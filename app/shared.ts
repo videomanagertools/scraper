@@ -18,7 +18,7 @@ export type Actor = {
 };
 export type Uniqueid = {
   /** 加入到标签属性中的key */
-  _attr: {
+  _attributes: {
     /**
      * 平台
      */
@@ -28,13 +28,13 @@ export type Uniqueid = {
   /**
    * 标签的值
    */
-  _value: string;
+  _text: string;
 };
 export interface ModelType {
   /**
    * ID,可多个平台多个ID
    */
-  uniqueid?: Uniqueid | Uniqueid[];
+  uniqueid?: Uniqueid[];
   /**
    * 标题
    */

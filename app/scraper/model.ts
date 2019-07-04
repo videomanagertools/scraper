@@ -1,4 +1,4 @@
-import json2xml from 'json2xml';
+import xmljs from 'xml-js';
 import { ModelType } from '../shared';
 
 export default class MovieModel {
@@ -14,6 +14,6 @@ export default class MovieModel {
   }
 
   getXML() {
-    return json2xml(this.model, { header: true });
+    return xmljs.js2xml({ movie: this.model }, { compact: true, spaces: 4 });
   }
 }
