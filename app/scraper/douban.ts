@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import cheerio from 'cheerio';
-import MovieModel from './model';
+import MovieModel from './core/model';
 
 export default async (queryString: string): Promise<any> => {
   const movieModel = new MovieModel();
@@ -15,8 +15,6 @@ export default async (queryString: string): Promise<any> => {
   await page.waitForSelector('#content');
   const html = await page.$eval('#content', el => el.outerHTML);
   const $ = cheerio.load(html);
-  const a = $('#info>.actor>.attrs>a');
-  console.log(a);
   movieModel.setModel({
     title: $('h1>span:nth-child(1)').text(),
     year: $('h1 .year').text(),

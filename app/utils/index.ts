@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 
-export const generateFileTree = (paths: Array<string>) => {
+export const generateFileTree = (paths: Array<string>): string[] => {
   const result = [];
   let fileCount = 0;
   function walk(wpath, key) {

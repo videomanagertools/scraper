@@ -4,19 +4,14 @@ import { Button, Row, Col, Input } from 'antd';
 import * as R from 'ramda';
 import { generateFileTree } from '../../../utils';
 import { selectFiles, setSelectedFilename } from '../../../actions/fileViewer';
-import scrape from '../../../core';
+import scrape from '../../../scraper/core';
 
 const { dialog } = require('electron').remote;
 
-type Props = {
-  setTree: Function;
-  dispatch: Function;
-  checkedKeys: [];
-  selectedFilename: string;
-};
-class Header extends Component<Props> {
+type Props = ReturnType<typeof mapStateToProps> & { dispatch };
+class HeaderContent extends Component<Props> {
   handleSelect = () => {
-    const { setTree, dispatch } = this.props;
+    const { dispatch } = this.props;
     dialog.showOpenDialog(
       {
         title: 'Select',
@@ -25,7 +20,6 @@ class Header extends Component<Props> {
       filePaths => {
         if (!R.is(Array, filePaths) || R.isEmpty(filePaths)) return;
         const trees = generateFileTree(filePaths);
-        setTree(trees);
         dispatch(selectFiles(trees));
       }
     );
@@ -78,4 +72,4 @@ const mapStateToProps = ({ fileViewer }) => {
   };
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(HeaderContent);

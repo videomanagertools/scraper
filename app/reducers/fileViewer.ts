@@ -1,34 +1,49 @@
-
-import { FileActionTypes, FileActionTypeKeys } from '../actions/fileViewer';
+import { ActionType } from 'typesafe-actions';
 import { flatTrees } from '../utils';
+import * as fileViewer from '../actions/fileViewer';
+import {
+  CHANGE_SELECTED_KEY,
+  CHANGE_CHECKED_KEYS,
+  SELECT_FILES,
+  SET_SELECTED_FILENAME
+} from '../constants/fileviewer';
+
+export type FileAction = ActionType<typeof fileViewer>;
 
 const defaultState = {
-    selectedFilename: '',
-    selectedKey: '',
-    checkedKeys: [],
-    trees: [],
-    flatTrees: {}
-}
+  selectedFilename: '',
+  selectedKey: '',
+  checkedKeys: [],
+  trees: [],
+  flatTrees: {}
+};
 type defaultState = {
-    selectedFilename: string,
-    selectedKey: string,
-    checkedKeys: Object[],
-    trees: Object[],
-    flatTrees: Object
+  selectedFilename: string;
+  selectedKey: string;
+  checkedKeys: Object[];
+  trees: Object[];
+  flatTrees: Object;
 };
 
-export default (state: defaultState = defaultState, action: FileActionTypes) => {
-    switch (action.type) {
-        case FileActionTypeKeys.CHANGE_SELECTED_KEY:
-            const selectedFilename = state.flatTrees[action.selectedKey].title
-            return { ...state, selectedKey: action.selectedKey, selectedFilename }
-        case FileActionTypeKeys.CHANGE_CHECKED_KEYS:
-            return { ...state, checkedKeys: action.checkedKeys }
-        case FileActionTypeKeys.SELECT_FILES:
-            return { ...state, trees: action.trees, flatTrees: flatTrees(action.trees) }
-        case FileActionTypeKeys.SET_SELECTED_FILENAME:
-            return { ...state, selectedFilename: action.value }
-        default:
-            return state
-    }
-}
+export default (state: defaultState = defaultState, action: FileAction) => {
+  switch (action.type) {
+    case CHANGE_SELECTED_KEY:
+      return {
+        ...state,
+        selectedKey: action.payload,
+        selectedFilename: state.flatTrees[action.payload].title
+      };
+    case CHANGE_CHECKED_KEYS:
+      return { ...state, checkedKeys: action.payload };
+    case SELECT_FILES:
+      return {
+        ...state,
+        trees: action.payload,
+        flatTrees: flatTrees(action.payload)
+      };
+    case SET_SELECTED_FILENAME:
+      return { ...state, selectedFilename: action.payload };
+    default:
+      return state;
+  }
+};

@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Layout } from 'antd';
-import FolderViewer from '../../components/FolderViewer/index';
-const { Header, Sider, Content } = Layout;
-import HeaderContent from './Header';
+import HeaderContent from './HeaderContent';
+import SiderContent from './SiderContent';
 
 import * as styles from './index.less';
 
+const { Header, Sider, Content } = Layout;
+
 function Home() {
-  const [tree, setTree] = useState([]);
   return (
     <div>
       <Layout>
         <Header>
-          <HeaderContent setTree={setTree} />
+          <HeaderContent />
         </Header>
         <Layout>
           <Sider width={300} className={styles.sider} theme="light">
-            <FolderViewer tree={tree} />
+            <SiderContent />
           </Sider>
           <Content />
         </Layout>

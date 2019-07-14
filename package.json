@@ -297,6 +297,7 @@
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.9",
     "superagent": "^5.1.0",
+    "typesafe-actions": "^4.4.2",
     "xml-js": "^1.6.11"
   },
   "devEngines": {

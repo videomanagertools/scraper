@@ -1,8 +1,4 @@
-// import generateNFO from './fileGenerator';
-import douban from '../scraper/douban';
-
-// const fs = require('fs-extra');
-// const path = require('path');
+import douban from '../douban';
 
 export default async (queryString: string) => {
   douban(queryString)

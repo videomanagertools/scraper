@@ -1,5 +1,5 @@
 import xmljs from 'xml-js';
-import { ModelType } from '../shared';
+import { ModelType } from '../../shared';
 
 export default class MovieModel {
   private model: ModelType = {};
