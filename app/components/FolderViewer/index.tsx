@@ -1,45 +1,30 @@
 import React from 'react';
 
-import * as styles from './index.less';
 import { Tree } from 'antd';
-const { TreeNode } = Tree;
 import { connect } from 'react-redux';
-import { changeChecked, changeSelected } from '../../actions/fileViewer';
+import * as styles from './index.less';
 
+const { TreeNode } = Tree;
+export type TreeType = {
+  title: string;
+  key: string;
+  children: TreeType[];
+}[];
+export interface SelectHandle {
+  (selectedKey: string[]): void;
+}
+export interface CheckHandle {
+  (checkedKeys: string[]): void;
+}
 type Props = {
-  tree: Object;
-  onSelect?: Function;
-  onCheck?: Function;
-  dispatch?: any;
+  tree: TreeType;
+  onSelect?: SelectHandle;
+  onCheck?: CheckHandle;
+  selectedKeys?: string[];
+  checkedKeys?: string[];
 };
 class FileViewer extends React.Component<Props> {
-  state = {
-    autoExpandParent: true,
-    checkedKeys: [],
-    selectedKeys: []
-  };
   componentDidMount() {}
-  onExpand = expandedKeys => {
-    console.log('onExpand', expandedKeys);
-    // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-    // or, you can remove all expanded children keys.
-    this.setState({
-      autoExpandParent: false
-    });
-  };
-
-  onCheck = checkedKeys => {
-    let { dispatch } = this.props;
-    // console.log('onCheck', checkedKeys);
-    this.setState({ checkedKeys });
-    dispatch(changeChecked(checkedKeys));
-  };
-
-  onSelect = (selectedKeys, info) => {
-    let { dispatch } = this.props;
-    this.setState({ selectedKeys });
-    dispatch(changeSelected(selectedKeys[0]));
-  };
 
   renderTreeNodes = data =>
     data.map(item => {
@@ -54,18 +39,19 @@ class FileViewer extends React.Component<Props> {
     });
 
   render() {
+    const { onCheck, onSelect, selectedKeys, checkedKeys, tree } = this.props;
     return (
       <div className={styles.wrapper}>
         <Tree
           checkable
           defaultExpandAll
-          autoExpandParent={this.state.autoExpandParent}
-          onCheck={this.onCheck}
-          onSelect={this.onSelect}
-          checkedKeys={this.state.checkedKeys}
-          selectedKeys={this.state.selectedKeys}
+          autoExpandParent
+          onCheck={onCheck}
+          onSelect={onSelect}
+          checkedKeys={checkedKeys}
+          selectedKeys={selectedKeys}
         >
-          {this.renderTreeNodes(this.props.tree)}
+          {this.renderTreeNodes(tree)}
         </Tree>
       </div>
     );

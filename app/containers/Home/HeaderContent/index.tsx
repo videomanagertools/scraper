@@ -71,5 +71,4 @@ const mapStateToProps = ({ fileViewer }) => {
     selectedFilename
   };
 };
-
 export default connect(mapStateToProps)(HeaderContent);
