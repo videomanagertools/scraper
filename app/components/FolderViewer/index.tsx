@@ -2,24 +2,14 @@ import React from 'react';
 
 import { Tree } from 'antd';
 import { connect } from 'react-redux';
+import { TreeType } from '../../types/index';
 import * as styles from './index.less';
 
 const { TreeNode } = Tree;
-export type TreeType = {
-  title: string;
-  key: string;
-  children: TreeType[];
-}[];
-export interface SelectHandle {
-  (selectedKey: string[]): void;
-}
-export interface CheckHandle {
-  (checkedKeys: string[]): void;
-}
 type Props = {
   tree: TreeType;
-  onSelect?: SelectHandle;
-  onCheck?: CheckHandle;
+  onSelect?: (selectedKey: string[]) => void;
+  onCheck?: (checkedKeys: string[]) => void;
   selectedKeys?: string[];
   checkedKeys?: string[];
 };

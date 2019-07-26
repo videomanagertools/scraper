@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Row, Col, Input } from 'antd';
 import * as R from 'ramda';
 import { generateFileTree } from '../../../utils';
-import { selectFiles, setSelectedFilename } from '../../../actions/fileViewer';
+import { selectFiles, setSelectedFilename } from '../../../actions/file';
 import scrape from '../../../scraper/core';
 
 const { dialog } = require('electron').remote;
@@ -64,8 +64,8 @@ class HeaderContent extends Component<Props> {
     );
   }
 }
-const mapStateToProps = ({ fileViewer }) => {
-  const { checkedKeys, selectedFilename } = fileViewer;
+const mapStateToProps = ({ file }) => {
+  const { checkedKeys, selectedFilename } = file;
   return {
     checkedKeys,
     selectedFilename

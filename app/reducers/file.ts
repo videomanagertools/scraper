@@ -1,12 +1,12 @@
 import { ActionType } from 'typesafe-actions';
 import { flatTrees } from '../utils';
-import * as fileViewer from '../actions/fileViewer';
+import * as fileViewer from '../actions/file';
 import {
   CHANGE_SELECTED_KEY,
   CHANGE_CHECKED_KEYS,
   SELECT_FILES,
   SET_SELECTED_FILENAME
-} from '../constants/fileviewer';
+} from '../constants/file';
 
 export type FileAction = ActionType<typeof fileViewer>;
 
@@ -17,13 +17,13 @@ const defaultState = {
   trees: [],
   flatTrees: {}
 };
-type defaultState = {
+type defaultState = Readonly<{
   selectedFilename: string;
   selectedKey: string;
-  checkedKeys: Object[];
+  checkedKeys: string[];
   trees: Object[];
   flatTrees: Object;
-};
+}>;
 
 export default (state: defaultState = defaultState, action: FileAction) => {
   switch (action.type) {

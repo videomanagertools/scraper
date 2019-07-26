@@ -1,15 +1,15 @@
 import xmljs from 'xml-js';
-import { ModelType } from '../../shared';
+import { NFOModel } from '../../types';
 
 export default class MovieModel {
-  private model: ModelType = {};
+  private model: NFOModel = {};
 
-  setModel(model: ModelType): MovieModel {
+  setModel(model: NFOModel): MovieModel {
     this.model = Object.assign({}, this.model, model);
     return this;
   }
 
-  getModel(): ModelType {
+  getModel(): NFOModel {
     return this.model;
   }
 

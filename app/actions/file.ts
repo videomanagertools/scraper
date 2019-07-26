@@ -4,7 +4,7 @@ import {
   CHANGE_CHECKED_KEYS,
   SELECT_FILES,
   SET_SELECTED_FILENAME
-} from '../constants/fileviewer';
+} from '../constants/file';
 
 export const changeSelected = (selectedKey: string) =>
   action(CHANGE_SELECTED_KEY, selectedKey);

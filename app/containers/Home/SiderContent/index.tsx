@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import FolderViewer from '../../../components/FolderViewer/index';
-import { changeChecked, changeSelected } from '../../../actions/fileViewer';
+import { changeChecked, changeSelected } from '../../../actions/file';
 
-const mapStateToProps = ({ fileViewer }) => {
-  const { trees } = fileViewer;
+const mapStateToProps = ({ file }) => {
+  const { trees } = file;
   return {
     trees
   };
@@ -24,11 +24,11 @@ const SiderContent: React.FC<Props> = ({ trees, onChecked, onSelected }) => {
   const [checkedKeys, setCheckedKeys] = useState([]);
   const selectHandle = (iselectedKeys: string[]) => {
     setSelectedKeys(iselectedKeys);
-    changeSelected(iselectedKeys[0]);
+    onSelected(iselectedKeys[0]);
   };
   const checkHandle = icheckedKeys => {
     setCheckedKeys(icheckedKeys);
-    changeChecked(icheckedKeys);
+    onChecked(icheckedKeys);
   };
   return (
     <FolderViewer

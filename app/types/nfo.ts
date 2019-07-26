@@ -30,7 +30,7 @@ export type Uniqueid = {
    */
   _text: string;
 };
-export interface ModelType {
+export interface NFOModel {
   /**
    * ID,可多个平台多个ID
    */

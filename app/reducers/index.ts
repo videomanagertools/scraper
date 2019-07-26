@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import fileViewer from './fileViewer';
+import file from './file';
 
 export default function createRootReducer() {
   return combineReducers({
-    fileViewer
+    file
   });
 }
