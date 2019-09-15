@@ -1,12 +1,37 @@
-import douban from '../douban';
+// import douban from '../douban';
+import { writeFile, mkdirp } from 'fs-extra';
+import javbus from '../javBus';
+import { downloadImg } from '../../utils';
 
-export default async (queryString: string) => {
-  douban(queryString)
-    .then(res => {
-      console.log(res, queryString);
-      return queryString;
-    })
-    .catch(err => {
-      console.log(err);
-    });
+export interface QueryOpt {
+  queryString: string;
+  file: any;
+}
+export default async (queryOpts: QueryOpt[]) => {
+  for (let i = 0; i < queryOpts.length; i += 1) {
+    await javbus(queryOpts[i].queryString)
+      .then(res => {
+        console.log(res);
+        return saveAsserts(res, queryOpts[i].file);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
+const saveAsserts = async (model, file) => {
+  const json = model.getModel();
+  console.log(json, file);
+  await mkdirp(`${file.wpath}.actors`);
+  return Promise.all([
+    writeFile(
+      `${file.wpath + file.title}.nfo`,
+      `<?xml version="1.0" encoding="utf-8" standalone="yes"?>${model.getXML()}`
+    ),
+    downloadImg(json.art.poster, `${file.wpath + file.title}-poster.jpg`),
+    downloadImg(json.art.fanart, `${file.wpath + file.title}-fanart.jpg`),
+    json.actor.map(v =>
+      downloadImg(v.thumb, `${file.wpath}.actors/${v.title}.jpg`)
+    )
+  ]);
 };

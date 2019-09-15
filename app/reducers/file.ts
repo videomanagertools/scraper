@@ -30,8 +30,10 @@ export default (state: defaultState = defaultState, action: FileAction) => {
     case CHANGE_SELECTED_KEY:
       return {
         ...state,
-        selectedKey: action.payload,
-        selectedFilename: state.flatTrees[action.payload].title
+        selectedKey: action.payload ? action.payload : '',
+        selectedFilename: action.payload
+          ? state.flatTrees[action.payload].title
+          : ''
       };
     case CHANGE_CHECKED_KEYS:
       return { ...state, checkedKeys: action.payload };

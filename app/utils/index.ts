@@ -3,15 +3,19 @@ import fs from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 
+const request = require('request');
+
 export const generateFileTree = (paths: Array<string>): string[] => {
   const result = [];
   let fileCount = 0;
   function walk(wpath, key) {
     let walkRes = {
       title: '',
+      ext: '',
       isDir: false,
       key,
-      children: []
+      children: [],
+      wpath: null
     };
     if (isDir(wpath)) {
       walkRes.title = path.basename(wpath);
@@ -25,11 +29,14 @@ export const generateFileTree = (paths: Array<string>): string[] => {
         }
       });
     } else if (/(.mp4|.rmvb|.avi|.wmv)$/.test(wpath)) {
+      const name = path.basename(wpath).split('.');
       walkRes = {
-        title: path.basename(wpath),
+        title: name[0],
+        ext: name[1],
         key,
         isDir: false,
-        children: null
+        children: null,
+        wpath: `${path.dirname(wpath)}/`
       };
       fileCount += 1;
     } else {
@@ -76,4 +83,16 @@ export const sleep = time =>
     } catch (err) {
       console.log(err);
     }
+  });
+
+export const downloadImg = (url, ipath) =>
+  new Promise((resolve, reject) => {
+    request(url)
+      .pipe(fs.createWriteStream(ipath))
+      .on('finish', () => {
+        resolve(ipath);
+      })
+      .on('error', e => {
+        reject(e);
+      });
   });

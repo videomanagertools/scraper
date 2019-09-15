@@ -295,6 +295,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.0",
     "source-map-support": "^0.5.9",
     "superagent": "^5.1.0",
     "typesafe-actions": "^4.4.2",

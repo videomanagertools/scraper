@@ -13,3 +13,7 @@ export const changeChecked = (checkedKeys: string[]) =>
 export const selectFiles = (trees: string[]) => action(SELECT_FILES, trees);
 export const setSelectedFilename = (value: string) =>
   action(SET_SELECTED_FILENAME, value);
+
+export default {
+  ...changeChecked
+};
