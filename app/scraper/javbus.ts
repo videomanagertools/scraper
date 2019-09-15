@@ -5,7 +5,7 @@ import MovieModel from './core/model';
 export default async (queryString: string): Promise<any> => {
   const movieModel = new MovieModel();
   const encodedQueryString = encodeURIComponent(queryString);
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto(
     `https://www.javbus.com/uncensored/search/${encodedQueryString}`,

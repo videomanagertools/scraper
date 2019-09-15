@@ -11,7 +11,7 @@ export default async (queryOpts: QueryOpt[]) => {
   for (let i = 0; i < queryOpts.length; i += 1) {
     await javbus(queryOpts[i].queryString)
       .then(res => {
-        console.log(res);
+        console.log(res, queryOpts[i].file);
         return saveAsserts(res, queryOpts[i].file);
       })
       .catch(err => {
