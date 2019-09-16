@@ -35,7 +35,10 @@ export default merge.smart(baseConfig, {
         test: /\.global\.css$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: './'
+            }
           },
           {
             loader: 'css-loader',
@@ -60,74 +63,67 @@ export default merge.smart(baseConfig, {
         ],
         include: /node_modules/
       },
+      // Pipe other styles through css modules and append to style.css
       {
         test: /^((?!\.global).)*\.css$/,
         use: [
           {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'dts-css-modules-loader',
-            options: {
-              namedExport: true,
-              banner: '// This file is generated automatically'
-            }
+            loader: MiniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader',
             options: {
               modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
+              localIdentName: '[name]__[local]__[hash:base64:5]',
+              sourceMap: true
             }
           }
         ],
         exclude: /node_modules/
       },
-      // SASS support - compile all .global.scss files and pipe it to style.css
+      // Add SASS support  - compile all .global.scss files and pipe it to style.css
       {
         test: /\.global\.(less)$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: MiniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true
+              sourceMap: true,
+              importLoaders: 1
             }
           },
           {
-            loader: 'less-loader'
+            loader: 'less-loader',
+            options: {
+              sourceMap: true
+            }
           }
         ]
       },
-      // SASS support - compile all other .scss files and pipe it to style.css
+      // Add SASS support  - compile all other .scss files and pipe it to style.css
       {
         test: /^((?!\.global).)*\.(less)$/,
         use: [
           {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'dts-css-modules-loader',
-            options: {
-              namedExport: true,
-              banner: '// This file is generated automatically'
-            }
+            loader: MiniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader',
             options: {
               modules: true,
-              sourceMap: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
+              localIdentName: '[name]__[local]__[hash:base64:5]',
+              sourceMap: true
             }
           },
           {
-            loader: 'less-loader'
+            loader: 'less-loader',
+            options: {
+              sourceMap: true
+            }
           }
         ]
       },
