@@ -11,6 +11,7 @@
   },
   "rules": {
     "no-unused-vars": "off",
+    "no-loop-func": "off",
     "no-await-in-loop": "off",
     "import/no-unresolved": "off",
     "arrow-parens": ["off"],

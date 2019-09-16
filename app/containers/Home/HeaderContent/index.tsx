@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Row, Col, Input, Checkbox } from 'antd';
+import { Button, Row, Col, Input, Checkbox, Modal, Timeline } from 'antd';
 import * as R from 'ramda';
 import { generateFileTree } from '../../../utils';
 import { selectFiles, setSelectedFilename } from '../../../actions/file';
-import scrape from '../../../scraper/core';
+import scrape, { stop } from '../../../scraper/core';
 
 const { dialog } = require('electron').remote;
 
 type Props = ReturnType<typeof mapStateToProps> & { dispatch };
 class HeaderContent extends Component<Props> {
   state = {
-    isBatch: false
+    isBatch: false,
+    modalVisible: false
   };
 
   handleSelect = () => {
@@ -42,6 +43,12 @@ class HeaderContent extends Component<Props> {
       flatTrees
     } = this.props;
     if (!checkedKeys.length) {
+      if (!selectedFilename) {
+        return;
+      }
+      this.setState({
+        modalVisible: true
+      });
       await scrape([
         {
           queryString: selectedFilename,
@@ -49,6 +56,9 @@ class HeaderContent extends Component<Props> {
         }
       ]);
     } else {
+      this.setState({
+        modalVisible: true
+      });
       await scrape(
         checkedKeys
           .map(key => {
@@ -59,15 +69,25 @@ class HeaderContent extends Component<Props> {
             };
           })
           .filter(v => !v.file.isDir)
-      ).catch(error => {
-        console.log(error);
-      });
+      );
     }
+  };
+
+  handleModalCancel = e => {
+    Modal.confirm({
+      title: '确认关闭吗',
+      onOk: () => {
+        stop();
+        this.setState({
+          modalVisible: false
+        });
+      }
+    });
   };
 
   render() {
     const { selectedFilename } = this.props;
-    const { isBatch } = this.state;
+    const { isBatch, modalVisible } = this.state;
     return (
       <>
         <Row>
@@ -101,6 +121,29 @@ class HeaderContent extends Component<Props> {
             <Button onClick={this.handleSelect}>写入信息</Button>
           </Col>
         </Row>
+        <Modal
+          width="100%"
+          footer={null}
+          onCancel={this.handleModalCancel}
+          visible={modalVisible}
+          maskClosable={false}
+          keyboard={false}
+          title="检索信息中"
+        >
+          <Timeline>
+            <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
+            <Timeline.Item>
+              Solve initial network problems 2015-09-01
+            </Timeline.Item>
+            <Timeline.Item color="red">
+              Technical testing 2015-09-01
+            </Timeline.Item>
+            <Timeline.Item>
+              Network problems being solved 2015-09-01
+            </Timeline.Item>
+          </Timeline>
+          ,
+        </Modal>
       </>
     );
   }
