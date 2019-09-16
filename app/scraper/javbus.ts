@@ -1,11 +1,15 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import cheerio from 'cheerio';
 import MovieModel from './core/model';
+import { getDefaultOsPath } from './util';
 
 export default async (queryString: string): Promise<any> => {
   const movieModel = new MovieModel();
   const encodedQueryString = encodeURIComponent(queryString);
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: getDefaultOsPath()
+  });
   const page = await browser.newPage();
   await page.goto(
     `https://www.javbus.com/uncensored/search/${encodedQueryString}`,
