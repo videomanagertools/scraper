@@ -41,7 +41,7 @@ class HeaderContent extends Component<Props> {
       selectedKey,
       flatTrees
     } = this.props;
-    if (selectedFilename) {
+    if (!checkedKeys.length) {
       await scrape([
         {
           queryString: selectedFilename,
@@ -58,8 +58,10 @@ class HeaderContent extends Component<Props> {
               file
             };
           })
-          .filter(v => !!v.file.ext)
-      );
+          .filter(v => !v.file.isDir)
+      ).catch(error => {
+        console.log(error);
+      });
     }
   };
 

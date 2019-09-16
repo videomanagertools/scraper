@@ -1,23 +1,24 @@
 // import douban from '../douban';
 import { writeFile, mkdirp } from 'fs-extra';
 import javbus from '../javBus';
-import { downloadImg } from '../../utils';
+import { downloadImg, defaultRegExp } from '../../utils';
 
 export interface QueryOpt {
   queryString: string;
   file: any;
 }
 export default async (queryOpts: QueryOpt[]) => {
-  for (let i = 0; i < queryOpts.length; i += 1) {
-    await javbus(queryOpts[i].queryString)
-      .then(res => {
-        console.log(res, queryOpts[i].file);
-        return saveAsserts(res, queryOpts[i].file);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  // for (let i = 0; i < queryOpts.length; i += 1) {
+  //   let str = queryOpts[i].queryString;
+  //   await javbus((str.match(defaultRegExp.jav) || [str])[0])
+  //     .then(res => {
+  //       console.log(res, queryOpts[i].file);
+  //       return saveAsserts(res, queryOpts[i].file);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
 };
 const saveAsserts = async (model, file) => {
   const json = model.getModel();

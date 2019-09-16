@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer-core';
 import cheerio from 'cheerio';
 import MovieModel from './core/model';
-import { getDefaultOsPath } from './util';
+import { getDefaultOsPath } from '../utils';
 
 export default async (queryString: string): Promise<any> => {
   const movieModel = new MovieModel();
@@ -16,7 +16,7 @@ export default async (queryString: string): Promise<any> => {
     { waitUntil: 'networkidle2' }
   );
   await page.click('.movie-box');
-  await page.waitForSelector('.bigImage');
+  await page.waitForSelector('.bigImage', { timeout: 5000 });
   const html = await page.$eval('.container', el => el.outerHTML);
   const $ = cheerio.load(html);
   movieModel.setModel({

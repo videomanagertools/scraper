@@ -21,13 +21,18 @@ export const generateFileTree = (paths: Array<string>): string[] => {
       walkRes.title = path.basename(wpath);
       walkRes.isDir = true;
       const wpaths = fs.readdirSync(wpath);
+      let needDel = true;
       wpaths.forEach((dpath, index) => {
         const ddpath = path.join(wpath, dpath);
         const child = walk(ddpath, `${key}-${index}`);
         if (child) {
           walkRes.children.push(child);
+          needDel = false;
         }
       });
+      if (needDel) {
+        walkRes = null;
+      }
     } else if (/(.mp4|.rmvb|.avi|.wmv)$/.test(wpath)) {
       const name = path.basename(wpath).split('.');
       walkRes = {
@@ -96,3 +101,13 @@ export const downloadImg = (url, ipath) =>
         reject(e);
       });
   });
+
+export const getDefaultOsPath = () => {
+  if (process.platform === 'win32') {
+    return 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
+  }
+  return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+};
+export const defaultRegExp = {
+  jav: /\d{1,10}(_|-)\d+|[a-z]{1,10}(_|-)\d+/g
+};
