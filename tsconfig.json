@@ -11,7 +11,14 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "lib": ["es2015", "dom"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@actions": ["./app/actions"],
+      "@types": ["./app/types"],
+      "@components": ["./app/components"],
+      "@constants": ["./app/constants"],
+      "@utils": ["./app/utils"]
+    }
   },
   "exclude": ["node_modules", "**/node_modules/*"]
 }

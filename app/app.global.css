@@ -35,3 +35,7 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+.ant-timeline-item-content {
+  margin: 0 0 0 36px;
+}

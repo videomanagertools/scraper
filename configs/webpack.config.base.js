@@ -39,11 +39,11 @@ export default {
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.json'],
     alias: {
-      actions: path.resolve(__dirname, '../app/actions'),
-      types: path.resolve(__dirname, '../app/types'),
-      components: path.resolve(__dirname, '../app/components'),
-      constants: path.resolve(__dirname, '../app/constants'),
-      utils: path.resolve(__dirname, '../app/utils')
+      '@actions': path.resolve(__dirname, '../app/actions'),
+      '@types': path.resolve(__dirname, '../app/types'),
+      '@components': path.resolve(__dirname, '../app/components'),
+      '@constants': path.resolve(__dirname, '../app/constants'),
+      '@utils': path.resolve(__dirname, '../app/utils')
     }
   },
 

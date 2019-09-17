@@ -1,7 +1,9 @@
 // import douban from '../douban';
+
 import { writeFile, mkdirp } from 'fs-extra';
 import javbus from '../javBus';
-import { downloadImg, defaultRegExp } from '../../utils';
+import { downloadImg, defaultRegExp, emitter } from '../../utils';
+import { EventType } from '@types';
 
 let stopFlag = false;
 export interface QueryOpt {
@@ -15,38 +17,28 @@ export default async (queryOpts: QueryOpt[]) => {
   for (let i = 0; i < queryOpts.length; i += 1) {
     if (stopFlag) return;
     const str = queryOpts[i].queryString;
+    const { file } = queryOpts[i];
+    emitter.emit(EventType.SCRAPE_PENDING, file);
     await javbus((str.match(defaultRegExp.jav) || [str])[0])
       .then(res => {
-        console.log(res.getModel(), queryOpts[i].file);
+        console.log(res.getModel(), file);
         if (stopFlag) return;
-        return saveAsserts(res, queryOpts[i].file);
+        return saveAsserts(res, file);
       })
-      .then(() => successTasks.push(queryOpts[i].file))
+      .then(res => {
+        emitter.emit(EventType.SCRAPE_SUCCESS, file);
+        return successTasks.push(file);
+      })
       .catch(error => {
-        failureTasks.push({ file: queryOpts[i].file, error });
+        emitter.emit(EventType.SCRAPE_FAIL, file);
+        failureTasks.push({ file, error });
       });
   }
+  emitter.emit(EventType.SCRAPE_TASK_END, { failureTasks, successTasks });
   return {
-    successTasks,
-    failureTasks
+    failureTasks,
+    successTasks
   };
-  // return Promise.all(
-  //   queryOpts.map(opt => {
-  //     let str = opt.queryString;
-  //     return javbus((str.match(defaultRegExp.jav) || [str])[0]).then(
-  //       async res => {
-  //         await saveAsserts(res, opt.file);
-  //         return res;
-  //       }
-  //     );
-  //   })
-  // )
-  //   .then(arr => {
-  //     console.log(arr);
-  //   })
-  //   .catch(err => {
-  //     console.log(err, 2);
-  //   });
 };
 export const stop = () => {
   stopFlag = true;
@@ -64,5 +56,5 @@ const saveAsserts = async (model, file) => {
     json.actor.map(v =>
       downloadImg(v.thumb, `${file.wpath}.actors/${v.title}.jpg`)
     )
-  ]);
+  ]).then(() => model);
 };

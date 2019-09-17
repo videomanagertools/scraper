@@ -2,6 +2,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
+import _emitter from './emitter';
 
 const request = require('request');
 
@@ -111,3 +112,5 @@ export const getDefaultOsPath = () => {
 export const defaultRegExp = {
   jav: /\d{1,10}(_|-)\d+|[a-z]{1,10}(_|-)\d+/g
 };
+
+export const emitter = _emitter;
