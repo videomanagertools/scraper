@@ -26,7 +26,7 @@ export default async (queryOpts: QueryOpt[]) => {
         return saveAsserts(res, file);
       })
       .then(res => {
-        emitter.emit(EventType.SCRAPE_SUCCESS, file);
+        emitter.emit(EventType.SCRAPE_SUCCESS, file, res.getModel());
         return successTasks.push(file);
       })
       .catch(error => {

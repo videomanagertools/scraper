@@ -15,7 +15,18 @@ class HeaderContent extends Component<Props> {
     isBatch: false,
     modalVisible: false,
     taskQueue: [],
-    taskIsEnd: false
+    taskIsEnd: false,
+    total: 0,
+    successCount: 0,
+    failureCount: 0,
+    currentMediaInfo: {
+      poster: '',
+      title: '',
+      premiered: '',
+      actor: [],
+      genre: [],
+      uniqueid: ''
+    }
   };
 
   componentDidMount() {
@@ -24,33 +35,38 @@ class HeaderContent extends Component<Props> {
       const { taskQueue } = this.state;
       this.setState({
         taskQueue: taskQueue.map(task => ({
-            ...task,
-            status: task.file.key === key ? 'pending' : task.status
-          }))
+          ...task,
+          status: task.file.key === key ? 'pending' : task.status
+        }))
       });
     });
-    emitter.on(EventType.SCRAPE_SUCCESS, ({ key }) => {
+    emitter.on(EventType.SCRAPE_SUCCESS, ({ key }, json) => {
       const { taskQueue } = this.state;
       this.setState({
         taskQueue: taskQueue.map(task => ({
-            ...task,
-            status: task.file.key === key ? 'success' : task.status
-          }))
+          ...task,
+          status: task.file.key === key ? 'success' : task.status
+        })),
+        currentMediaInfo: {
+          ...json,
+          poster: json.art.poster
+        }
       });
     });
     emitter.on(EventType.SCRAPE_FAIL, ({ key }) => {
       const { taskQueue } = this.state;
       this.setState({
         taskQueue: taskQueue.map(task => ({
-            ...task,
-            status: task.file.key === key ? 'fail' : task.status
-          }))
+          ...task,
+          status: task.file.key === key ? 'fail' : task.status
+        }))
       });
     });
-    emitter.on(EventType.SCRAPE_TASK_END, res => {
-      console.log(res, 'end');
+    emitter.on(EventType.SCRAPE_TASK_END, ({ successTasks, failureTasks }) => {
       this.setState({
-        taskIsEnd: true
+        taskIsEnd: true,
+        successCount: successTasks.length,
+        failureCount: failureTasks.length
       });
     });
   }
@@ -126,7 +142,8 @@ class HeaderContent extends Component<Props> {
   };
 
   handleModalCancel = e => {
-    if (this.state.taskIsEnd) {
+    const { taskIsEnd } = this.state;
+    if (taskIsEnd) {
       return this.setState({
         modalVisible: false
       });
@@ -144,7 +161,15 @@ class HeaderContent extends Component<Props> {
 
   render() {
     const { selectedFilename } = this.props;
-    const { isBatch, modalVisible, taskQueue } = this.state;
+    const {
+      isBatch,
+      modalVisible,
+      taskQueue,
+      successCount,
+      failureCount,
+      total,
+      currentMediaInfo
+    } = this.state;
     return (
       <>
         <Row>
@@ -187,40 +212,47 @@ class HeaderContent extends Component<Props> {
           keyboard={false}
           title="检索信息中"
         >
-          <Timeline>
-            {taskQueue.map(({ file, status }) => {
-              const dot =
-                status === 'pending' ? (
-                  <Icon style={{ fontSize: 18 }} type="sync" spin />
-                ) : status === 'unfired' ? (
-                  ''
-                ) : status === 'success' ? (
-                  <Icon
-                    style={{ fontSize: 18 }}
-                    type="smile"
-                    theme="twoTone"
-                    twoToneColor="#52c41a"
-                  />
-                ) : (
-                  <Icon
-                    style={{ fontSize: 18 }}
-                    type="frown"
-                    theme="twoTone"
-                    twoToneColor="#eb2f96"
-                  />
-                );
-              return (
-                <Timeline.Item
-                  dot={dot}
-                  color={status === 'unfired' ? 'gray' : 'blue'}
-                  key={file.key}
-                >
-                  {file.title}
-                </Timeline.Item>
-              );
-            })}
-          </Timeline>
-          ,
+          一共运行了{total}个任务，成功{successCount}个，失败{failureCount}个
+          <Row>
+            <Col span={8}>
+              <Timeline>
+                {taskQueue.map(({ file, status }) => {
+                  const dot =
+                    status === 'pending' ? (
+                      <Icon style={{ fontSize: 18 }} type="sync" spin />
+                    ) : status === 'unfired' ? (
+                      ''
+                    ) : status === 'success' ? (
+                      <Icon
+                        style={{ fontSize: 18 }}
+                        type="smile"
+                        theme="twoTone"
+                        twoToneColor="#52c41a"
+                      />
+                    ) : (
+                      <Icon
+                        style={{ fontSize: 18 }}
+                        type="frown"
+                        theme="twoTone"
+                        twoToneColor="#eb2f96"
+                      />
+                    );
+                  return (
+                    <Timeline.Item
+                      dot={dot}
+                      color={status === 'unfired' ? 'gray' : 'blue'}
+                      key={file.key}
+                    >
+                      {file.title}
+                    </Timeline.Item>
+                  );
+                })}
+              </Timeline>
+            </Col>
+            <Col span={15} offset={1}>
+              <img src={currentMediaInfo.poster} alt="" />
+            </Col>
+          </Row>
         </Modal>
       </>
     );
