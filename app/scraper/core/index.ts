@@ -18,7 +18,7 @@ export default async (queryOpts: QueryOpt[]) => {
     if (stopFlag) return;
     const str = queryOpts[i].queryString;
     const { file } = queryOpts[i];
-    emitter.emit(EventType.SCRAPE_PENDING, file);
+    emitter.emit(EventType.SCRAPE_PENDING, file, str.match(defaultRegExp.jav));
     await javbus((str.match(defaultRegExp.jav) || [str])[0])
       .then(res => {
         console.log(res.getModel(), file);

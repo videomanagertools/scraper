@@ -37,12 +37,13 @@ class HeaderContent extends Component<Props> {
 
   componentDidMount() {
     // 只有一个页面，所以不用手动移除监听器
-    emitter.on(EventType.SCRAPE_PENDING, ({ key }) => {
+    emitter.on(EventType.SCRAPE_PENDING, ({ key }, str) => {
       const { taskQueue } = this.state;
       this.setState({
         taskQueue: taskQueue.map(task => ({
           ...task,
-          status: task.file.key === key ? 'pending' : task.status
+          status: task.file.key === key ? 'pending' : task.status,
+          str: task.file.key === key ? str : task.str ? task.str : ''
         }))
       });
     });
@@ -222,7 +223,7 @@ class HeaderContent extends Component<Props> {
           <Row>
             <Col span={5}>
               <Timeline>
-                {taskQueue.map(({ file, status }) => {
+                {taskQueue.map(({ file, status, str }) => {
                   const dot =
                     status === 'pending' ? (
                       <Icon style={{ fontSize: 18 }} type="sync" spin />
@@ -250,6 +251,7 @@ class HeaderContent extends Component<Props> {
                       key={file.key}
                     >
                       {file.title}
+                      <span style={{ color: 'red' }}>{str}</span>
                     </Timeline.Item>
                   );
                 })}
