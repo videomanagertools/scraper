@@ -5,7 +5,8 @@ import {
   CHANGE_SELECTED_KEY,
   CHANGE_CHECKED_KEYS,
   SELECT_FILES,
-  SET_SELECTED_FILENAME
+  SET_SELECTED_FILENAME,
+  UPDATE_TREE
 } from '../constants/file';
 
 export type FileAction = ActionType<typeof fileViewer>;
@@ -45,6 +46,8 @@ export default (state: defaultState = defaultState, action: FileAction) => {
       };
     case SET_SELECTED_FILENAME:
       return { ...state, selectedFilename: action.payload };
+    case UPDATE_TREE:
+      return { ...state, trees: action.payload };
     default:
       return state;
   }

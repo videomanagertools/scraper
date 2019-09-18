@@ -20,12 +20,18 @@ class HeaderContent extends Component<Props> {
     successCount: 0,
     failureCount: 0,
     currentMediaInfo: {
-      poster: '',
-      title: '',
-      premiered: '',
-      actor: [],
-      genre: [],
-      uniqueid: ''
+      poster: 'https://image.tmdb.org/t/p/w500/uXTtUYleKiaF0KuBwupIeuSjyLA.jpg',
+      title: '哪吒之魔童降世',
+      premiered: '2019-04-24',
+      actor: [
+        {
+          name: 'Yanting Lv',
+          thumb:
+            'https://image.tmdb.org/t/p/w185/vKpOzPutTaPf03rWXiLuK8R2K3B.jpg'
+        }
+      ],
+      genre: ['动画', '奇幻'],
+      uniqueid: '615453'
     }
   };
 
@@ -214,7 +220,7 @@ class HeaderContent extends Component<Props> {
         >
           一共运行了{total}个任务，成功{successCount}个，失败{failureCount}个
           <Row>
-            <Col span={8}>
+            <Col span={5}>
               <Timeline>
                 {taskQueue.map(({ file, status }) => {
                   const dot =
@@ -249,8 +255,28 @@ class HeaderContent extends Component<Props> {
                 })}
               </Timeline>
             </Col>
-            <Col span={15} offset={1}>
-              <img src={currentMediaInfo.poster} alt="" />
+            <Col span={18} offset={1}>
+              <Row>
+                <Col span={5}>
+                  <img
+                    style={{ maxWidth: '100%' }}
+                    src={currentMediaInfo.poster}
+                    alt=""
+                  />
+                </Col>
+                <Col span={10} offset={2}>
+                  <div className="genre" style={{ display: 'flex' }}>
+                    {currentMediaInfo.genre.map(g => (
+                      <div key={g}>{g}</div>
+                    ))}
+                  </div>
+                  <div className="actor">
+                    {currentMediaInfo.actor.map(a => (
+                      <div key={a.name}>{a.name}</div>
+                    ))}
+                  </div>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Modal>
@@ -259,12 +285,13 @@ class HeaderContent extends Component<Props> {
   }
 }
 const mapStateToProps = ({ file }) => {
-  const { checkedKeys, selectedFilename, selectedKey, flatTrees } = file;
+  const { checkedKeys, selectedFilename, selectedKey, flatTrees, trees } = file;
   return {
     checkedKeys,
     selectedFilename,
     selectedKey,
-    flatTrees
+    flatTrees,
+    trees
   };
 };
 export default connect(mapStateToProps)(HeaderContent);
