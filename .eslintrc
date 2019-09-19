@@ -11,6 +11,7 @@
   },
   "rules": {
     "no-unused-vars": "off",
+    "no-underscore-dangle": "off",
     "no-loop-func": "off",
     "no-nested-ternary": "off",
     "no-await-in-loop": "off",
