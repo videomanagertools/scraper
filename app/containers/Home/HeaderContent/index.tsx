@@ -11,27 +11,6 @@ import ScrapeInfoModal from '../ScrapeInfoModal';
 const { dialog } = require('electron').remote;
 
 type Props = ReturnType<typeof mapStateToProps> & { dispatch };
-// class HeaderContent extends Component<Props> {
-//   state = {
-//     isBatch: false,
-//     modalVisible: false,
-//     taskQueue: [],
-//     tasks: [],
-//     waitFire: false
-//   };
-
-//   componentDidMount() {}
-
-//   componentDidUpdate() {
-//     const { waitFire } = this.state;
-//     if (waitFire) {
-//       console.log('scra');
-//       // scrape(tasks);
-//       this.setState({
-//         waitFire: false
-//       });
-//     }
-//   }
 
 const HeaderContent = ({
   checkedKeys,

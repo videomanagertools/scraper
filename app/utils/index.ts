@@ -1,5 +1,5 @@
 // import * as R from 'ramda';
-import fs from 'fs-extra';
+import fs, { readdir, unlink } from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
@@ -114,3 +114,9 @@ export const defaultRegExp = {
 };
 
 export const emitter = _emitter;
+
+export const rmdirAndFile = dir =>
+  readdir(dir).then(files => {
+    console.log(files);
+    return Promise.all(files.map(f => unlink(`${dir}/${f}`)));
+  });

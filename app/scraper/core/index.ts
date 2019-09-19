@@ -2,7 +2,7 @@
 
 import { writeFile, mkdirp } from 'fs-extra';
 import javbus from '../javBus';
-import { downloadImg, defaultRegExp, emitter } from '../../utils';
+import { downloadImg, defaultRegExp, emitter, rmdirAndFile } from '../../utils';
 import { EventType } from '@types';
 
 let stopFlag = false;
@@ -18,7 +18,11 @@ export default async (queryOpts: QueryOpt[]) => {
     if (stopFlag) return;
     const str = queryOpts[i].queryString;
     const { file } = queryOpts[i];
-    emitter.emit(EventType.SCRAPE_PENDING, file, str.match(defaultRegExp.jav));
+    emitter.emit(
+      EventType.SCRAPE_PENDING,
+      file,
+      (str.match(defaultRegExp.jav) || [str])[0]
+    );
     await javbus((str.match(defaultRegExp.jav) || [str])[0])
       .then(res => {
         console.log(res.getModel(), file);
@@ -30,10 +34,12 @@ export default async (queryOpts: QueryOpt[]) => {
         return successTasks.push(file);
       })
       .catch(error => {
+        console.log(error);
         emitter.emit(EventType.SCRAPE_FAIL, file);
         failureTasks.push({ file, error });
       });
   }
+  console.log(111);
   emitter.emit(EventType.SCRAPE_TASK_END, { failureTasks, successTasks });
   return {
     failureTasks,
@@ -45,6 +51,7 @@ export const stop = () => {
 };
 const saveAsserts = async (model, file) => {
   const json = model.getModel();
+  await rmdirAndFile(`${file.wpath}.actors`);
   await mkdirp(`${file.wpath}.actors`);
   return Promise.all([
     writeFile(
@@ -54,7 +61,7 @@ const saveAsserts = async (model, file) => {
     downloadImg(json.art.poster, `${file.wpath + file.title}-poster.jpg`),
     downloadImg(json.art.fanart, `${file.wpath + file.title}-fanart.jpg`),
     json.actor.map(v =>
-      downloadImg(v.thumb, `${file.wpath}.actors/${v.title}.jpg`)
+      downloadImg(v.thumb, `${file.wpath}.actors/${v.name}.jpg`)
     )
   ]).then(() => model);
 };

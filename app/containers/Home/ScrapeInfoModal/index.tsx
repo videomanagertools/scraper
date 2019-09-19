@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Row, Col, Modal, Timeline, Icon } from 'antd';
+import { Row, Col, Modal, Timeline, Icon, Tag } from 'antd';
+import cn from 'classnames';
 import { emitter } from '../../../utils';
 import { EventType } from '@types';
 import { stop } from '../../../scraper/core';
+import * as styles from './index.less';
 
 export default ({ visible, taskQueue, onCancel }) => {
   const [currentMediaInfo, setCurrentMediaInfo] = useState({
@@ -11,8 +13,14 @@ export default ({ visible, taskQueue, onCancel }) => {
     premiered: '2019-04-24',
     actor: [
       {
-        name: 'Yanting Lv',
-        thumb: 'https://image.tmdb.org/t/p/w185/vKpOzPutTaPf03rWXiLuK8R2K3B.jpg'
+        name: 'Yanting Lvasdsdda asdas',
+        thumb:
+          'https://image.tmdb.org/t/p/w138_and_h175_face/vKpOzPutTaPf03rWXiLuK8R2K3B.jpg'
+      },
+      {
+        name: 'asdasd',
+        thumb:
+          'https://image.tmdb.org/t/p/w138_and_h175_face/58Ytg6PBGpqB2s7DkHB82dRvdFO.jpg'
       }
     ],
     genre: ['动画', '奇幻'],
@@ -42,7 +50,11 @@ export default ({ visible, taskQueue, onCancel }) => {
       }));
       setTaskQ(_taskQ);
       lastTaskQ.current = _taskQ;
-      setCurrentMediaInfo({ ...json, poster: json.art.poster });
+      setCurrentMediaInfo({
+        ...json,
+        poster: json.art.poster,
+        uniqueid: json.uniqueid[0]._text
+      });
     });
     emitter.on(EventType.SCRAPE_FAIL, ({ key }) => {
       const _taskQ = lastTaskQ.current.map(task => ({
@@ -53,6 +65,7 @@ export default ({ visible, taskQueue, onCancel }) => {
       lastTaskQ.current = _taskQ;
     });
     emitter.on(EventType.SCRAPE_TASK_END, ({ successTasks, failureTasks }) => {
+      console.log(successTasks, failureTasks);
       setTaskIsEnd(true);
     });
     return () => {
@@ -64,7 +77,7 @@ export default ({ visible, taskQueue, onCancel }) => {
   }, []);
   const handleModalCancel = e => {
     if (taskIsEnd) {
-      onCancel();
+      return onCancel();
     }
     Modal.confirm({
       title: '确认关闭吗',
@@ -76,16 +89,17 @@ export default ({ visible, taskQueue, onCancel }) => {
   };
   return (
     <Modal
-      width="100%"
+      width="90%"
       footer={null}
       onCancel={handleModalCancel}
       visible={visible}
       maskClosable={false}
       keyboard={false}
       title="检索信息中"
+      className={styles.scrape_info_modal}
     >
       <Row>
-        <Col span={5}>
+        <Col span={5} className={styles.left_sider}>
           <Timeline>
             {taskQ.map(({ file, status, str }) => {
               const dot =
@@ -114,32 +128,54 @@ export default ({ visible, taskQueue, onCancel }) => {
                   color={status === 'unfired' ? 'gray' : 'blue'}
                   key={file.key}
                 >
-                  {file.title}
-                  <span style={{ color: 'red' }}>{str}</span>
+                  <div>{file.title}</div>
+                  <div style={{ color: '#CC0000' }}>关键字：{str}</div>
                 </Timeline.Item>
               );
             })}
           </Timeline>
         </Col>
-        <Col span={18} offset={1}>
+        <Col span={18} offset={1} style={{ position: 'sticky', top: 100 }}>
           <Row>
-            <Col span={5}>
+            <div className={styles.media_title}>{currentMediaInfo.title}</div>
+            <Col span={8}>
               <img
                 style={{ maxWidth: '100%' }}
                 src={currentMediaInfo.poster}
                 alt=""
               />
             </Col>
-            <Col span={10} offset={2}>
-              <div className="genre" style={{ display: 'flex' }}>
-                {currentMediaInfo.genre.map(g => (
-                  <div key={g}>{g}</div>
-                ))}
+            <Col span={12} offset={2} className={styles.media_info}>
+              <div className={styles.info_item}>
+                <div className={styles.info_label}>ID：</div>
+                <div className={cn(styles.info_text, styles.uniqueid)}>
+                  {currentMediaInfo.uniqueid}
+                </div>
               </div>
-              <div className="actor">
-                {currentMediaInfo.actor.map(a => (
-                  <div key={a.name}>{a.name}</div>
-                ))}
+              <div className={styles.info_item}>
+                <div className={styles.info_label}>发行日期：</div>
+                <div className={cn(styles.info_text)}>
+                  {currentMediaInfo.premiered}
+                </div>
+              </div>
+              <div className={styles.info_item}>
+                <div className={styles.info_label}>类型：</div>
+                <div className={cn(styles.info_text, styles.genre)}>
+                  {currentMediaInfo.genre.map(g => (
+                    <Tag key={g}>{g}</Tag>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.info_item}>
+                <div className={styles.info_label}>演员：</div>
+                <div className={cn(styles.info_text, styles.actor)}>
+                  {currentMediaInfo.actor.map(a => (
+                    <figure key={a.name}>
+                      <img src={a.thumb} alt="" />
+                      <figcaption key={a.name}>{a.name}</figcaption>
+                    </figure>
+                  ))}
+                </div>
               </div>
             </Col>
           </Row>
