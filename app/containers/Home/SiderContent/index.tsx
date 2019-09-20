@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import FolderViewer from '../../../components/FolderViewer/index';
 import { changeChecked, changeSelected } from '../../../actions/file';
 
 const mapStateToProps = ({ file }) => {
-  const { trees } = file;
+  const { trees, checkedKeys, selectedKey } = file;
   return {
-    trees
+    trees,
+    checkedKeys,
+    selectedKey
   };
 };
 const mapDispatchToProps = {
@@ -19,15 +21,17 @@ type Props = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {
     trees: [];
   };
-const SiderContent: React.FC<Props> = ({ trees, onChecked, onSelected }) => {
-  const [selectedKeys, setSelectedKeys] = useState([]);
-  const [checkedKeys, setCheckedKeys] = useState([]);
+const SiderContent: React.FC<Props> = ({
+  trees,
+  onChecked,
+  onSelected,
+  checkedKeys,
+  selectedKey
+}) => {
   const selectHandle = (iselectedKeys: string[]) => {
-    setSelectedKeys(iselectedKeys);
     onSelected(iselectedKeys[0]);
   };
   const checkHandle = icheckedKeys => {
-    setCheckedKeys(icheckedKeys);
     onChecked(icheckedKeys);
   };
   return (
@@ -35,7 +39,7 @@ const SiderContent: React.FC<Props> = ({ trees, onChecked, onSelected }) => {
       tree={trees}
       onSelect={selectHandle}
       onCheck={checkHandle}
-      selectedKeys={selectedKeys}
+      selectedKeys={[selectedKey]}
       checkedKeys={checkedKeys}
     />
   );

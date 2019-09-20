@@ -16,7 +16,7 @@ export const generateFileTree = (paths: Array<string>): string[] => {
       isDir: false,
       key,
       children: [],
-      wpath: null
+      wpath
     };
     if (isDir(wpath)) {
       walkRes.title = path.basename(wpath);

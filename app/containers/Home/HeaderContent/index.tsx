@@ -2,8 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button, Row, Col, Input } from 'antd';
 import * as R from 'ramda';
+import CRD from '@vdts/collect-video';
 import { generateFileTree } from '../../../utils';
-import { selectFiles, setSelectedFilename } from '../../../actions/file';
+import {
+  selectFiles,
+  setSelectedFilename,
+  changeChecked,
+  changeSelected
+} from '../../../actions/file';
 import scrape from '../../../scraper/core';
 
 import ScrapeInfoModal from '../ScrapeInfoModal';
@@ -73,6 +79,19 @@ const HeaderContent = ({
     setTaskQueue(_taskQueue);
     setTasks(_tasks);
   };
+  const handleRebuild = () => {
+    CRD(trees[0].wpath)
+      .then(res => {
+        const _trees = generateFileTree([trees[0].wpath]);
+        dispatch(selectFiles(_trees));
+        dispatch(changeChecked([]));
+        dispatch(changeSelected(''));
+        return res;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
   useEffect(() => {
     if (tasks.length) {
       console.log('out effect');
@@ -82,8 +101,11 @@ const HeaderContent = ({
   return (
     <>
       <Row>
-        <Col span={4}>
+        <Col span={2}>
           <Button onClick={handleSelect}>选取文件</Button>
+        </Col>
+        <Col span={2}>
+          <Button onClick={handleRebuild}>格式化目录</Button>
         </Col>
         <Col span={6}>
           <Input
