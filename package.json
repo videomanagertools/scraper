@@ -261,6 +261,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@types/puppeteer-core": "^1.9.0",
+    "@vdts/collect-video": "^0.5.1",
     "antd": "^3.23.3",
     "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
