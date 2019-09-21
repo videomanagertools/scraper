@@ -1,4 +1,4 @@
-import xmljs from 'xml-js';
+import { js2xml } from '@utils';
 import { NFOModel } from '../../types';
 
 export default class MovieModel {
@@ -14,6 +14,6 @@ export default class MovieModel {
   }
 
   getXML() {
-    return xmljs.js2xml({ movie: this.model }, { compact: true, spaces: 4 });
+    return js2xml({ movie: this.model });
   }
 }

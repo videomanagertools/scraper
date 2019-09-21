@@ -3,6 +3,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import HeaderContent from './HeaderContent';
 import SiderContent from './SiderContent';
+import MainContent from './MainContent';
 
 import * as styles from './index.less';
 
@@ -19,7 +20,9 @@ function Home() {
           <Sider width={300} className={styles.sider} theme="light">
             <SiderContent />
           </Sider>
-          <Content />
+          <Content>
+            <MainContent />
+          </Content>
         </Layout>
       </Layout>
     </div>

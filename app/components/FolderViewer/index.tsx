@@ -20,17 +20,12 @@ class FileViewer extends React.Component<Props> {
   renderTreeNodes = data => {
     if (data.children) {
       return (
-        <TreeNode
-          title={data.title}
-          key={data.key}
-          selectable={!data.isDir}
-          dataRef={data}
-        >
+        <TreeNode title={data.title} key={data.key} dataRef={data}>
           {data.children.map(v => this.renderTreeNodes(v))}
         </TreeNode>
       );
     }
-    return <TreeNode {...data} selectable={!data.isDir} />;
+    return <TreeNode {...data} />;
   };
 
   filerNode = node => {

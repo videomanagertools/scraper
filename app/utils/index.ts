@@ -1,12 +1,14 @@
 // import * as R from 'ramda';
-import fs, { readdir, unlink } from 'fs-extra';
+import fs, { readFileSync } from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
 import { TreeType } from '@types';
+import { xml2js } from './xml';
 
 const request = require('request');
 
+export { js2xml, xml2js } from './xml';
 export const generateFileTree = (paths: Array<string>): TreeType[] => {
   const result = [];
   let fileCount = 0;
@@ -118,8 +120,15 @@ export const defaultRegExp = {
 
 export const emitter = _emitter;
 
-export const rmdirAndFile = dir =>
-  readdir(dir).then(files => {
-    console.log(files);
-    return Promise.all(files.map(f => unlink(`${dir}/${f}`)));
-  });
+export const readMediaInfoByNFOSync = (NFOFile: string) => {
+  // todo
+  // type Info = {
+  //   movie: Object;
+  // };
+  // const xml = readFileSync(NFOFile, { encoding: 'utf8' });
+  // const { movie } = xml2js(xml) as Info;
+  // const walk = o =>
+  //   Object.keys(movie).reduce((acc, key) => {
+  //     acc[key] = movie[key];
+  //   }, {});
+};

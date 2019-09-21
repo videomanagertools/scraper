@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Modal, Timeline, Icon, Tag } from 'antd';
-import cn from 'classnames';
+import { Row, Col, Modal, Timeline, Icon } from 'antd';
+import MediaInfo from '@components/MediaInfo';
 import { emitter } from '../../../utils';
 import { EventType } from '@types';
 import { stop } from '../../../scraper/core';
@@ -138,50 +138,8 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
             })}
           </Timeline>
         </Col>
-        <Col span={18} offset={1} style={{ position: 'sticky', top: 100 }}>
-          <Row>
-            <div className={styles.media_title}>{currentMediaInfo.title}</div>
-            <Col span={8}>
-              <img
-                style={{ maxWidth: '100%' }}
-                src={currentMediaInfo.poster}
-                alt=""
-              />
-            </Col>
-            <Col span={12} offset={2} className={styles.media_info}>
-              <div className={styles.info_item}>
-                <div className={styles.info_label}>ID：</div>
-                <div className={cn(styles.info_text, styles.uniqueid)}>
-                  {currentMediaInfo.uniqueid}
-                </div>
-              </div>
-              <div className={styles.info_item}>
-                <div className={styles.info_label}>发行日期：</div>
-                <div className={cn(styles.info_text)}>
-                  {currentMediaInfo.premiered}
-                </div>
-              </div>
-              <div className={styles.info_item}>
-                <div className={styles.info_label}>类型：</div>
-                <div className={cn(styles.info_text, styles.genre)}>
-                  {currentMediaInfo.genre.map(g => (
-                    <Tag key={g}>{g}</Tag>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.info_item}>
-                <div className={styles.info_label}>演员：</div>
-                <div className={cn(styles.info_text, styles.actor)}>
-                  {currentMediaInfo.actor.map(a => (
-                    <figure key={a.name}>
-                      <img src={a.thumb} alt="" />
-                      <figcaption key={a.name}>{a.name}</figcaption>
-                    </figure>
-                  ))}
-                </div>
-              </div>
-            </Col>
-          </Row>
+        <Col span={18} style={{ position: 'sticky', top: 100 }}>
+          <MediaInfo currentMediaInfo={currentMediaInfo} />
         </Col>
       </Row>
     </Modal>

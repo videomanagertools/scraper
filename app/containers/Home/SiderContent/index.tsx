@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Select, Row, Col, Button } from 'antd';
 import { move, mkdirp } from 'fs-extra';
@@ -41,15 +41,19 @@ const SiderContent: React.FC<Props> = ({
   failureKeys,
   flatTree
 }) => {
+  const [instruction, setInstruction] = useState(null);
   const selectHandle = (iselectedKeys: string[]) => {
     onSelected(iselectedKeys[0]);
   };
   const checkHandle = icheckedKeys => {
     onChecked(icheckedKeys);
   };
-  const handleChange = async (val: string) => {
+  const handleChange = (val: string) => {
+    setInstruction(val);
+  };
+  const handleExec = async () => {
     const failPath = path.join(tree.wpath, 'Fail');
-    switch (val) {
+    switch (instruction) {
       case OptionValue.movefail:
         await Promise.all([
           mkdirp(failPath),
@@ -72,9 +76,10 @@ const SiderContent: React.FC<Props> = ({
       <Row>
         <Col span={18}>
           <Select
-            placeholder="选择操作"
+            placeholder="有失败任务时可选择操作"
             style={{ width: '100%' }}
             onChange={handleChange}
+            disabled={!failureKeys.length}
           >
             <Option value={OptionValue.movefail}>
               将失败的文件移动到Fail文件夹
@@ -82,7 +87,13 @@ const SiderContent: React.FC<Props> = ({
           </Select>
         </Col>
         <Col span={4} offset={1}>
-          <Button type="primary">执行</Button>
+          {instruction ? (
+            <Button type="primary" onClick={handleExec}>
+              执行
+            </Button>
+          ) : (
+            ''
+          )}
         </Col>
       </Row>
       {tree.key === 'def' ? (

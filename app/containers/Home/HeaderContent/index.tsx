@@ -41,6 +41,8 @@ const HeaderContent = ({
       filePaths => {
         if (!R.is(Array, filePaths) || R.isEmpty(filePaths)) return;
         const _tree = generateFileTree(filePaths);
+        dispatch(changeChecked([]));
+        dispatch(changeSelected(''));
         dispatch(selectFiles(_tree[0]));
       }
     );
@@ -83,9 +85,9 @@ const HeaderContent = ({
     CRD(tree.wpath)
       .then(res => {
         const _tree = generateFileTree([tree.wpath]);
-        dispatch(selectFiles(_tree[0]));
         dispatch(changeChecked([]));
         dispatch(changeSelected(''));
+        dispatch(selectFiles(_tree[0]));
         return res;
       })
       .catch(e => {
@@ -110,7 +112,7 @@ const HeaderContent = ({
         <Col span={6}>
           <Input
             value={selectedFilename}
-            placeholder="输入文件名，或者选择一个文件"
+            placeholder="选择一个文件，直接或修改后爬取"
             onChange={e => {
               handleInput(e.target.value);
             }}

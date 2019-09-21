@@ -15,7 +15,7 @@
     "paths": {
       "@actions": ["./app/actions"],
       "@types": ["./app/types"],
-      "@components": ["./app/components"],
+      "@components/*": ["./app/components/*"],
       "@constants": ["./app/constants"],
       "@utils": ["./app/utils"]
     }
