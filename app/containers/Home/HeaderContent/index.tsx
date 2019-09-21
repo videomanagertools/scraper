@@ -121,9 +121,9 @@ const HeaderContent = ({
         <Col span={4} offset={1}>
           <Button onClick={() => handleScrape()}>爬取信息</Button>
         </Col>
-        <Col span={4}>
+        {/* <Col span={4}>
           <Button onClick={handleSelect}>写入信息</Button>
-        </Col>
+        </Col> */}
       </Row>
       <ScrapeInfoModal
         visible={modalVisible}

@@ -1,10 +1,10 @@
 // import * as R from 'ramda';
-import fs, { readFileSync } from 'fs-extra';
+import fs from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
 import { TreeType } from '@types';
-import { xml2js } from './xml';
+// import { xml2js } from './xml';
 
 const request = require('request');
 
@@ -115,7 +115,7 @@ export const getDefaultOsPath = () => {
   return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 };
 export const defaultRegExp = {
-  jav: /\d{3,10}(_|-)\d{3,10}|[a-z]{3,10}(_|-)\d{3,10}/i
+  jav: /\d{3,10}(_|-)\d{3,10}|[a-z]{3,10}(_|-)(\d|[a-z]){3,10}/i
 };
 
 export const emitter = _emitter;

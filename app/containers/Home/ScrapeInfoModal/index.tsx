@@ -11,7 +11,7 @@ import { changeFailureKeys } from '../../../actions/file';
 const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
   const [currentMediaInfo, setCurrentMediaInfo] = useState({
     poster: 'https://image.tmdb.org/t/p/w500/uXTtUYleKiaF0KuBwupIeuSjyLA.jpg',
-    title: '哪吒之魔童降世',
+    title: 'def',
     premiered: '2019-04-24',
     actor: [
       {
@@ -139,7 +139,11 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
           </Timeline>
         </Col>
         <Col span={18} style={{ position: 'sticky', top: 100 }}>
-          <MediaInfo currentMediaInfo={currentMediaInfo} />
+          {currentMediaInfo.title === 'def' ? (
+            ''
+          ) : (
+            <MediaInfo currentMediaInfo={currentMediaInfo} />
+          )}
         </Col>
       </Row>
     </Modal>
