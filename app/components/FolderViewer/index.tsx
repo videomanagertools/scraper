@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Tree } from 'antd';
-import { connect } from 'react-redux';
 import { TreeType } from '../../types/index';
 import * as styles from './index.less';
 
@@ -12,6 +11,8 @@ type Props = {
   onCheck?: (checkedKeys: string[]) => void;
   selectedKeys?: string[];
   checkedKeys?: string[];
+  filterKeys?: string[];
+  onlyShow?: boolean;
 };
 class FileViewer extends React.Component<Props> {
   componentDidMount() {}
@@ -33,6 +34,11 @@ class FileViewer extends React.Component<Props> {
       return <TreeNode {...item} selectable={!item.isDir} />;
     });
 
+  filerNode = node => {
+    const { filterKeys = [] } = this.props;
+    return filterKeys.findIndex(v => v.indexOf(node.props.pos) === 0) !== -1;
+  };
+
   render() {
     const { onCheck, onSelect, selectedKeys, checkedKeys, tree } = this.props;
     return (
@@ -45,6 +51,7 @@ class FileViewer extends React.Component<Props> {
           onSelect={onSelect}
           checkedKeys={checkedKeys}
           selectedKeys={selectedKeys}
+          filterTreeNode={this.filerNode}
         >
           {this.renderTreeNodes(tree)}
         </Tree>
@@ -53,4 +60,4 @@ class FileViewer extends React.Component<Props> {
   }
 }
 
-export default connect()(FileViewer);
+export default FileViewer;

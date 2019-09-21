@@ -2,7 +2,7 @@
 
 import { writeFile, mkdirp } from 'fs-extra';
 import javbus from '../javBus';
-import { downloadImg, defaultRegExp, emitter, rmdirAndFile } from '../../utils';
+import { downloadImg, defaultRegExp, emitter } from '../../utils';
 import { EventType } from '@types';
 
 let stopFlag = false;
@@ -51,8 +51,7 @@ export const stop = () => {
 };
 const saveAsserts = async (model, file) => {
   const json = model.getModel();
-  await rmdirAndFile(`${file.wpath}.actors`);
-  await mkdirp(`${file.wpath}.actors`);
+  await mkdirp(`${file.wpath}/.actors`);
   return Promise.all([
     writeFile(
       `${file.wpath + file.title}.nfo`,

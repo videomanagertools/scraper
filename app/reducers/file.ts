@@ -6,7 +6,8 @@ import {
   CHANGE_CHECKED_KEYS,
   SELECT_FILES,
   SET_SELECTED_FILENAME,
-  UPDATE_TREE
+  UPDATE_TREE,
+  CHANGE_FAILUREEYS
 } from '../constants/file';
 
 export type FileAction = ActionType<typeof fileViewer>;
@@ -16,7 +17,8 @@ const defaultState = {
   selectedKey: '',
   checkedKeys: [],
   trees: [],
-  flatTrees: {}
+  flatTrees: {},
+  failureKeys: []
 };
 type defaultState = Readonly<{
   selectedFilename: string;
@@ -24,6 +26,7 @@ type defaultState = Readonly<{
   checkedKeys: string[];
   trees: Object[];
   flatTrees: Object;
+  failureKeys: string[];
 }>;
 
 export default (state: defaultState = defaultState, action: FileAction) => {
@@ -48,6 +51,11 @@ export default (state: defaultState = defaultState, action: FileAction) => {
       return { ...state, selectedFilename: action.payload };
     case UPDATE_TREE:
       return { ...state, trees: action.payload };
+    case CHANGE_FAILUREEYS:
+      return {
+        ...state,
+        failureKeys: action.payload
+      };
     default:
       return state;
   }

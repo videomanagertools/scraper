@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { connect } from 'react-redux';
 import { Row, Col, Modal, Timeline, Icon, Tag } from 'antd';
 import cn from 'classnames';
 import { emitter } from '../../../utils';
 import { EventType } from '@types';
 import { stop } from '../../../scraper/core';
 import * as styles from './index.less';
+import { changeFailureKeys } from '../../../actions/file';
 
-export default ({ visible, taskQueue, onCancel }) => {
+const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
   const [currentMediaInfo, setCurrentMediaInfo] = useState({
     poster: 'https://image.tmdb.org/t/p/w500/uXTtUYleKiaF0KuBwupIeuSjyLA.jpg',
     title: '哪吒之魔童降世',
@@ -66,6 +68,7 @@ export default ({ visible, taskQueue, onCancel }) => {
     });
     emitter.on(EventType.SCRAPE_TASK_END, ({ successTasks, failureTasks }) => {
       console.log(successTasks, failureTasks);
+      handleTaskEnd(failureTasks.map(task => task.file.key));
       setTaskIsEnd(true);
     });
     return () => {
@@ -184,3 +187,10 @@ export default ({ visible, taskQueue, onCancel }) => {
     </Modal>
   );
 };
+const mapDispatchToProps = {
+  handleTaskEnd: changeFailureKeys
+};
+export default connect(
+  null,
+  mapDispatchToProps
+)(ScrapeModal);
