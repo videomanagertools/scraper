@@ -1,18 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Select, Row, Col, Button } from 'antd';
+import { move, mkdirp } from 'fs-extra';
+import path from 'path';
 import FolderViewer from '../../../components/FolderViewer/index';
 import { changeChecked, changeSelected } from '../../../actions/file';
+import { TreeType } from '@types';
 
 const { Option } = Select;
 
 const mapStateToProps = ({ file }) => {
-  const { trees, checkedKeys, selectedKey, failureKeys } = file;
+  const { tree, checkedKeys, selectedKey, failureKeys, flatTree } = file;
   return {
-    trees,
+    tree,
     checkedKeys,
     selectedKey,
-    failureKeys
+    failureKeys,
+    flatTree
   };
 };
 const mapDispatchToProps = {
@@ -22,19 +26,20 @@ const mapDispatchToProps = {
 
 type Props = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {
-    trees: [];
+    tree: TreeType;
   };
 
 enum OptionValue {
   movefail = 'movefail'
 }
 const SiderContent: React.FC<Props> = ({
-  trees,
+  tree,
   onChecked,
   onSelected,
   checkedKeys,
   selectedKey,
-  failureKeys
+  failureKeys,
+  flatTree
 }) => {
   const selectHandle = (iselectedKeys: string[]) => {
     onSelected(iselectedKeys[0]);
@@ -42,10 +47,25 @@ const SiderContent: React.FC<Props> = ({
   const checkHandle = icheckedKeys => {
     onChecked(icheckedKeys);
   };
-  const handleChange = (val: string) => {
-    // switch (val) {
-    //   case OptionValue.onlyfail:
-    // }
+  const handleChange = async (val: string) => {
+    const failPath = path.join(tree.wpath, 'Fail');
+    switch (val) {
+      case OptionValue.movefail:
+        await Promise.all([
+          mkdirp(failPath),
+          ...failureKeys.map(key => {
+            const src = flatTree[key].fullpath;
+            const dest = path.join(
+              failPath,
+              flatTree[key].title + flatTree[key].ext
+            );
+            return src === dest ? Promise.resolve() : move(src, dest);
+          })
+        ]);
+        break;
+      default:
+        break;
+    }
   };
   return (
     <>
@@ -65,14 +85,18 @@ const SiderContent: React.FC<Props> = ({
           <Button type="primary">执行</Button>
         </Col>
       </Row>
-      <FolderViewer
-        tree={trees}
-        onSelect={selectHandle}
-        onCheck={checkHandle}
-        selectedKeys={[selectedKey]}
-        checkedKeys={checkedKeys}
-        filterKeys={failureKeys}
-      />
+      {tree.key === 'def' ? (
+        ''
+      ) : (
+        <FolderViewer
+          tree={tree}
+          onSelect={selectHandle}
+          onCheck={checkHandle}
+          selectedKeys={[selectedKey]}
+          checkedKeys={checkedKeys}
+          filterKeys={failureKeys}
+        />
+      )}
     </>
   );
 };

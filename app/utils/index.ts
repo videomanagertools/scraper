@@ -3,10 +3,11 @@ import fs, { readdir, unlink } from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
+import { TreeType } from '@types';
 
 const request = require('request');
 
-export const generateFileTree = (paths: Array<string>): string[] => {
+export const generateFileTree = (paths: Array<string>): TreeType[] => {
   const result = [];
   let fileCount = 0;
   function walk(wpath, key) {
@@ -16,7 +17,8 @@ export const generateFileTree = (paths: Array<string>): string[] => {
       isDir: false,
       key,
       children: [],
-      wpath
+      wpath,
+      fullpath: wpath
     };
     if (isDir(wpath)) {
       walkRes.title = path.basename(wpath);
@@ -42,7 +44,8 @@ export const generateFileTree = (paths: Array<string>): string[] => {
         key,
         isDir: false,
         children: null,
-        wpath: `${path.dirname(wpath)}/`
+        wpath: `${path.dirname(wpath)}/`,
+        fullpath: wpath
       };
       fileCount += 1;
     } else {

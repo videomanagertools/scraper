@@ -22,8 +22,8 @@ const HeaderContent = ({
   checkedKeys,
   selectedFilename,
   selectedKey,
-  flatTrees,
-  trees,
+  flatTree,
+  tree,
   dispatch
 }: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -36,12 +36,12 @@ const HeaderContent = ({
     dialog.showOpenDialog(
       {
         title: 'Select',
-        properties: ['openDirectory', 'openFile', 'multiSelections']
+        properties: ['openDirectory']
       },
       filePaths => {
         if (!R.is(Array, filePaths) || R.isEmpty(filePaths)) return;
-        const _trees = generateFileTree(filePaths);
-        dispatch(selectFiles(_trees));
+        const _tree = generateFileTree(filePaths);
+        dispatch(selectFiles(_tree[0]));
       }
     );
   };
@@ -52,7 +52,7 @@ const HeaderContent = ({
       if (!selectedFilename) {
         return;
       }
-      const file = flatTrees[selectedKey];
+      const file = flatTree[selectedKey];
 
       _taskQueue = [{ file, status: 'unfired' }];
 
@@ -65,7 +65,7 @@ const HeaderContent = ({
     } else {
       _tasks = checkedKeys
         .map(key => {
-          const file = flatTrees[key];
+          const file = flatTree[key];
           return {
             queryString: file.title,
             file
@@ -80,10 +80,10 @@ const HeaderContent = ({
     setTasks(_tasks);
   };
   const handleRebuild = () => {
-    CRD(trees[0].wpath)
+    CRD(tree.wpath)
       .then(res => {
-        const _trees = generateFileTree([trees[0].wpath]);
-        dispatch(selectFiles(_trees));
+        const _tree = generateFileTree([tree.wpath]);
+        dispatch(selectFiles(_tree[0]));
         dispatch(changeChecked([]));
         dispatch(changeSelected(''));
         return res;
@@ -134,13 +134,13 @@ const HeaderContent = ({
   );
 };
 const mapStateToProps = ({ file }) => {
-  const { checkedKeys, selectedFilename, selectedKey, flatTrees, trees } = file;
+  const { checkedKeys, selectedFilename, selectedKey, flatTree, tree } = file;
   return {
     checkedKeys,
     selectedFilename,
     selectedKey,
-    flatTrees,
-    trees
+    flatTree,
+    tree
   };
 };
 export default connect(mapStateToProps)(HeaderContent);

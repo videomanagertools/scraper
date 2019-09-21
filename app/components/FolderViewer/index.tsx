@@ -17,22 +17,21 @@ type Props = {
 class FileViewer extends React.Component<Props> {
   componentDidMount() {}
 
-  renderTreeNodes = data =>
-    data.map(item => {
-      if (item.children) {
-        return (
-          <TreeNode
-            title={item.title}
-            key={item.key}
-            selectable={!item.isDir}
-            dataRef={item}
-          >
-            {this.renderTreeNodes(item.children)}
-          </TreeNode>
-        );
-      }
-      return <TreeNode {...item} selectable={!item.isDir} />;
-    });
+  renderTreeNodes = data => {
+    if (data.children) {
+      return (
+        <TreeNode
+          title={data.title}
+          key={data.key}
+          selectable={!data.isDir}
+          dataRef={data}
+        >
+          {data.children.map(v => this.renderTreeNodes(v))}
+        </TreeNode>
+      );
+    }
+    return <TreeNode {...data} selectable={!data.isDir} />;
+  };
 
   filerNode = node => {
     const { filterKeys = [] } = this.props;
@@ -45,7 +44,7 @@ class FileViewer extends React.Component<Props> {
       <div className={styles.wrapper}>
         <Tree
           checkable
-          defaultExpandAll
+          defaultExpandedKeys={['0-0']}
           autoExpandParent
           onCheck={onCheck}
           onSelect={onSelect}
