@@ -25,7 +25,7 @@ class FileViewer extends React.Component<Props> {
         </TreeNode>
       );
     }
-    return <TreeNode {...data} />;
+    return <TreeNode {...data} title={`${data.title}.${data.ext}`} />;
   };
 
   filerNode = node => {
