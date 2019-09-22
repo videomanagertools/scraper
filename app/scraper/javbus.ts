@@ -1,24 +1,17 @@
-import puppeteer from 'puppeteer-core';
+import request from 'request-promise';
 import cheerio from 'cheerio';
 import MovieModel from './core/model';
-import { getDefaultOsPath } from '../utils';
 
 export default async (queryString: string): Promise<any> => {
   const movieModel = new MovieModel();
   const encodedQueryString = encodeURIComponent(queryString);
-  const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: getDefaultOsPath()
-  });
-  const page = await browser.newPage();
-  await page.goto(
-    `https://www.javbus.com/uncensored/search/${encodedQueryString}`,
-    { waitUntil: 'networkidle2' }
+  const searchPage = await request(
+    `https://www.javbus.com/uncensored/search/${encodedQueryString}`
   );
-  await page.click('.movie-box');
-  await page.waitForSelector('.bigImage', { timeout: 5000 });
-  const html = await page.$eval('.container', el => el.outerHTML);
-  const $ = cheerio.load(html);
+  const infoPageUrl = cheerio
+    .load(searchPage)('.movie-box')
+    .attr('href');
+  const $ = cheerio.load(await request(infoPageUrl));
   movieModel.setModel({
     title: $('h3')
       .text()
@@ -53,6 +46,5 @@ export default async (queryString: string): Promise<any> => {
       .map((index, $actor) => $actor.firstChild.data.trim())
       .toArray()
   });
-  browser.close();
   return movieModel;
 };

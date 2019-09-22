@@ -61,7 +61,7 @@ const SiderContent: React.FC<Props> = ({
             const src = flatTree[key].fullpath;
             const dest = path.join(
               failPath,
-              flatTree[key].title + flatTree[key].ext
+              `${flatTree[key].title}.${flatTree[key].ext}`
             );
             return src === dest ? Promise.resolve() : move(src, dest);
           })
