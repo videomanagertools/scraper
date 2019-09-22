@@ -2,19 +2,19 @@ export type Actor = {
   /**
    * 名字
    */
-  name: string;
+  name: { _text: string };
   /**
    * 角色
    */
-  role?: string;
+  role?: { _text: string };
   /**
    * 排序
    */
-  order?: string;
+  order?: { _text: string };
   /**
    * 图片
    */
-  thumb?: string;
+  thumb?: { _text: string };
 };
 export type Uniqueid = {
   /** 加入到标签属性中的key */
@@ -38,39 +38,39 @@ export interface NFOModel {
   /**
    * 标题
    */
-  title?: string;
+  title?: { _text: string };
   /**
    * 短标题
    */
-  originaltitle?: string;
+  originaltitle?: { _text: string };
   /**
    * 年份
    */
-  premiered?: string;
+  premiered?: { _text: string };
   /**
    * 年份，推荐使用premiered，这个是为了兼容
    */
-  year?: string;
+  year?: { _text: string };
   /** movie slogan */
-  tagline?: string;
+  tagline?: { _text: string };
   /**
    * 电影时长，只支持分钟
    */
-  runtime?: number;
+  runtime?: { _text: number };
   /**
    * MPAA电影分级
    */
-  mpaa?: string;
+  mpaa?: { _text: string };
   /**
    * 类型
    */
-  genre?: string[];
+  genre?: { _text: string }[];
   /**
    * 制作商
    */
-  studio?: string;
+  studio?: { _text: string };
   /** 标签 */
-  tag?: string;
+  tag?: { _text: string }[];
   /**
    * art
    */
@@ -78,11 +78,11 @@ export interface NFOModel {
     /**
      * 海报
      */
-    poster?: string;
+    poster?: { _text: string };
     /**
      * 同人画
      */
-    fanart?: string;
+    fanart?: { _text: string };
   };
   /**
    * actor

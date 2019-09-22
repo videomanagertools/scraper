@@ -39,3 +39,7 @@ a:hover {
 .ant-timeline-item-content {
   margin: 0 0 0 36px;
 }
+
+.ant-layout-content {
+  background-color: #eeeeeb;
+}

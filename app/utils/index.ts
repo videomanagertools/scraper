@@ -1,10 +1,10 @@
 // import * as R from 'ramda';
-import fs from 'fs-extra';
+import fs, { readFileSync } from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
 import { TreeType } from '@types';
-// import { xml2js } from './xml';
+import { xml2js } from './xml';
 
 const request = require('request');
 
@@ -121,14 +121,22 @@ export const defaultRegExp = {
 export const emitter = _emitter;
 
 export const readMediaInfoByNFOSync = (NFOFile: string) => {
-  // todo
-  // type Info = {
-  //   movie: Object;
-  // };
-  // const xml = readFileSync(NFOFile, { encoding: 'utf8' });
-  // const { movie } = xml2js(xml) as Info;
-  // const walk = o =>
-  //   Object.keys(movie).reduce((acc, key) => {
-  //     acc[key] = movie[key];
-  //   }, {});
+  type Info = {
+    movie: { genre: string | string[]; actor: string | string[] };
+  };
+  const xml = readFileSync(NFOFile, { encoding: 'utf8' });
+  const { movie } = xml2js(xml) as Info;
+  return {
+    ...movie,
+    genre: movie.genre
+      ? Array.isArray(movie.genre)
+        ? movie.genre
+        : [movie.genre]
+      : [],
+    actor: movie.actor
+      ? Array.isArray(movie.actor)
+        ? movie.actor
+        : [movie.actor]
+      : []
+  };
 };

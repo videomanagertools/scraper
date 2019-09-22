@@ -57,10 +57,10 @@ const saveAsserts = async (model, file) => {
       `${file.wpath + file.title}.nfo`,
       `<?xml version="1.0" encoding="utf-8" standalone="yes"?>${model.getXML()}`
     ),
-    downloadImg(json.art.poster, `${file.wpath + file.title}-poster.jpg`),
-    downloadImg(json.art.fanart, `${file.wpath + file.title}-fanart.jpg`),
+    downloadImg(json.art.poster._text, `${file.wpath + file.title}-poster.jpg`),
+    downloadImg(json.art.fanart._text, `${file.wpath + file.title}-fanart.jpg`),
     json.actor.map(v =>
-      downloadImg(v.thumb, `${file.wpath}.actors/${v.name}.jpg`)
+      downloadImg(v.thumb._text, `${file.wpath}.actors/${v.name}.jpg`)
     )
   ]).then(() => model);
 };
