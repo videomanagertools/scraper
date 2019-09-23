@@ -1,10 +1,10 @@
 import { js2xml } from '@utils';
-import { NFOModel } from '../../types';
+import { NFOModel, MovieModelType } from '../../types';
 
-export default class MovieModel {
-  private model: NFOModel = {};
+export default class MovieModel implements MovieModelType {
+  model: NFOModel = {};
 
-  setModel(model: NFOModel): MovieModel {
+  setModel(model: NFOModel): MovieModelType {
     this.model = Object.assign({}, this.model, model);
     return this;
   }

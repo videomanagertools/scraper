@@ -5,7 +5,7 @@ import { move, mkdirp } from 'fs-extra';
 import path from 'path';
 import FolderViewer from '../../../components/FolderViewer/index';
 import { changeChecked, changeSelected } from '../../../actions/file';
-import { TreeType } from '@types';
+import { FileNode } from '@types';
 
 const { Option } = Select;
 
@@ -26,7 +26,7 @@ const mapDispatchToProps = {
 
 type Props = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {
-    tree: TreeType;
+    tree: FileNode;
   };
 
 enum OptionValue {

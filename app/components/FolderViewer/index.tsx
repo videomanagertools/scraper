@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { Tree } from 'antd';
-import { TreeType } from '../../types/index';
+import { FileNode } from '../../types/index';
 import * as styles from './index.less';
 
 const { TreeNode } = Tree;
 type Props = {
-  tree: TreeType;
+  tree: FileNode;
   onSelect?: (selectedKey: string[]) => void;
   onCheck?: (checkedKeys: string[]) => void;
   selectedKeys?: string[];

@@ -1,9 +1,9 @@
-import { NFOModel, Actor, Uniqueid } from './nfo';
-import { EventType } from './event';
+export { NFOModel, Actor, Uniqueid } from './nfo';
+export { EventType } from './event';
+export { QueryOpt, MovieModelType, ToolHead } from './scraper';
 
-export type TreeType = {
+export interface FileNode {
   title: string;
   key: string;
-  children: TreeType[];
-};
-export { NFOModel, Actor, Uniqueid, EventType };
+  children: FileNode[] | [] | null;
+}
