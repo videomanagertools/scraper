@@ -30,7 +30,11 @@ class FileViewer extends React.Component<Props> {
 
   filerNode = node => {
     const { filterKeys = [] } = this.props;
-    return filterKeys.findIndex(v => v.indexOf(node.props.pos) === 0) !== -1;
+    return (
+      filterKeys.findIndex(
+        v => v.indexOf(`${node.props.pos}-`) === 0 || v === node.props.pos
+      ) !== -1
+    );
   };
 
   render() {
