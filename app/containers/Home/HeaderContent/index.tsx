@@ -8,7 +8,8 @@ import {
   selectFiles,
   setSelectedFilename,
   changeChecked,
-  changeSelected
+  changeSelected,
+  changeFailureKeys
 } from '../../../actions/file';
 import scrape from '../../../scraper/core';
 
@@ -43,6 +44,7 @@ const HeaderContent = ({
         const _tree = generateFileTree(filePaths);
         dispatch(changeChecked([]));
         dispatch(changeSelected(''));
+        dispatch(changeFailureKeys([]));
         dispatch(selectFiles(_tree[0]));
       }
     );
@@ -87,6 +89,7 @@ const HeaderContent = ({
         const _tree = generateFileTree([tree.wpath]);
         dispatch(changeChecked([]));
         dispatch(changeSelected(''));
+        dispatch(changeFailureKeys([]));
         dispatch(selectFiles(_tree[0]));
         return res;
       })
