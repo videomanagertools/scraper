@@ -3,13 +3,12 @@ import fs, { readFileSync } from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
-import { TreeType } from '@types';
-import { xml2js } from './xml';
+import { FileNode } from '@types';
 
 const request = require('request');
 
 export { js2xml, xml2js } from './xml';
-export const generateFileTree = (paths: Array<string>): TreeType[] => {
+export const generateFileTree = (paths: Array<string>): FileNode[] => {
   const result = [];
   let fileCount = 0;
   function walk(wpath, key) {

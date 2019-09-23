@@ -9,7 +9,7 @@ import {
   UPDATE_TREE,
   CHANGE_FAILUREEYS
 } from '../constants/file';
-import { TreeType } from '@types';
+import { FileNode } from '@types';
 
 export type FileAction = ActionType<typeof fileViewer>;
 
@@ -29,7 +29,7 @@ type defaultState = Readonly<{
   selectedFilename: string;
   selectedKey: string;
   checkedKeys: string[];
-  tree: TreeType;
+  tree: FileNode;
   flatTree: Object;
   failureKeys: string[];
 }>;

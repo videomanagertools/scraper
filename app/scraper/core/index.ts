@@ -1,15 +1,10 @@
-// import douban from '../douban';
-
 import { writeFile, mkdirp } from 'fs-extra';
 import javbus from '../javBus';
 import { downloadImg, defaultRegExp, emitter } from '../../utils';
-import { EventType } from '@types';
+import { EventType, QueryOpt, ToolHead } from '@types';
 
 let stopFlag = false;
-export interface QueryOpt {
-  queryString: string;
-  file: any;
-}
+
 export default async (queryOpts: QueryOpt[]) => {
   stopFlag = false;
   const failureTasks = [];
@@ -39,13 +34,13 @@ export default async (queryOpts: QueryOpt[]) => {
         failureTasks.push({ file, error });
       });
   }
-  console.log(111);
   emitter.emit(EventType.SCRAPE_TASK_END, { failureTasks, successTasks });
   return {
     failureTasks,
     successTasks
   };
 };
+export const loadHead = (heads: ToolHead[]) => {};
 export const stop = () => {
   stopFlag = true;
 };
