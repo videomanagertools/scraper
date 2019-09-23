@@ -60,7 +60,7 @@ const saveAsserts = async (model, file) => {
     downloadImg(json.art.poster._text, `${file.wpath + file.title}-poster.jpg`),
     downloadImg(json.art.fanart._text, `${file.wpath + file.title}-fanart.jpg`),
     json.actor.map(v =>
-      downloadImg(v.thumb._text, `${file.wpath}.actors/${v.name}.jpg`)
+      downloadImg(v.thumb._text, `${file.wpath}.actors/${v.name._text}.jpg`)
     )
   ])
     .then(() => model)
