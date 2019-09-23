@@ -53,7 +53,8 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
       setTaskQ(_taskQ);
       lastTaskQ.current = _taskQ;
       setCurrentMediaInfo({
-        ...json
+        ...json,
+        uniqueid: json.uniqueid[0]
       });
     });
     emitter.on(EventType.SCRAPE_FAIL, ({ key }) => {

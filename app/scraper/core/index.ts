@@ -62,5 +62,10 @@ const saveAsserts = async (model, file) => {
     json.actor.map(v =>
       downloadImg(v.thumb._text, `${file.wpath}.actors/${v.name}.jpg`)
     )
-  ]).then(() => model);
+  ])
+    .then(() => model)
+    .catch(e => {
+      console.log(e);
+      console.log('save asserts error', file.wpath);
+    });
 };

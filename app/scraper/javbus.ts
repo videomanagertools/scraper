@@ -30,17 +30,21 @@ export default async (queryString: string): Promise<any> => {
         _text: $('.bigImage')
           .attr('href')
           .trim()
+          .replace(/https:\/\//, 'http://')
       },
       fanart: {
         _text: $('.bigImage')
           .attr('href')
           .trim()
+          .replace(/https:\/\//, 'http://')
       }
     },
     actor: $('.info>ul li img')
       .map((index, $actor) => ({
         name: { _text: $actor.attribs.title.trim() },
-        thumb: { _text: $actor.attribs.src.trim() }
+        thumb: {
+          _text: $actor.attribs.src.trim().replace(/https:\/\//, 'http://')
+        }
       }))
       .toArray(),
     uniqueid: [
