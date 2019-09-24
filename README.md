@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/videomanagertools/scraper.svg?branch=master)](https://travis-ci.org/videomanagertools/scraper)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/videomanagertools/scraper/master)
+![GitHub Release Date](https://img.shields.io/github/release-date/videomanagertools/scraper)
+
 操作动图
 ![gifhome_640x363_30s (1)](https://user-images.githubusercontent.com/20250430/65373590-3dc32780-dcb2-11e9-87a1-b946beb26996.gif)
 

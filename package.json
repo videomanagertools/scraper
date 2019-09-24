@@ -16,7 +16,7 @@
     "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
     "package": "yarn build && electron-builder build --publish never",
     "package-all": "yarn build && electron-builder build -mwl",
-    "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
+    "package-ci": "yarn postinstall && yarn build && electron-builder --publish onTag",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
     "package-mac": "yarn build && electron-builder build --mac",
@@ -61,7 +61,7 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "ElectronReact",
+    "productName": "uScraper",
     "appId": "org.develar.ElectronReact",
     "files": [
       "app/dist/",
@@ -105,9 +105,10 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate",
-      "private": false
+      "owner": "videomanagertools",
+      "repo": "scraper",
+      "private": false,
+      "draft": true
     }
   },
   "repository": {
