@@ -6,8 +6,12 @@ export interface MovieModelType {
   getModel(): NFOModel;
   getXML();
 }
-export interface ToolHead {
+export interface Head {
   (queryString: string): MovieModelType;
+}
+export interface ToolHead {
+  name: string;
+  head: Head;
 }
 export interface QueryOpt {
   queryString: string;

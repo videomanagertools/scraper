@@ -4,6 +4,7 @@ import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
 import { FileNode } from '@types';
+import { xml2js } from './xml';
 
 const request = require('request');
 
