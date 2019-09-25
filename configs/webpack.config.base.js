@@ -44,7 +44,8 @@ export default {
       '@types': path.resolve(__dirname, '../app/types'),
       '@components': path.resolve(__dirname, '../app/components'),
       '@constants': path.resolve(__dirname, '../app/constants'),
-      '@utils': path.resolve(__dirname, '../app/utils')
+      '@utils': path.resolve(__dirname, '../app/utils'),
+      '@config': path.resolve(__dirname, '../app/config-store')
     }
   },
 

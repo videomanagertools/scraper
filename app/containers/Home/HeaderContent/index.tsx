@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button, Row, Col, Input } from 'antd';
+
 import * as R from 'ramda';
 import CRD from '@vdts/collect-video';
 import { generateFileTree } from '../../../utils';
@@ -14,6 +15,7 @@ import {
 import scrape from '../../../scraper/core';
 
 import ScrapeInfoModal from '../ScrapeInfoModal';
+import SettingModal from '../SettingModal';
 
 const { dialog } = require('electron').remote;
 
@@ -28,6 +30,7 @@ const HeaderContent = ({
   dispatch
 }: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [settingVisible, setSettingVisible] = useState(false);
   const [taskQueue, setTaskQueue] = useState([]);
   const [tasks, setTasks] = useState([]);
   const handleInput = filename => {
@@ -124,9 +127,15 @@ const HeaderContent = ({
         <Col span={4} offset={1}>
           <Button onClick={() => handleScrape()}>爬取信息</Button>
         </Col>
-        {/* <Col span={4}>
-          <Button onClick={handleSelect}>写入信息</Button>
-        </Col> */}
+        <Col span={4}>
+          <Button
+            shape="circle"
+            icon="setting"
+            onClick={() => {
+              setSettingVisible(true);
+            }}
+          />
+        </Col>
       </Row>
       <ScrapeInfoModal
         visible={modalVisible}
@@ -134,6 +143,10 @@ const HeaderContent = ({
         onCancel={() => {
           setModalVisible(false);
         }}
+      />
+      <SettingModal
+        visible={settingVisible}
+        onCancle={() => setSettingVisible(false)}
       />
     </>
   );

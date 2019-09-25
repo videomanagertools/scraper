@@ -1,8 +1,19 @@
-import * as React from 'react';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { hot } from 'react-hot-loader/root';
+import Home from './Home';
 
-export default class App extends React.Component {
+type Props = {
+  store: any;
+};
+class Root extends Component<Props> {
   render() {
-    const { children } = this.props;
-    return <React.Fragment>{children}</React.Fragment>;
+    const { store } = this.props;
+    return (
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
   }
 }
+export default hot(Root);

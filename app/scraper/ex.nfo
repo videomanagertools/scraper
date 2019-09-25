@@ -1,74 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <movie>
-  <plot />
-  <outline />
-  <lockdata>false</lockdata>
-  <dateadded>2017-07-15 06:22:04</dateadded>
-  <title>title</title>
-  <originaltitle>简介</originaltitle>
-  <year>2016</year>
-  <mpaa>XXX</mpaa>
-  <imdbid>012</imdbid>
-  <premiered>2016-01-21</premiered>
-  <releasedate>2016-01-21</releasedate>
-  <runtime>81</runtime>
-  <genre>1080p</genre>
-  <studio>yibendao</studio>
-  <tag>tag</tag>
+  <title>哪吒之魔童降世</title>
+  <premiered>2016-09-27</premiered>
   <art>
-    <poster>/baidu/sloved/poster.jpg</poster>
-    <fanart>/baidu/sloved/fanart.jpg</fanart>
-    <fanart>/baidu/sloved/fanart.jpg</fanart>
+    <poster>https://image.tmdb.org/t/p/w500/uXTtUYleKiaF0KuBwupIeuSjyLA.jpg</poster>
+    <fanart>https://image.tmdb.org/t/p/w500/uXTtUYleKiaF0KuBwupIeuSjyLA.jpg</fanart>
   </art>
   <actor>
-    <name>sda</name>
-    <type>Actor</type>
+    <name>Yanting Lv</name>
+    <thumb>https://image.tmdb.org/t/p/w138_and_h175_face/vKpOzPutTaPf03rWXiLuK8R2K3B.jpg</thumb>
   </actor>
-  <actor>
-    <name>asddd</name>
-    <type>Actor</type>
-  </actor>
-  <id>id</id>
-  <set>set</set>
-  <fileinfo>
-    <streamdetails>
-      <video>
-        <codec>h264</codec>
-        <micodec>h264</micodec>
-        <bitrate>3999396</bitrate>
-        <width>1920</width>
-        <height>1080</height>
-        <aspect>16:9</aspect>
-        <aspectratio>16:9</aspectratio>
-        <framerate>59.94</framerate>
-        <language>und</language>
-        <scantype>progressive</scantype>
-        <default>True</default>
-        <forced>False</forced>
-        <duration>80</duration>
-        <durationinseconds>4859</durationinseconds>
-      </video>
-      <audio>
-        <codec>aac</codec>
-        <micodec>aac</micodec>
-        <bitrate>59859</bitrate>
-        <language>und</language>
-        <scantype>progressive</scantype>
-        <channels>2</channels>
-        <samplingrate>48000</samplingrate>
-        <default>True</default>
-        <forced>False</forced>
-      </audio>
-    </streamdetails>
-  </fileinfo>
-  <top250></top250>
-  <votes></votes>
-  <thumb>https://git.com/cover/x2l_b.jpg</thumb>
-  <fanart>
-    <thumb>https://git.com/cover/x2l_b.jpg</thumb>
-  </fanart>
+  <uniqueid type="1" default="true">092716-268</uniqueid>
+  <genre>动画</genre>
+  <genre>奇幻</genre>
 </movie>
-
-
-<title>(123sdff)(123018_001)魔性</title>
-<title>[7sht.me]122018_785-1ss,[22sht.me]heder-1984sd</title>

@@ -19,7 +19,11 @@ const MainContent = ({ selectedKey, flatTree }) => {
   if (selectedKey) {
     const node = flatTree[selectedKey];
     const nfo = path.join(node.wpath, `${node.title}.nfo`);
-    mediaInfo = readMediaInfoByNFOSync(nfo);
+    try {
+      mediaInfo = readMediaInfoByNFOSync(nfo);
+    } catch (error) {
+      console.info('no nfo file');
+    }
     console.log(mediaInfo);
   }
   return mediaInfo ? <MediaInfo currentMediaInfo={mediaInfo} /> : <div />;

@@ -25,8 +25,8 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
           'https://image.tmdb.org/t/p/w138_and_h175_face/58Ytg6PBGpqB2s7DkHB82dRvdFO.jpg'
       }
     ],
-    genre: ['动画', '奇幻'],
-    uniqueid: '615453'
+    genre: [],
+    uniqueid: []
   });
   const [taskQ, setTaskQ] = useState([]);
   const [taskIsEnd, setTaskIsEnd] = useState(false);
