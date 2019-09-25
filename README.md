@@ -21,6 +21,10 @@
 
 #### 食用
 
+下载 release 中对应平台的安装包
+
+#### 开发
+
 ```bash
 git clone https://github.com/videomanagertools/scraper.git
 cd scraper
