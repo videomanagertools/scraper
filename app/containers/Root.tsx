@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
+import { hot } from 'react-hot-loader/root';
 import Routes from '../Routes';
 
 type Props = {
   store: any;
 };
 
-export default class Root extends Component<Props> {
+class Root extends Component<Props> {
   render() {
     const { store } = this.props;
     return (
@@ -20,3 +20,4 @@ export default class Root extends Component<Props> {
     );
   }
 }
+export default hot(Root);

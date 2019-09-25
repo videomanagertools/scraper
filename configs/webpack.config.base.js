@@ -39,6 +39,7 @@ export default {
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.json'],
     alias: {
+      'react-dom': '@hot-loader/react-dom',
       '@actions': path.resolve(__dirname, '../app/actions'),
       '@types': path.resolve(__dirname, '../app/types'),
       '@components': path.resolve(__dirname, '../app/components'),
