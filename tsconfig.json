@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "lib": ["es2015", "dom"],
     "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
     "paths": {
       "@actions": ["./app/actions"],
       "@types": ["./app/types"],

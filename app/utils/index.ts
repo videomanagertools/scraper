@@ -1,10 +1,10 @@
 // import * as R from 'ramda';
-import fs, { readFileSync } from 'fs-extra';
+import fs, { readFileSync, writeFileSync } from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
-import { TreeType } from '@types';
-import { xml2js } from './xml';
+import { TreeType, NFOModel } from '@types';
+import { xml2js, js2xml } from './xml';
 
 const request = require('request');
 
@@ -120,9 +120,9 @@ export const defaultRegExp = {
 
 export const emitter = _emitter;
 
-export const readMediaInfoByNFOSync = (NFOFile: string) => {
+export const readMediaInfoFromNFOSync = (NFOFile: string): NFOModel => {
   type Info = {
-    movie: { genre: string | string[]; actor: string | string[] };
+    movie: NFOModel;
   };
   const xml = readFileSync(NFOFile, { encoding: 'utf8' });
   const { movie } = xml2js(xml) as Info;
@@ -139,4 +139,17 @@ export const readMediaInfoByNFOSync = (NFOFile: string) => {
         : [movie.actor]
       : []
   };
+};
+export const writeMediaInfoToNFOSync = (
+  ipath: string,
+  data: NFOModel
+): void => {
+  const base = {
+    _declaration: {
+      _attributes: { version: '1.0', encoding: 'utf-8', standalone: 'yes' }
+    }
+  };
+  const json = Object.assign({}, base, { movie: data });
+  const xml = js2xml(json);
+  writeFileSync(ipath, xml, 'utf8');
 };

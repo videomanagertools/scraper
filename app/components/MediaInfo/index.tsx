@@ -1,20 +1,24 @@
 import React from 'react';
 import { Row, Col, Tag, Select } from 'antd';
-// const { Option } = Select;
 import cn from 'classnames';
 import styles from './index.less';
+
+const { Option } = Select;
 
 interface Props {
   currentMediaInfo: any;
   selectable?: boolean;
   onSelect?: (keys: string[]) => void;
+  tags?: string[];
 }
 export default ({
   currentMediaInfo,
   selectable = false,
-  onSelect = () => {}
+  onSelect = () => {},
+  tags = []
 }: Props) => {
-  const children = [];
+  const defaultTags =
+    (currentMediaInfo.tag && currentMediaInfo.tag.map(tag => tag._text)) || [];
   return (
     <Row>
       <div className={styles.media_info}>
@@ -57,8 +61,11 @@ export default ({
                   style={{ width: '100%' }}
                   placeholder="选择标签"
                   onChange={onSelect}
+                  defaultValue={defaultTags}
                 >
-                  {children}
+                  {tags.map(t => (
+                    <Option key={t}>{t}</Option>
+                  ))}
                 </Select>
               ) : (
                 currentMediaInfo.tag &&
