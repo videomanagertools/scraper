@@ -12,11 +12,13 @@
     "resolveJsonModule": true,
     "lib": ["es2015", "dom"],
     "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
     "paths": {
       "@actions": ["./app/actions"],
       "@types": ["./app/types"],
       "@components/*": ["./app/components/*"],
-      "@constants": ["./app/constants"],
+      "@config": ["./app/config-store"],
+      "@constants/*": ["./app/constants/*"],
       "@utils": ["./app/utils"]
     }
   },
