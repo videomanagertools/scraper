@@ -13,17 +13,13 @@
 
 ### 绅士版食用指南
 
-建议使用 dev 模式，因为 build 包我们测试，可能会有问题
+下载对应平台的安装包，安装，打开。
 
-#### dependencies
+#### 建议
 
-    - node 环境
+第一次使用请先拉出来一个测试用的文件夹，熟悉各个操作的效果后，再大批量操作。数据无价，谨慎操作
 
-#### 食用
-
-下载 release 中对应平台的安装包
-
-#### 开发
+### 开发贡献
 
 ```bash
 git clone https://github.com/videomanagertools/scraper.git
