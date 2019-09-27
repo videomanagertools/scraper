@@ -1,49 +1,8 @@
 import { writeFile, mkdirp } from 'fs-extra';
-import javbus from '../javBus';
-import { downloadImg, defaultRegExp, emitter } from '../../utils';
-import { EventType, QueryOpt, ToolHead } from '@types';
+// import javbus from '../javBus';
+import { downloadImg, emitter } from '../../utils';
+import { EventType, QueryOpt, ToolHead, FileNode } from '@types';
 
-let stopFlag = false;
-
-export default async (queryOpts: QueryOpt[]) => {
-  stopFlag = false;
-  const failureTasks = [];
-  const successTasks = [];
-  for (let i = 0; i < queryOpts.length; i += 1) {
-    if (stopFlag) return;
-    const str = queryOpts[i].queryString;
-    const { file } = queryOpts[i];
-    emitter.emit(
-      EventType.SCRAPE_PENDING,
-      file,
-      (str.match(defaultRegExp.jav) || [str])[0]
-    );
-    await javbus((str.match(defaultRegExp.jav) || [str])[0])
-      .then(res => {
-        console.log(res.getModel(), file);
-        if (stopFlag) return;
-        return saveAsserts(res, file);
-      })
-      .then(res => {
-        emitter.emit(EventType.SCRAPE_SUCCESS, file, res.getModel());
-        return successTasks.push(file);
-      })
-      .catch(error => {
-        console.log(error);
-        emitter.emit(EventType.SCRAPE_FAIL, file);
-        failureTasks.push({ file, error });
-      });
-  }
-  emitter.emit(EventType.SCRAPE_TASK_END, { failureTasks, successTasks });
-  return {
-    failureTasks,
-    successTasks
-  };
-};
-export const loadHead = (heads: ToolHead[]) => {};
-export const stop = () => {
-  stopFlag = true;
-};
 const saveAsserts = async (model, file) => {
   const json = model.getModel();
   await mkdirp(`${file.wpath}/.actors`);
@@ -64,3 +23,57 @@ const saveAsserts = async (model, file) => {
       console.log('save asserts error', file.wpath);
     });
 };
+interface TaskResult {
+  successTasks: FileNode[];
+  failureTasks: FileNode[];
+}
+class Scraper {
+  heads: ToolHead[] = [];
+
+  stopFlag = false;
+
+  loadHead(heads: ToolHead[]): Scraper {
+    this.heads = this.heads.concat(heads);
+    return this;
+  }
+
+  stop(): void {
+    this.stopFlag = true;
+  }
+
+  async start(queryOpts: QueryOpt[], name: string): Promise<TaskResult> {
+    this.stopFlag = false;
+    console.log(name, queryOpts);
+    const failureTasks = [];
+    const successTasks = [];
+    const { head } = this.heads.find(t => t.name === name);
+    for (let i = 0; i < queryOpts.length; i += 1) {
+      if (this.stopFlag) return;
+      const str = queryOpts[i].queryString;
+      const { file } = queryOpts[i];
+      emitter.emit(EventType.SCRAPE_PENDING, file);
+      await head(str)
+        .then(res => {
+          console.log(res.getModel(), file);
+          if (this.stopFlag) return;
+          return saveAsserts(res, file);
+        })
+        .then(res => {
+          emitter.emit(EventType.SCRAPE_SUCCESS, file, res.getModel());
+          return successTasks.push(file);
+        })
+        .catch(error => {
+          console.log(error);
+          emitter.emit(EventType.SCRAPE_FAIL, file);
+          failureTasks.push(file);
+        });
+    }
+    emitter.emit(EventType.SCRAPE_TASK_END, { failureTasks, successTasks });
+    return {
+      failureTasks,
+      successTasks
+    };
+  }
+}
+
+export default Scraper;

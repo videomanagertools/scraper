@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Row, Col, Input } from 'antd';
+import { Button, Row, Col, Input, Dropdown, Menu } from 'antd';
 
 import * as R from 'ramda';
 import CRD from '@vdts/collect-video';
@@ -12,7 +12,7 @@ import {
   changeSelected,
   changeFailureKeys
 } from '../../../actions/file';
-import scrape from '../../../scraper/core';
+import scrape, { heads } from '../../../scraper';
 
 import ScrapeInfoModal from '../ScrapeInfoModal';
 import SettingModal from '../SettingModal';
@@ -32,7 +32,6 @@ const HeaderContent = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [settingVisible, setSettingVisible] = useState(false);
   const [taskQueue, setTaskQueue] = useState([]);
-  const [tasks, setTasks] = useState([]);
   const handleInput = filename => {
     dispatch(setSelectedFilename(filename));
   };
@@ -84,7 +83,7 @@ const HeaderContent = ({
     }
     setModalVisible(true);
     setTaskQueue(_taskQueue);
-    setTasks(_tasks);
+    scrape.start(_tasks, 'tmdb');
   };
   const handleRebuild = () => {
     CRD(tree.wpath)
@@ -100,12 +99,13 @@ const HeaderContent = ({
         console.log(e);
       });
   };
-  useEffect(() => {
-    if (tasks.length) {
-      console.log('out effect');
-      scrape(tasks.map(task => task));
-    }
-  }, [tasks]);
+  const menu = (
+    <Menu>
+      {heads.map(head => (
+        <Menu.Item key={head.name}>{head.name}</Menu.Item>
+      ))}
+    </Menu>
+  );
   return (
     <>
       <Row>
@@ -125,7 +125,14 @@ const HeaderContent = ({
           />
         </Col>
         <Col span={4} offset={1}>
-          <Button onClick={() => handleScrape()}>爬取信息</Button>
+          <Dropdown.Button
+            onClick={() => {
+              handleScrape();
+            }}
+            overlay={menu}
+          >
+            爬取信息
+          </Dropdown.Button>
         </Col>
         <Col span={4}>
           <Button

@@ -1,6 +1,6 @@
 import request from 'request-promise';
 import cheerio from 'cheerio';
-import MovieModel from './core/model';
+import MovieModel from '../core/model';
 
 export default async (queryString: string): Promise<any> => {
   const movieModel = new MovieModel();

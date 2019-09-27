@@ -114,9 +114,6 @@ export const getDefaultOsPath = () => {
   }
   return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 };
-export const defaultRegExp = {
-  jav: /\d{3,10}(_|-)\d{3,10}|[a-z]{3,10}(_|-)(\d|[a-z]){3,10}/i
-};
 
 export const emitter = _emitter;
 

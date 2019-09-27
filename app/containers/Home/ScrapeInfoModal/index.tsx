@@ -4,7 +4,7 @@ import { Row, Col, Modal, Timeline, Icon } from 'antd';
 import MediaInfo from '@components/MediaInfo';
 import { emitter } from '../../../utils';
 import { EventType } from '@types';
-import { stop } from '../../../scraper/core';
+import scraper from '../../../scraper';
 import * as styles from './index.less';
 import { changeFailureKeys } from '../../../actions/file';
 
@@ -36,7 +36,9 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
     lastTaskQ.current = taskQueue;
   }, [taskQueue]);
   useEffect(() => {
+    console.log(44);
     emitter.on(EventType.SCRAPE_PENDING, ({ key }, str) => {
+      console.log(33);
       const _taskQ = lastTaskQ.current.map(task => ({
         ...task,
         status: task.file.key === key ? 'pending' : task.status,
@@ -67,7 +69,7 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
     });
     emitter.on(EventType.SCRAPE_TASK_END, ({ successTasks, failureTasks }) => {
       console.log(successTasks, failureTasks);
-      handleTaskEnd(failureTasks.map(task => task.file.key));
+      handleTaskEnd(failureTasks.map(task => task.key));
       setTaskIsEnd(true);
     });
     return () => {
@@ -84,7 +86,7 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
     Modal.confirm({
       title: '确认关闭吗',
       onOk: () => {
-        stop();
+        scraper.stop();
         onCancel();
       }
     });
