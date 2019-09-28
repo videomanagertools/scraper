@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import path from 'path';
 import { connect } from 'react-redux';
 import MediaInfo from '@components/MediaInfo';
@@ -19,16 +19,17 @@ const tags = config.get('tags', []) as string[];
 const MainContent = ({ selectedKey, flatTree }) => {
   const [mediaInfo, setMediaInfo] = useState(null);
   let nfoPath = '';
-  if (selectedKey) {
-    const node = flatTree[selectedKey];
-    nfoPath = path.join(node.wpath, `${node.title}.nfo`);
-    try {
-      setMediaInfo(readMediaInfoFromNFOSync(nfoPath));
-    } catch (error) {
-      console.info('no nfo file');
+  useEffect(() => {
+    if (selectedKey) {
+      const node = flatTree[selectedKey];
+      nfoPath = path.join(node.wpath, `${node.title}.nfo`);
+      try {
+        setMediaInfo(readMediaInfoFromNFOSync(nfoPath));
+      } catch (error) {
+        console.info('no nfo file');
+      }
     }
-    console.log(mediaInfo);
-  }
+  }, [selectedKey]);
   return mediaInfo ? (
     <MediaInfo
       currentMediaInfo={mediaInfo}
