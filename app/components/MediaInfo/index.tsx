@@ -17,7 +17,7 @@ export default ({
   onSelect = () => {},
   tags = []
 }: Props) => {
-  const defaultTags =
+  const selectedTags =
     (currentMediaInfo.tag && currentMediaInfo.tag.map(tag => tag._text)) || [];
   return (
     <Row>
@@ -61,7 +61,8 @@ export default ({
                   style={{ width: '100%' }}
                   placeholder="选择标签"
                   onChange={onSelect}
-                  defaultValue={defaultTags}
+                  defaultValue={selectedTags}
+                  value={selectedTags}
                 >
                   {tags.map(t => (
                     <Option key={t}>{t}</Option>

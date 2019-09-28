@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import path from 'path';
 import { connect } from 'react-redux';
 import MediaInfo from '@components/MediaInfo';
@@ -17,13 +17,13 @@ const mapStateToProps = ({ file }) => {
 };
 const tags = config.get('tags', []) as string[];
 const MainContent = ({ selectedKey, flatTree }) => {
-  let mediaInfo = null;
+  const [mediaInfo, setMediaInfo] = useState(null);
   let nfoPath = '';
   if (selectedKey) {
     const node = flatTree[selectedKey];
     nfoPath = path.join(node.wpath, `${node.title}.nfo`);
     try {
-      mediaInfo = readMediaInfoFromNFOSync(nfoPath);
+      setMediaInfo(readMediaInfoFromNFOSync(nfoPath));
     } catch (error) {
       console.info('no nfo file');
     }
@@ -39,6 +39,7 @@ const MainContent = ({ selectedKey, flatTree }) => {
         const info = Object.assign({}, mediaInfo, {
           tag: iTags.map(tag => ({ _text: tag }))
         });
+        setMediaInfo({ ...mediaInfo, tag: iTags.map(tag => ({ _text: tag })) });
         writeMediaInfoToNFOSync(nfoPath, info);
       }}
       selectable
