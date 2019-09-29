@@ -1,7 +1,7 @@
 // import douban from '../douban';
 
 import { writeFile, mkdirp } from 'fs-extra';
-import javbus from '../javBus';
+import javbus from '../javbus';
 import { downloadImg, defaultRegExp, emitter } from '../../utils';
 import { EventType } from '@types';
 
