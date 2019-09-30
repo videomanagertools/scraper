@@ -1,27 +1,29 @@
-import React, { useImperativeHandle, forwardRef } from 'react';
-import { Select, Form } from 'antd';
-// import { FormComponentProps } from 'antd/lib/form';
+import React, { useImperativeHandle, forwardRef, useState } from 'react';
+import { Select, Form, Cascader, Row, Col } from 'antd';
 import config from '@config';
 import styles from './index.less';
+import { mediaType } from '@scraper';
 
 const { Option } = Select;
 const { Item } = Form;
 
-// interface IProps extends FormComponentProps {
-//   visible: boolean;
-//   onCancle: () => void;
-// }
 const SettingForm = ({ form }, ref) => {
-  useImperativeHandle(ref, () => ({
-    submitForm: () => {
-      form.validateFields((err, values) => {
-        if (err) return;
-        config.set(values);
-        console.log(config.path);
-      });
-    }
-  }));
   const tags = config.get('tags', []);
+  const scene = config.get('scene', ['movie', 'normal']);
+  // const sceneSourceMapping = config.get('sceneSourceMapping', {});
+  useImperativeHandle(ref, () => ({
+    submitForm: () =>
+      new Promise((resolve, reject) => {
+        form.validateFields((err, values) => {
+          if (err) return reject(err);
+          config.set(values);
+          console.log(config.path);
+          resolve();
+        });
+      })
+  }));
+  // const [mediaSourceVisible, setMediaSourceVisible] = useState(false);
+  console.log(useState);
   const { getFieldDecorator } = form;
   return (
     <Form
@@ -33,11 +35,20 @@ const SettingForm = ({ form }, ref) => {
       <Item label="预设标签">
         {getFieldDecorator('tags', { initialValue: tags })(
           <Select mode="tags" style={{ width: '100%' }} placeholder="Tags">
-            {tags.map(tag => (
+            {tags.map((tag: string) => (
               <Option key={tag}>{tag}</Option>
             ))}
           </Select>
         )}
+      </Item>
+      <Item label="场景">
+        <Row>
+          <Col span={10}>
+            {getFieldDecorator('scene', { initialValue: scene })(
+              <Cascader options={mediaType} allowClear={false} />
+            )}
+          </Col>
+        </Row>
       </Item>
     </Form>
   );

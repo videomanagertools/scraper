@@ -12,7 +12,8 @@ import {
   changeSelected,
   changeFailureKeys
 } from '../../../actions/file';
-import scrape, { heads } from '../../../scraper';
+import scrape, { getHeadsByMediaType } from '@scraper';
+import config from '@config';
 
 import ScrapeInfoModal from '../ScrapeInfoModal';
 import SettingModal from '../SettingModal';
@@ -51,7 +52,9 @@ const HeaderContent = ({
       }
     );
   };
-  const handleScrape = () => {
+  const handleScrape = (headName?: string) => {
+    dispatch(changeFailureKeys([]));
+    const head = headName || getHeadsByMediaType(config.get('scene'))[0].name;
     let _taskQueue = [];
     let _tasks = [];
     if (!checkedKeys.length) {
@@ -83,7 +86,7 @@ const HeaderContent = ({
     }
     setModalVisible(true);
     setTaskQueue(_taskQueue);
-    scrape.start(_tasks, 'tmdb');
+    scrape.start(_tasks, head);
   };
   const handleRebuild = () => {
     CRD(tree.wpath)
@@ -100,8 +103,12 @@ const HeaderContent = ({
       });
   };
   const menu = (
-    <Menu>
-      {heads.map(head => (
+    <Menu
+      onClick={e => {
+        handleScrape(e.key);
+      }}
+    >
+      {getHeadsByMediaType(config.get('scene')).map(head => (
         <Menu.Item key={head.name}>{head.name}</Menu.Item>
       ))}
     </Menu>

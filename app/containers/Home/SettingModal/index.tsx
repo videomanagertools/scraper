@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, message } from 'antd';
 import SettingForm from './form';
 import config from '@config';
 
@@ -23,7 +23,16 @@ const SettingModal = ({ visible, onCancle }) => {
           <Button
             type="primary"
             onClick={() => {
-              settingForm.current.submitForm();
+              settingForm.current
+                .submitForm()
+                .then(res => {
+                  message.success('保存成功');
+                  onCancle();
+                  return res;
+                })
+                .catch(e => {
+                  message.error(e[0]);
+                });
             }}
           >
             保存

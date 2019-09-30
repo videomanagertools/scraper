@@ -19,7 +19,8 @@
       "@components/*": ["./app/components/*"],
       "@config": ["./app/config-store"],
       "@constants/*": ["./app/constants/*"],
-      "@utils": ["./app/utils"]
+      "@utils": ["./app/utils"],
+      "@scraper": ["./app/scraper"]
     }
   },
   "exclude": ["node_modules", "**/node_modules/*"]

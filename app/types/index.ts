@@ -6,5 +6,6 @@ export {
   ToolHead,
   Head,
   FileNode,
-  MediaType
+  MediaTypeNode,
+  MediaKeys
 } from './scraper';

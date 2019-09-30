@@ -51,6 +51,10 @@ export interface NFOModel {
    * 年份，推荐使用premiered，这个是为了兼容
    */
   year?: { _text: string };
+  /**
+   * 简介
+   */
+  plot?: { _text: string };
   /** movie slogan */
   tagline?: { _text: string };
   /**

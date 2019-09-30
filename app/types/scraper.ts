@@ -12,7 +12,7 @@ export interface Head {
 export interface ToolHead {
   name: string;
   head: Head;
-  regular?: RegExp;
+  type: string[];
 }
 export interface QueryOpt {
   queryString: string;
@@ -24,8 +24,16 @@ export interface FileNode {
   children: FileNode[] | [] | null;
 }
 
-export enum MediaType {
+export enum MediaKeys {
   Music = 'music',
   Jav = 'jav',
-  Movie = 'movie'
+  Movie = 'movie',
+  Gentleman = 'gentleman',
+  Normal = 'normal'
+}
+
+export interface MediaTypeNode {
+  value: string;
+  label: string;
+  children?: MediaTypeNode[];
 }
