@@ -1,5 +1,4 @@
 import request from 'request-promise';
-// import cheerio from 'cheerio';
 import MovieModel from '../core/model';
 import { MovieModelType, MediaKeys } from '@types';
 
@@ -20,8 +19,6 @@ export default {
       },
       json: true
     });
-
-    console.log(movieModel, queryString, 111);
 
     if (!res.total_results) {
       throw new Error('无影片信息');
@@ -48,7 +45,7 @@ export default {
       genres
     } = info;
     movieModel.setModel({
-      title,
+      title: { _text: title },
       plot: {
         _text: overview
       },

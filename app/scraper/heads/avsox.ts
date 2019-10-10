@@ -8,7 +8,7 @@ export default {
     const movieModel = new MovieModel();
     const encodedQueryString = encodeURIComponent(queryString);
     const searchPage = await request(
-      `http://www.javbus.com/uncensored/search/${encodedQueryString}`
+      `https://avsox.asia/cn/search/${encodedQueryString}`
     );
     const infoPageUrl = cheerio
       .load(searchPage)('.movie-box')
@@ -41,7 +41,7 @@ export default {
             .replace(/https:\/\//, 'http://')
         }
       },
-      actor: $('.info>ul li img')
+      actor: $('#avatar-waterfall .avatar-box img')
         .map((index, $actor) => ({
           name: { _text: $actor.attribs.title.trim() },
           thumb: {
@@ -58,11 +58,11 @@ export default {
         }
       ],
       genre: $('.info .genre>a')
-        .map((index, $actor) => ({ _text: $actor.firstChild.data.trim() }))
+        .map((index, $genre) => ({ _text: $genre.firstChild.data.trim() }))
         .toArray()
     });
     return movieModel;
   },
-  name: 'javbus',
+  name: 'avsox',
   type: [MediaKeys.Movie, MediaKeys.Gentleman]
 };

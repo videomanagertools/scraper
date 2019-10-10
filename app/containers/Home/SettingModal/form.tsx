@@ -8,7 +8,7 @@ const { Option } = Select;
 const { Item } = Form;
 
 const SettingForm = ({ form }, ref) => {
-  const tags = config.get('tags', []);
+  const tags = config.get('tags');
   const scene = config.get('scene', ['movie', 'normal']);
   // const sceneSourceMapping = config.get('sceneSourceMapping', {});
   useImperativeHandle(ref, () => ({
@@ -35,7 +35,7 @@ const SettingForm = ({ form }, ref) => {
       <Item label="预设标签">
         {getFieldDecorator('tags', { initialValue: tags })(
           <Select mode="tags" style={{ width: '100%' }} placeholder="Tags">
-            {tags.map((tag: string) => (
+            {tags.map(tag => (
               <Option key={tag}>{tag}</Option>
             ))}
           </Select>

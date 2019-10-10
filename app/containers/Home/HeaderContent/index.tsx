@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Button, Row, Col, Input, Dropdown, Menu } from 'antd';
+import { Button, Row, Col, Input, Dropdown, Menu, message } from 'antd';
 
 import * as R from 'ramda';
 import CRD from '@vdts/collect-video';
@@ -33,6 +33,13 @@ const HeaderContent = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [settingVisible, setSettingVisible] = useState(false);
   const [taskQueue, setTaskQueue] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const scraperHead = useRef('');
+  useEffect(() => {
+    if (tasks.length) {
+      scrape.start(tasks, scraperHead.current);
+    }
+  }, [tasks]);
   const handleInput = filename => {
     dispatch(setSelectedFilename(filename));
   };
@@ -53,6 +60,10 @@ const HeaderContent = ({
     );
   };
   const handleScrape = (headName?: string) => {
+    const defaultHead = getHeadsByMediaType(config.get('scene'))[0];
+    if (!defaultHead) {
+      return message.error('当前场景未找到信息源');
+    }
     dispatch(changeFailureKeys([]));
     const head = headName || getHeadsByMediaType(config.get('scene'))[0].name;
     let _taskQueue = [];
@@ -86,7 +97,8 @@ const HeaderContent = ({
     }
     setModalVisible(true);
     setTaskQueue(_taskQueue);
-    scrape.start(_tasks, head);
+    setTasks(_tasks);
+    scraperHead.current = head;
   };
   const handleRebuild = () => {
     CRD(tree.wpath)
@@ -96,9 +108,11 @@ const HeaderContent = ({
         dispatch(changeSelected(''));
         dispatch(changeFailureKeys([]));
         dispatch(selectFiles(_tree[0]));
+        message.success('格式化成功');
         return res;
       })
       .catch(e => {
+        message.error('格式化失败');
         console.log(e);
       });
   };
@@ -108,7 +122,7 @@ const HeaderContent = ({
         handleScrape(e.key);
       }}
     >
-      {getHeadsByMediaType(config.get('scene')).map(head => (
+      {(getHeadsByMediaType(config.get('scene')) || []).map(head => (
         <Menu.Item key={head.name}>{head.name}</Menu.Item>
       ))}
     </Menu>

@@ -36,15 +36,14 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
     lastTaskQ.current = taskQueue;
   }, [taskQueue]);
   useEffect(() => {
-    console.log(44);
     emitter.on(EventType.SCRAPE_PENDING, ({ key }, str) => {
-      console.log(33);
       const _taskQ = lastTaskQ.current.map(task => ({
         ...task,
         status: task.file.key === key ? 'pending' : task.status,
         str: task.file.key === key ? str : task.str ? task.str : ''
       }));
       setTaskQ(_taskQ);
+      console.log(_taskQ, 1);
       lastTaskQ.current = _taskQ;
     });
     emitter.on(EventType.SCRAPE_SUCCESS, ({ key }, json) => {

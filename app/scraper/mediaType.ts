@@ -32,5 +32,5 @@ const mediaSource = heads.reduce((acc, head) => {
 
 export const getHeadsByMediaType: (type: string[]) => ToolHead[] = type => {
   const sourceId = type.join('$$');
-  return mediaSource[sourceId];
+  return mediaSource[sourceId] || [];
 };
