@@ -1,5 +1,5 @@
-import React, { useImperativeHandle, forwardRef, useState } from 'react';
-import { Select, Form, Cascader, Row, Col } from 'antd';
+import React, { useImperativeHandle, forwardRef } from 'react';
+import { Select, Form, Cascader, Row, Col, Switch, Input } from 'antd';
 import config from '@config';
 import styles from './index.less';
 import { mediaType } from '@scraper';
@@ -8,22 +8,29 @@ const { Option } = Select;
 const { Item } = Form;
 
 const SettingForm = ({ form }, ref) => {
-  const tags = config.get('tags');
-  const scene = config.get('scene', ['movie', 'normal']);
+  const tagsConfig = config.get('tags');
+  const sceneConfig = config.get('scene', ['movie', 'normal']);
+  const proxyConfig = config.get('proxy');
   // const sceneSourceMapping = config.get('sceneSourceMapping', {});
   useImperativeHandle(ref, () => ({
     submitForm: () =>
       new Promise((resolve, reject) => {
         form.validateFields((err, values) => {
           if (err) return reject(err);
-          config.set(values);
-          console.log(config.path);
+          const { tags, scene, proxyUrl, proxyEnable } = values;
+          config.set({
+            tags,
+            scene,
+            proxy: {
+              enable: proxyEnable,
+              url: proxyUrl
+            }
+          });
           resolve();
         });
       })
   }));
-  // const [mediaSourceVisible, setMediaSourceVisible] = useState(false);
-  console.log(useState);
+
   const { getFieldDecorator } = form;
   return (
     <Form
@@ -33,9 +40,9 @@ const SettingForm = ({ form }, ref) => {
       className={styles.setting_form}
     >
       <Item label="预设标签">
-        {getFieldDecorator('tags', { initialValue: tags })(
+        {getFieldDecorator('tags', { initialValue: tagsConfig })(
           <Select mode="tags" style={{ width: '100%' }} placeholder="Tags">
-            {tags.map(tag => (
+            {tagsConfig.map(tag => (
               <Option key={tag}>{tag}</Option>
             ))}
           </Select>
@@ -44,9 +51,22 @@ const SettingForm = ({ form }, ref) => {
       <Item label="场景">
         <Row>
           <Col span={10}>
-            {getFieldDecorator('scene', { initialValue: scene })(
+            {getFieldDecorator('scene', { initialValue: sceneConfig })(
               <Cascader options={mediaType} allowClear={false} />
             )}
+          </Col>
+        </Row>
+      </Item>
+      <Item label="代理">
+        <Row>
+          <Col span={10}>
+            {getFieldDecorator('proxyEnable', {
+              initialValue: proxyConfig.enable,
+              valuePropName: 'checked'
+            })(<Switch />)}
+            {getFieldDecorator('proxyUrl', {
+              initialValue: proxyConfig.url
+            })(<Input />)}
           </Col>
         </Row>
       </Item>

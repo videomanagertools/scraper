@@ -96,9 +96,9 @@ export const sleep = time =>
     }
   });
 
-export const downloadImg = (url, ipath) =>
+export const downloadImg = (url, ipath, opt?) =>
   new Promise((resolve, reject) => {
-    request(url)
+    request({ url, ...opt })
       .pipe(fs.createWriteStream(ipath))
       .on('finish', () => {
         resolve(ipath);

@@ -1,9 +1,11 @@
 import { writeFile, mkdirp } from 'fs-extra';
-// import javbus from '../javBus';
 import { downloadImg, emitter } from '../../utils';
 import { EventType, QueryOpt, ToolHead, FileNode } from '@types';
+import config from '@config';
 
 const saveAsserts = async (model, file) => {
+  const proxy = config.get('proxy');
+  const url = proxy.enable ? proxy.url : '';
   const json = model.getModel();
   await mkdirp(`${file.wpath}/.actors`);
   return Promise.all([
@@ -11,10 +13,20 @@ const saveAsserts = async (model, file) => {
       `${file.wpath + file.title}.nfo`,
       `<?xml version="1.0" encoding="utf-8" standalone="yes"?>${model.getXML()}`
     ),
-    downloadImg(json.art.poster._text, `${file.wpath + file.title}-poster.jpg`),
-    downloadImg(json.art.fanart._text, `${file.wpath + file.title}-fanart.jpg`),
+    downloadImg(
+      json.art.poster._text,
+      `${file.wpath + file.title}-poster.jpg`,
+      { proxy: url }
+    ),
+    downloadImg(
+      json.art.fanart._text,
+      `${file.wpath + file.title}-fanart.jpg`,
+      { proxy: url }
+    ),
     json.actor.map(v =>
-      downloadImg(v.thumb._text, `${file.wpath}.actors/${v.name._text}.jpg`)
+      downloadImg(v.thumb._text, `${file.wpath}.actors/${v.name._text}.jpg`, {
+        proxy: url
+      })
     )
   ])
     .then(() => model)
@@ -43,7 +55,6 @@ class Scraper {
 
   async start(queryOpts: QueryOpt[], name: string): Promise<TaskResult> {
     this.stopFlag = false;
-    console.log(name, queryOpts);
     const failureTasks = [];
     const successTasks = [];
     const { head } = this.heads.find(t => t.name === name);

@@ -1,20 +1,19 @@
-import request from 'request-promise';
 import cheerio from 'cheerio';
 import MovieModel from '../core/model';
 import { MediaKeys } from '@types';
 
-export default {
+export default request => ({
   head: async (queryString: string): Promise<any> => {
     const movieModel = new MovieModel();
     const encodedQueryString = encodeURIComponent(queryString);
-    const searchPage = await request(
-      `https://avsox.asia/cn/search/${encodedQueryString}`
-    );
+    const searchPage = await request({
+      url: `https://avsox.asia/cn/search/${encodedQueryString}`
+    });
     const infoPageUrl = cheerio
       .load(searchPage)('.movie-box')
       .attr('href')
       .replace(/https:\/\//, 'http://');
-    const $ = cheerio.load(await request(infoPageUrl));
+    const $ = cheerio.load(await request({ url: infoPageUrl }));
     movieModel.setModel({
       title: {
         _text: $('h3')
@@ -65,4 +64,4 @@ export default {
   },
   name: 'avsox',
   type: [MediaKeys.Movie, MediaKeys.Gentleman]
-};
+});

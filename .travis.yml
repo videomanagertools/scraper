@@ -52,6 +52,8 @@ cache:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-8"; fi
+  - rm -rf yarn.lock
+  - rm -rf package-lock.json
 
 install:
   - yarn --ignore-engines

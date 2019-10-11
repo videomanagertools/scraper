@@ -43,7 +43,6 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
         str: task.file.key === key ? str : task.str ? task.str : ''
       }));
       setTaskQ(_taskQ);
-      console.log(_taskQ, 1);
       lastTaskQ.current = _taskQ;
     });
     emitter.on(EventType.SCRAPE_SUCCESS, ({ key }, json) => {

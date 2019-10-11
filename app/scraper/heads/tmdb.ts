@@ -1,8 +1,7 @@
-import request from 'request-promise';
 import MovieModel from '../core/model';
 import { MovieModelType, MediaKeys } from '@types';
 
-export default {
+export default request => ({
   head: async (queryString: string): Promise<MovieModelType> => {
     const movieModel = new MovieModel();
     const baseUrl = 'http://api.themoviedb.org/3';
@@ -77,4 +76,4 @@ export default {
   },
   name: 'TMDB',
   type: [MediaKeys.Movie, MediaKeys.Normal]
-};
+});
