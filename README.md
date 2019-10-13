@@ -2,24 +2,31 @@
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/videomanagertools/scraper/master)
 ![GitHub Release Date](https://img.shields.io/github/release-date/videomanagertools/scraper)
 
-操作动图
-![gifhome_640x363_30s (1)](https://user-images.githubusercontent.com/20250430/65373590-3dc32780-dcb2-11e9-87a1-b946beb26996.gif)
-
-检索信息截图
-![3](https://upload-images.jianshu.io/upload_images/19638980-6899616ee80e89fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-在多媒体服务中显示的截图
-![1](https://upload-images.jianshu.io/upload_images/19638980-0272cb35f1bad544.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-### 绅士版食用指南
+### 食用指南
 
 下载对应平台的安装包，安装，打开。
+
+#### 设置
+
+1. 预设标签
+
+可以预设标签用于编辑电影自定义标签
+
+2. 场景
+
+目前有普通和绅士（滑稽），对应了不懂的信息源。
+
+设置场景后，会在【检索信息】按钮后显示可用的数据源，可根据需要切换
+
+3. 代理
+
+部分源可能需要使用代理访问，GTW 没屏蔽，但是不同运营商可能会屏蔽。没有代理的绅士们请自行解决。。
 
 #### 建议
 
 第一次使用请先拉出来一个测试用的文件夹，熟悉各个操作的效果后，再大批量操作。数据无价，谨慎操作
 
-### 开发贡献
+### 开发
 
 ```bash
 git clone https://github.com/videomanagertools/scraper.git
@@ -38,17 +45,10 @@ npm run dev
 
 因为电影和剧集已经有很多成熟好用的工具，如果没特殊需求，没计划做这两个
 
-其他的：
-
-1. 目前只支持步兵
-2. 信息源目前只支持 javbus，不支持切换
-
-（后面有时间和需求就加骑兵和数据源）
-
 已知计划是
 
 1. 增加音乐信息爬取
-2. 抽出来一个没有 GUI 的工具，可以在 NAS 的 docker 中定时跑
+2. 抽出来一个没有 GUI 的 CLI，可以在 NAS 的 docker 中定时跑
 3. 可能会有一个整合的工具，把 Download，Scrape，Move Files 串联起来
 
 ### 最后

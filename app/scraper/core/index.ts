@@ -62,7 +62,7 @@ class Scraper {
       if (this.stopFlag) return;
       const str = queryOpts[i].queryString;
       const { file } = queryOpts[i];
-      emitter.emit(EventType.SCRAPE_PENDING, file);
+      emitter.emit(EventType.SCRAPE_PENDING, file, str);
       await head(str)
         .then(res => {
           console.log(res.getModel(), file);

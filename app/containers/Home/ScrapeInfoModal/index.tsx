@@ -9,25 +9,7 @@ import * as styles from './index.less';
 import { changeFailureKeys } from '../../../actions/file';
 
 const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
-  const [currentMediaInfo, setCurrentMediaInfo] = useState({
-    poster: 'https://image.tmdb.org/t/p/w500/uXTtUYleKiaF0KuBwupIeuSjyLA.jpg',
-    title: 'def',
-    premiered: '2019-04-24',
-    actor: [
-      {
-        name: 'Yanting Lvasdsdda asdas',
-        thumb:
-          'https://image.tmdb.org/t/p/w138_and_h175_face/vKpOzPutTaPf03rWXiLuK8R2K3B.jpg'
-      },
-      {
-        name: 'asdasd',
-        thumb:
-          'https://image.tmdb.org/t/p/w138_and_h175_face/58Ytg6PBGpqB2s7DkHB82dRvdFO.jpg'
-      }
-    ],
-    genre: [],
-    uniqueid: []
-  });
+  const [currentMediaInfo, setCurrentMediaInfo] = useState(null);
   const [taskQ, setTaskQ] = useState([]);
   const [taskIsEnd, setTaskIsEnd] = useState(false);
   const lastTaskQ = useRef(taskQ);
@@ -79,12 +61,14 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
   }, []);
   const handleModalCancel = e => {
     if (taskIsEnd) {
+      setCurrentMediaInfo(null);
       return onCancel();
     }
     Modal.confirm({
       title: '确认关闭吗',
       onOk: () => {
         scraper.stop();
+        setCurrentMediaInfo(null);
         onCancel();
       }
     });
@@ -138,7 +122,7 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
           </Timeline>
         </Col>
         <Col span={18} style={{ position: 'sticky', top: 100 }}>
-          {currentMediaInfo.title === 'def' ? (
+          {!currentMediaInfo ? (
             ''
           ) : (
             <MediaInfo currentMediaInfo={currentMediaInfo} />

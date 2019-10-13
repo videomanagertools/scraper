@@ -27,6 +27,7 @@ const MainContent = ({ selectedKey, flatTree }) => {
         setMediaInfo(readMediaInfoFromNFOSync(nfoPath));
       } catch (error) {
         console.info('no nfo file');
+        setMediaInfo(null);
       }
     }
   }, [selectedKey]);

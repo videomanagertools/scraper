@@ -12,7 +12,7 @@ import {
   changeSelected,
   changeFailureKeys
 } from '../../../actions/file';
-import scrape, { getHeadsByMediaType } from '@scraper';
+import scrape, { getHeadsByMediaType, getRegularByMediaType } from '@scraper';
 import config from '@config';
 
 import ScrapeInfoModal from '../ScrapeInfoModal';
@@ -22,6 +22,10 @@ const { dialog } = require('electron').remote;
 
 type Props = ReturnType<typeof mapStateToProps> & { dispatch };
 
+const matchStr: (str: string, reg: RegExp) => string = (str, reg) => {
+  const r = str.match(reg);
+  return r ? (r[0] ? r[0] : str) : str;
+};
 const HeaderContent = ({
   checkedKeys,
   selectedFilename,
@@ -61,6 +65,7 @@ const HeaderContent = ({
   };
   const handleScrape = (headName?: string) => {
     const defaultHead = getHeadsByMediaType(config.get('scene'))[0];
+    const regular = getRegularByMediaType(config.get('scene')) || /./;
     if (!defaultHead) {
       return message.error('当前场景未找到信息源');
     }
@@ -78,7 +83,7 @@ const HeaderContent = ({
 
       _tasks = [
         {
-          queryString: selectedFilename,
+          queryString: matchStr(selectedFilename, regular),
           file
         }
       ];
@@ -87,7 +92,7 @@ const HeaderContent = ({
         .map(key => {
           const file = flatTree[key];
           return {
-            queryString: file.title,
+            queryString: matchStr(file.title, regular),
             file
           };
         })
