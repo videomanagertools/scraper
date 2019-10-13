@@ -1,7 +1,7 @@
 {
   "name": "u-scraper",
   "productName": "uScraper",
-  "version": "0.2.0-beta",
+  "version": "0.2.0",
   "description": "A scraper that switches between normal mode and gentleman mode, built on Eletron, React",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
