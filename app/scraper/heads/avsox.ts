@@ -40,13 +40,22 @@ export default request => ({
             .replace(/https:\/\//, 'http://')
         }
       },
-      actor: $('#avatar-waterfall .avatar-box img')
-        .map((index, $actor) => ({
-          name: { _text: $actor.attribs.title.trim() },
-          thumb: {
-            _text: $actor.attribs.src.trim().replace(/https:\/\//, 'http://')
-          }
-        }))
+      actor: $('#avatar-waterfall .avatar-box')
+        .map(index => {
+          const $img = $('#avatar-waterfall .avatar-box img').eq(index);
+          const $name = $('#avatar-waterfall .avatar-box>span').eq(index);
+          return {
+            name: {
+              _text: $name.text().trim()
+            },
+            thumb: {
+              _text: $img
+                .attr('src')
+                .trim()
+                .replace(/https:\/\//, 'http://')
+            }
+          };
+        })
         .toArray(),
       uniqueid: [
         {
