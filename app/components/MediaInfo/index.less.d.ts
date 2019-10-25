@@ -7,3 +7,4 @@ export const info_text: string;
 export const uniqueid: string;
 export const genre: string;
 export const actor: string;
+export const thumbnails: string;

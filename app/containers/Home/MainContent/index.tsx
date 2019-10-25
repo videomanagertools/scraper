@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import path from 'path';
 import { connect } from 'react-redux';
 import MediaInfo from '@components/MediaInfo';
-import { readMediaInfoFromNFOSync, writeMediaInfoToNFOSync } from '@utils';
+import {
+  readMediaInfoFromNFOSync,
+  writeMediaInfoToNFOSync,
+  readThumbnails
+} from '@utils';
 import config from '@config';
 
 const mapStateToProps = ({ file }) => {
@@ -24,9 +28,18 @@ const MainContent = ({ selectedKey, flatTree }) => {
       const node = flatTree[selectedKey];
       nfoPath.current = path.join(node.wpath, `${node.title}.nfo`);
       try {
-        setMediaInfo(readMediaInfoFromNFOSync(nfoPath.current));
+        let thumbnails = [];
+        try {
+          thumbnails = readThumbnails(node.wpath);
+        } catch (err) {
+          console.warn(err);
+        }
+        setMediaInfo({
+          ...readMediaInfoFromNFOSync(nfoPath.current),
+          thumbnails
+        });
       } catch (error) {
-        console.info('no nfo file');
+        console.warn('no nfo file', error);
         setMediaInfo(null);
       }
     }
@@ -37,7 +50,6 @@ const MainContent = ({ selectedKey, flatTree }) => {
       tags={tags}
       onSelect={iTags => {
         config.set('tags', [...new Set(tags.concat(iTags))]);
-        console.log(nfoPath.current);
         if (!nfoPath.current) return;
         const info = Object.assign({}, mediaInfo, {
           tag: iTags.map(tag => ({ _text: tag }))

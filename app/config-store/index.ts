@@ -7,6 +7,11 @@ const store = new Store({
     proxy: {
       enable: false,
       url: 'http://127.0.0.1:1087'
+    },
+    thumbnails: {
+      enable: false,
+      count: 30,
+      size: '800x?'
     }
   }
 });

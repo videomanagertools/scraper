@@ -1,10 +1,11 @@
+import path from 'path';
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button, Row, Col, Input, Dropdown, Menu, message } from 'antd';
-
+import { shell } from 'electron';
 import * as R from 'ramda';
 import CRD from '@vdts/collect-video';
-import { generateFileTree } from '../../../utils';
+import { generateFileTree, takeScreenshots } from '../../../utils';
 import {
   selectFiles,
   setSelectedFilename,
@@ -132,6 +133,8 @@ const HeaderContent = ({
       ))}
     </Menu>
   );
+  const inputDisabled = !!checkedKeys.length;
+  const thumbnailsEnable = config.get('thumbnails').enable;
   return (
     <>
       <Row>
@@ -141,14 +144,26 @@ const HeaderContent = ({
         <Col span={2}>
           <Button onClick={handleRebuild}>格式化目录</Button>
         </Col>
-        <Col span={6}>
+        <Col span={4}>
           <Input
             value={selectedFilename}
             placeholder="选择一个文件，直接或修改后爬取"
+            disabled={inputDisabled}
             onChange={e => {
               handleInput(e.target.value);
             }}
           />
+        </Col>
+        <Col span={2}>
+          <Button
+            disabled={inputDisabled}
+            onClick={() => {
+              const file = flatTree[selectedKey];
+              shell.openItem(file.fullpath);
+            }}
+          >
+            播放文件
+          </Button>
         </Col>
         <Col span={4} offset={1}>
           <Dropdown.Button
@@ -160,6 +175,35 @@ const HeaderContent = ({
             爬取信息
           </Dropdown.Button>
         </Col>
+        {thumbnailsEnable ? (
+          <Col span={4}>
+            <Button
+              onClick={() => {
+                const setting = config.get('thumbnails');
+                const promises = checkedKeys
+                  .map(key => flatTree[key])
+                  .filter(v => !v.isDir)
+                  .map(file =>
+                    takeScreenshots({
+                      file: file.fullpath,
+                      count: setting.count,
+                      size: setting.size,
+                      folder: path.join(file.wpath, '.thumbnails')
+                    })
+                  );
+                Promise.all(promises)
+                  .then(res => console.log(res))
+                  .catch(err => {
+                    message.error('生成截图失败，请确认ffmpeg是否可用');
+                  });
+              }}
+            >
+              生成帧截图
+            </Button>
+          </Col>
+        ) : (
+          ''
+        )}
         <Col span={4}>
           <Button
             shape="circle"

@@ -7,8 +7,9 @@
 .media_info {
   font-size: 16px;
   background-color: #eeeeeb;
-  overflow: hidden;
   min-height: 500px;
+  max-height: calc(100vh - 96px);
+  overflow: auto;
   padding-bottom: 20px;
   color: #333;
   .info_item {
@@ -49,6 +50,18 @@
     }
     img {
       width: 120px;
+    }
+  }
+  .thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      flex-grow: 1;
+      width: 200px;
+      padding: 5px;
+      img {
+        max-width: 100%;
+      }
     }
   }
 }

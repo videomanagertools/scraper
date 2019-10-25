@@ -1,5 +1,5 @@
 // import * as R from 'ramda';
-import fs, { readFileSync, writeFileSync } from 'fs-extra';
+import fs, { readFileSync, writeFileSync, readdirSync } from 'fs-extra';
 import path from 'path';
 import { message } from 'antd';
 import _emitter from './emitter';
@@ -8,6 +8,7 @@ import { xml2js, js2xml } from './xml';
 
 const request = require('request');
 
+export { takeScreenshots } from './video';
 export { js2xml, xml2js } from './xml';
 export const generateFileTree = (paths: Array<string>): FileNode[] => {
   const result = [];
@@ -149,4 +150,11 @@ export const writeMediaInfoToNFOSync = (
   const json = Object.assign({}, base, { movie: data });
   const xml = js2xml(json);
   writeFileSync(ipath, xml, 'utf8');
+};
+export const readThumbnails = wpath => {
+  const tbPath = path.join(wpath, '.thumbnails');
+  console.log(readdirSync(tbPath));
+  return (readdirSync(tbPath) || [])
+    .sort((n1, n2) => parseInt(n1, 10) - parseInt(n2, 10))
+    .map(name => path.join(tbPath, name));
 };
