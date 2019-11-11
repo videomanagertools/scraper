@@ -79,7 +79,7 @@ export default ({
               <div className={styles.info_label}>演员：</div>
               <div className={cn(styles.info_text, styles.actor)}>
                 {get(currentMediaInfo, 'actor', []).map(a => (
-                  <figure key={a.thumb._text}>
+                  <figure key={a.name._text}>
                     <img src={a.thumb._text} alt="" />
                     <figcaption>{a.name._text}</figcaption>
                   </figure>

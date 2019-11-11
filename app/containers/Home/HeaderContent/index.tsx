@@ -5,6 +5,9 @@ import { Button, Row, Col, Input, Dropdown, Menu, message } from 'antd';
 import { shell } from 'electron';
 import * as R from 'ramda';
 import CRD from '@vdts/collect-video';
+import promiseThrottle from '@lib/promiseThrottle';
+import ProgressModal from '@components/progressModal';
+import ToolTipIcon from '@components/toolTipIcon';
 import { generateFileTree, takeScreenshots } from '../../../utils';
 import {
   selectFiles,
@@ -27,6 +30,7 @@ const matchStr: (str: string, reg: RegExp) => string = (str, reg) => {
   const r = str.match(reg);
   return r ? (r[0] ? r[0] : str) : str;
 };
+// After the setting related operation uses redux refactoring, consider the open concurrency setting option.
 const HeaderContent = ({
   checkedKeys,
   selectedFilename,
@@ -40,6 +44,7 @@ const HeaderContent = ({
   const [taskQueue, setTaskQueue] = useState([]);
   const [tasks, setTasks] = useState([]);
   const scraperHead = useRef('');
+
   useEffect(() => {
     if (tasks.length) {
       scrape.start(tasks, scraperHead.current);
@@ -122,6 +127,79 @@ const HeaderContent = ({
         console.log(e);
       });
   };
+  const handleThumbnails = () => {
+    const setting = config.get('thumbnails');
+    const promises = checkedKeys
+      .map(key => flatTree[key])
+      .filter(v => !v.isDir)
+      .map(file => ({
+        task: takeScreenshots,
+        arguments: [
+          {
+            file: file.fullpath,
+            count: setting.count,
+            size: setting.size,
+            folder: path.join(file.wpath, '.thumbnails')
+          }
+        ]
+      }));
+    const total = promises.length;
+    ProgressModal.show({
+      progress: {
+        percent: +((setting.parallel / total) * 100).toFixed(0),
+        successPercent: 0,
+        total
+      },
+      modal: {
+        title: getTitle(
+          getProgress(total - setting.parallel, setting.parallel, total)
+        )
+      }
+    });
+    promiseThrottle(promises, {
+      concurrency: setting.parallel,
+      onRes: limit => {
+        const { activeCount, pendingCount } = limit;
+        const progress = getProgress(pendingCount, activeCount, total);
+        console.log(limit.activeCount, limit.pendingCount, getTitle(progress));
+        ProgressModal.update({
+          progress,
+          modal: {
+            title: getTitle(progress)
+          }
+        });
+      }
+    })
+      .then(res =>
+        setTimeout(() => {
+          ProgressModal.destroy();
+        }, 2000)
+      )
+      .catch(err => {});
+    function getTitle(progress) {
+      return `${Math.round(
+        (progress.successPercent / 100) * progress.total
+      )}已完成 / ${Math.round(
+        ((progress.percent - progress.successPercent) / 100) * progress.total
+      )}运行中 / ${Math.round(
+        ((100 - progress.percent) / 100) * progress.total
+      )}等待中`;
+    }
+    function getProgress(
+      pendingCount: number,
+      activeCount: number,
+      itotal: number
+    ) {
+      return {
+        percent: +(((itotal - pendingCount) / itotal) * 100).toFixed(0),
+        successPercent: +(
+          ((itotal - pendingCount - activeCount) / itotal) *
+          100
+        ).toFixed(0),
+        total: itotal
+      };
+    }
+  };
   const menu = (
     <Menu
       onClick={e => {
@@ -133,7 +211,7 @@ const HeaderContent = ({
       ))}
     </Menu>
   );
-  const inputDisabled = !!checkedKeys.length;
+  const inputDisabled = !!checkedKeys.length || !selectedKey;
   const thumbnailsEnable = config.get('thumbnails').enable;
   return (
     <>
@@ -154,7 +232,7 @@ const HeaderContent = ({
             }}
           />
         </Col>
-        <Col span={2}>
+        <Col span={1}>
           <Button
             disabled={inputDisabled}
             onClick={() => {
@@ -164,6 +242,17 @@ const HeaderContent = ({
           >
             播放文件
           </Button>
+        </Col>
+        <Col span={1}>
+          <ToolTipIcon
+            content="select文件时且没有节点被checked的时候，输入框和按钮可用"
+            style={{
+              fontSize: 22,
+              display: 'inline-block',
+              verticalAlign: ' middle',
+              marginLeft: 10
+            }}
+          />
         </Col>
         <Col span={4} offset={1}>
           <Dropdown.Button
@@ -177,29 +266,7 @@ const HeaderContent = ({
         </Col>
         {thumbnailsEnable ? (
           <Col span={4}>
-            <Button
-              onClick={() => {
-                const setting = config.get('thumbnails');
-                const promises = checkedKeys
-                  .map(key => flatTree[key])
-                  .filter(v => !v.isDir)
-                  .map(file =>
-                    takeScreenshots({
-                      file: file.fullpath,
-                      count: setting.count,
-                      size: setting.size,
-                      folder: path.join(file.wpath, '.thumbnails')
-                    })
-                  );
-                Promise.all(promises)
-                  .then(res => console.log(res))
-                  .catch(err => {
-                    message.error('生成截图失败，请确认ffmpeg是否可用');
-                  });
-              }}
-            >
-              生成帧截图
-            </Button>
+            <Button onClick={handleThumbnails}>生成帧截图</Button>
           </Col>
         ) : (
           ''
@@ -220,6 +287,7 @@ const HeaderContent = ({
         onCancel={() => {
           setModalVisible(false);
         }}
+        source={scraperHead.current}
       />
       <SettingModal
         visible={settingVisible}

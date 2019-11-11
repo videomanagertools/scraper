@@ -7,7 +7,8 @@ import {
   Col,
   Switch,
   Input,
-  InputNumber
+  InputNumber,
+  Divider
 } from 'antd';
 import FormItem from '@components/formItem';
 import config from '@config';
@@ -34,7 +35,8 @@ const SettingForm = ({ form }, ref) => {
             proxyEnable,
             thumbnailsEnable,
             thumbnailsCount,
-            thumbnailsSize
+            thumbnailsSize,
+            thumbnailsParallel
           } = values;
           config.set({
             tags,
@@ -46,7 +48,8 @@ const SettingForm = ({ form }, ref) => {
             thumbnails: {
               enable: thumbnailsEnable,
               count: thumbnailsCount,
-              size: thumbnailsSize
+              size: thumbnailsSize,
+              parallel: thumbnailsParallel
             }
           });
           resolve();
@@ -80,6 +83,7 @@ const SettingForm = ({ form }, ref) => {
           </Col>
         </Row>
       </FormItem>
+      <Divider dashed orientation="left" />
       <Item label="代理">
         <Row>
           <Col span={10}>
@@ -95,6 +99,7 @@ const SettingForm = ({ form }, ref) => {
           initialValue: proxyConfig.url
         })(<Input />)}
       </Item>
+      <Divider dashed orientation="left" />
       <FormItem
         label="帧截图"
         tips="开启后，顶部会提供帧截图按钮。使用前确保环境变量ffmpeg是可用的"
@@ -125,6 +130,16 @@ const SettingForm = ({ form }, ref) => {
           initialValue: thumbnails.size
         })(<Input />)}
       </FormItem>
+      <FormItem
+        label="并行"
+        tips="同时进行截图的最多文件个数"
+        wrapperCol={{ span: 2, offset: 1 }}
+      >
+        {getFieldDecorator('thumbnailsParallel', {
+          initialValue: thumbnails.parallel
+        })(<InputNumber />)}
+      </FormItem>
+      <Divider dashed orientation="left" />
     </Form>
   );
 };

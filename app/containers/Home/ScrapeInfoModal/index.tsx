@@ -8,7 +8,13 @@ import scraper from '../../../scraper';
 import * as styles from './index.less';
 import { changeFailureKeys } from '../../../actions/file';
 
-const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
+const ScrapeModal = ({
+  visible,
+  taskQueue,
+  onCancel,
+  handleTaskEnd,
+  source
+}) => {
   const [currentMediaInfo, setCurrentMediaInfo] = useState(null);
   const [taskQ, setTaskQ] = useState([]);
   const [taskIsEnd, setTaskIsEnd] = useState(false);
@@ -81,7 +87,7 @@ const ScrapeModal = ({ visible, taskQueue, onCancel, handleTaskEnd }) => {
       visible={visible}
       maskClosable={false}
       keyboard={false}
-      title="检索信息中"
+      title={`当前信息源：${source}`}
       className={styles.scrape_info_modal}
     >
       <Row>

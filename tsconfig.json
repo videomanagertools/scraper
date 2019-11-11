@@ -20,7 +20,8 @@
       "@config": ["./app/config-store"],
       "@constants/*": ["./app/constants/*"],
       "@utils": ["./app/utils"],
-      "@scraper": ["./app/scraper"]
+      "@scraper": ["./app/scraper"],
+      "@lib/*": ["./app/lib/*"]
     }
   },
   "exclude": ["node_modules", "**/node_modules/*"]

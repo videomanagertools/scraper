@@ -46,7 +46,8 @@ export default {
       '@constants': path.resolve(__dirname, '../app/constants'),
       '@utils': path.resolve(__dirname, '../app/utils'),
       '@config': path.resolve(__dirname, '../app/config-store'),
-      '@scraper': path.resolve(__dirname, '../app/scraper')
+      '@scraper': path.resolve(__dirname, '../app/scraper'),
+      '@lib': path.resolve(__dirname, '../app/lib')
     }
   },
 

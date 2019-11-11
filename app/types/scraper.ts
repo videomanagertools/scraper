@@ -29,7 +29,8 @@ export enum MediaKeys {
   Jav = 'jav',
   Movie = 'movie',
   Gentleman = 'gentleman',
-  Normal = 'normal'
+  Normal = 'normal',
+  Uncensored = 'uncensored'
 }
 
 export interface MediaTypeNode {

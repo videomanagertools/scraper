@@ -11,7 +11,8 @@ const store = new Store({
     thumbnails: {
       enable: false,
       count: 30,
-      size: '800x?'
+      size: '800x?',
+      parallel: 2
     }
   }
 });
