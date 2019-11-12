@@ -77,6 +77,8 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sleep 3; fi
+  # hack @types/node conflicting
+  - rm -rf node_modules/electron/node_modules/@types/node
 
 script:
   - yarn package-ci
