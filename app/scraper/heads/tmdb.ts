@@ -1,4 +1,4 @@
-import MovieModel from '../core/model';
+import { MovieModel } from '../models';
 import { MovieModelType, MediaKeys } from '@types';
 
 export default request => ({

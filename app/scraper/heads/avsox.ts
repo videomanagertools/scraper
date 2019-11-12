@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import MovieModel from '../core/model';
+import { MovieModel } from '../models';
 import { MediaKeys } from '@types';
 
 export default request => ({
