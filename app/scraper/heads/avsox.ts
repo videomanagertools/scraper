@@ -72,5 +72,5 @@ export default request => ({
     return movieModel;
   },
   name: 'avsox',
-  type: [MediaKeys.Movie, MediaKeys.Gentleman]
+  type: [MediaKeys.Movie, MediaKeys.Uncensored]
 });

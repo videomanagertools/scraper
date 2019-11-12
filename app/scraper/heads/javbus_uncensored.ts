@@ -7,7 +7,7 @@ export default request => ({
     const movieModel = new MovieModel();
     const encodedQueryString = encodeURIComponent(queryString);
     const searchPage = await request({
-      url: `http://www.javbus.com/search/${encodedQueryString}`
+      url: `http://www.javbus.com/uncensored/search/${encodedQueryString}`
     });
     const infoPageUrl = cheerio
       .load(searchPage)('.movie-box')

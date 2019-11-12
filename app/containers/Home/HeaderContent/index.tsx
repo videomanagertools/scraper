@@ -232,7 +232,7 @@ const HeaderContent = ({
             }}
           />
         </Col>
-        <Col span={1}>
+        <Col span={2}>
           <Button
             disabled={inputDisabled}
             onClick={() => {
@@ -242,8 +242,6 @@ const HeaderContent = ({
           >
             播放文件
           </Button>
-        </Col>
-        <Col span={1}>
           <ToolTipIcon
             content="select文件时且没有节点被checked的时候，输入框和按钮可用"
             style={{
