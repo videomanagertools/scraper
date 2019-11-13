@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/videomanagertools/scraper.svg?branch=master)](https://travis-ci.org/videomanagertools/scraper)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/videomanagertools/scraper/master)
 ![GitHub Release Date](https://img.shields.io/github/release-date/videomanagertools/scraper)
-
+[![Gitter](https://badges.gitter.im/videomanagertools/uScraper.svg)](https://gitter.im/videomanagertools/uScraper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ### 食用指南
 
 下载对应平台的安装包，安装，打开。
@@ -58,6 +58,9 @@ npm run dev
 1. 增加音乐信息爬取
 2. 抽出来一个没有 GUI 的 CLI，可以在 NAS 的 docker 中定时跑
 3. 可能会有一个整合的工具，把 Download，Scrape，Move Files 串联起来
+
+### 交流
+[Gitter](https://gitter.im/videomanagertools/uScraper?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 ### 最后
 
