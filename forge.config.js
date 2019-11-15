@@ -1,5 +1,6 @@
 const { isDev } = require("./config/util");
 module.exports = {
+  packagerConfig: {},
   makers: [
     {
       name: "@electron-forge/maker-squirrel",
@@ -9,7 +10,7 @@ module.exports = {
     },
     {
       name: "@electron-forge/maker-zip",
-      platforms: ["darwin"]
+      platforms: ["darwin", "win32", "linux"]
     },
     {
       name: "@electron-forge/maker-deb",
