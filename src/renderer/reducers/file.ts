@@ -1,6 +1,6 @@
-import { ActionType } from 'typesafe-actions';
-import { flatTrees } from '../utils';
-import * as fileViewer from '../actions/file';
+import { ActionType } from "typesafe-actions";
+import { flatTrees } from "../utils";
+import * as fileViewer from "../actions/file";
 import {
   CHANGE_SELECTED_KEY,
   CHANGE_CHECKED_KEYS,
@@ -8,18 +8,18 @@ import {
   SET_SELECTED_FILENAME,
   UPDATE_TREE,
   CHANGE_FAILUREEYS
-} from '../constants/file';
-import { FileNode } from '@types';
+} from "../constants/file";
+import { IFileNode } from "@types";
 
 export type FileAction = ActionType<typeof fileViewer>;
 
 const defaultState = {
-  selectedFilename: '',
-  selectedKey: '',
+  selectedFilename: "",
+  selectedKey: "",
   checkedKeys: [],
   tree: {
-    title: '',
-    key: 'def',
+    title: "",
+    key: "def",
     children: []
   },
   flatTree: {},
@@ -29,8 +29,8 @@ type defaultState = Readonly<{
   selectedFilename: string;
   selectedKey: string;
   checkedKeys: string[];
-  tree: FileNode;
-  flatTree: Object;
+  tree: IFileNode;
+  flatTree: Record<string, any>;
   failureKeys: string[];
 }>;
 
@@ -39,11 +39,11 @@ export default (state: defaultState = defaultState, action: FileAction) => {
     case CHANGE_SELECTED_KEY:
       return {
         ...state,
-        selectedKey: action.payload ? action.payload : '',
+        selectedKey: action.payload ? action.payload : "",
         selectedFilename:
           action.payload && !state.flatTree[action.payload].isDir
             ? state.flatTree[action.payload].title
-            : ''
+            : ""
       };
     case CHANGE_CHECKED_KEYS:
       return { ...state, checkedKeys: action.payload };

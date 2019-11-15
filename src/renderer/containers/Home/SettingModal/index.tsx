@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
-import { Modal, Button, message } from 'antd';
-import SettingForm from './form';
-import config from '@config';
-
-const SettingModal = ({ visible, onCancle }) => {
+import React, { useRef } from "react";
+import { Modal, Button, message } from "antd";
+import SettingForm from "./form";
+import config from "@config";
+interface IProps {
+  visible: boolean;
+  onCancle: () => void;
+}
+const SettingModal = ({ visible, onCancle }: IProps) => {
   const settingForm = useRef<any | undefined>();
   return (
     <Modal
@@ -26,7 +29,7 @@ const SettingModal = ({ visible, onCancle }) => {
               settingForm.current
                 .submitForm()
                 .then(res => {
-                  message.success('保存成功');
+                  message.success("保存成功");
                   onCancle();
                   return res;
                 })

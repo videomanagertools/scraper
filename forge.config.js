@@ -1,10 +1,10 @@
+const { isDev } = require("./config/util");
 module.exports = {
-  packagerConfig: {},
   makers: [
     {
       name: "@electron-forge/maker-squirrel",
       config: {
-        name: "uscraper"
+        name: "uScraper"
       }
     },
     {
@@ -13,11 +13,21 @@ module.exports = {
     },
     {
       name: "@electron-forge/maker-deb",
-      config: {}
+      config: {
+        options: {
+          maintainer: "Dec-F",
+          homepage: "https://github.com/videomanagertools/scraper"
+        }
+      }
     },
     {
       name: "@electron-forge/maker-rpm",
-      config: {}
+      config: {
+        options: {
+          maintainer: "Dec-F",
+          homepage: "https://github.com/videomanagertools/scraper"
+        }
+      }
     }
   ],
   plugins: [
@@ -26,7 +36,9 @@ module.exports = {
       {
         mainConfig: "./config/webpack.main.config.js",
         renderer: {
-          config: "./config/webpack.renderer.dev.config.js",
+          config: isDev()
+            ? "./config/webpack.renderer.dev.config.js"
+            : "./config/webpack.renderer.prod.config.js",
           entryPoints: [
             {
               html: "./src/renderer/index.html",

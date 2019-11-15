@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { Tree } from 'antd';
-import { FileNode } from '../../types/index';
-import * as styles from './index.less';
+import { Tree } from "antd";
+import { IFileNode } from "../../types/index";
+import styles from "./index.less";
 
 const { TreeNode } = Tree;
 type Props = {
-  tree: FileNode;
+  tree: IFileNode;
   onSelect?: (selectedKey: string[]) => void;
   onCheck?: (checkedKeys: string[]) => void;
   selectedKeys?: string[];
@@ -15,8 +15,6 @@ type Props = {
   onlyShow?: boolean;
 };
 class FileViewer extends React.Component<Props> {
-  componentDidMount() {}
-
   renderTreeNodes = data => {
     if (data.children) {
       return (
@@ -45,7 +43,7 @@ class FileViewer extends React.Component<Props> {
       <div className={styles.wrapper}>
         <Tree
           checkable
-          defaultExpandedKeys={['0-0']}
+          defaultExpandedKeys={["0-0"]}
           autoExpandParent
           onCheck={onCheck}
           onSelect={onSelect}

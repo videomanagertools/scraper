@@ -23,7 +23,16 @@ import ScrapeInfoModal from "../ScrapeInfoModal";
 import SettingModal from "../SettingModal";
 
 const { dialog } = require("electron").remote;
-
+const mapStateToProps = ({ file }) => {
+  const { checkedKeys, selectedFilename, selectedKey, flatTree, tree } = file;
+  return {
+    checkedKeys,
+    selectedFilename,
+    selectedKey,
+    flatTree,
+    tree
+  };
+};
 type Props = ReturnType<typeof mapStateToProps> & { dispatch };
 
 const matchStr: (str: string, reg: RegExp) => string = (str, reg) => {
@@ -128,6 +137,29 @@ const HeaderContent = ({
       });
   };
   const handleThumbnails = () => {
+    function getTitle(progress) {
+      return `${Math.round(
+        (progress.successPercent / 100) * progress.total
+      )}已完成 / ${Math.round(
+        ((progress.percent - progress.successPercent) / 100) * progress.total
+      )}运行中 / ${Math.round(
+        ((100 - progress.percent) / 100) * progress.total
+      )}等待中`;
+    }
+    function getProgress(
+      pendingCount: number,
+      activeCount: number,
+      itotal: number
+    ) {
+      return {
+        percent: +(((itotal - pendingCount) / itotal) * 100).toFixed(0),
+        successPercent: +(
+          ((itotal - pendingCount - activeCount) / itotal) *
+          100
+        ).toFixed(0),
+        total: itotal
+      };
+    }
     const setting = config.get("thumbnails");
     const promises = checkedKeys
       .map(key => flatTree[key])
@@ -170,35 +202,12 @@ const HeaderContent = ({
         });
       }
     })
-      .then(res =>
+      .then(() =>
         setTimeout(() => {
           ProgressModal.destroy();
         }, 2000)
       )
-      .catch(err => {});
-    function getTitle(progress) {
-      return `${Math.round(
-        (progress.successPercent / 100) * progress.total
-      )}已完成 / ${Math.round(
-        ((progress.percent - progress.successPercent) / 100) * progress.total
-      )}运行中 / ${Math.round(
-        ((100 - progress.percent) / 100) * progress.total
-      )}等待中`;
-    }
-    function getProgress(
-      pendingCount: number,
-      activeCount: number,
-      itotal: number
-    ) {
-      return {
-        percent: +(((itotal - pendingCount) / itotal) * 100).toFixed(0),
-        successPercent: +(
-          ((itotal - pendingCount - activeCount) / itotal) *
-          100
-        ).toFixed(0),
-        total: itotal
-      };
-    }
+      .catch(() => {});
   };
   const menu = (
     <Menu
@@ -294,14 +303,5 @@ const HeaderContent = ({
     </>
   );
 };
-const mapStateToProps = ({ file }) => {
-  const { checkedKeys, selectedFilename, selectedKey, flatTree, tree } = file;
-  return {
-    checkedKeys,
-    selectedFilename,
-    selectedKey,
-    flatTree,
-    tree
-  };
-};
+
 export default connect(mapStateToProps)(HeaderContent);

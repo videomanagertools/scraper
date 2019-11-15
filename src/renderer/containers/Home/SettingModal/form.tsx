@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef } from 'react';
+import React, { useImperativeHandle, forwardRef } from "react";
 import {
   Select,
   Form,
@@ -9,20 +9,22 @@ import {
   Input,
   InputNumber,
   Divider
-} from 'antd';
-import FormItem from '@components/formItem';
-import config from '@config';
-import styles from './index.less';
-import { mediaType } from '@scraper';
+} from "antd";
+import FormItem from "@components/formItem";
+import config from "@config";
+import styles from "./index.less";
+import { mediaType } from "@scraper";
 
 const { Option } = Select;
 const { Item } = Form;
-
-const SettingForm = ({ form }, ref) => {
-  const tagsConfig = config.get('tags');
-  const sceneConfig = config.get('scene', ['movie', 'normal']);
-  const proxyConfig = config.get('proxy');
-  const thumbnails = config.get('thumbnails');
+interface IProps {
+  form: any;
+}
+const SettingForm = ({ form }: IProps, ref: any) => {
+  const tagsConfig = config.get("tags");
+  const sceneConfig = config.get("scene", ["movie", "normal"]);
+  const proxyConfig = config.get("proxy");
+  const thumbnails = config.get("thumbnails");
   useImperativeHandle(ref, () => ({
     submitForm: () =>
       new Promise((resolve, reject) => {
@@ -66,8 +68,8 @@ const SettingForm = ({ form }, ref) => {
       className={styles.setting_form}
     >
       <FormItem label="预设标签" tips="添加标签池，可以在元信息编辑中快速选择">
-        {getFieldDecorator('tags', { initialValue: tagsConfig })(
-          <Select mode="tags" style={{ width: '100%' }} placeholder="Tags">
+        {getFieldDecorator("tags", { initialValue: tagsConfig })(
+          <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
             {tagsConfig.map(tag => (
               <Option key={tag}>{tag}</Option>
             ))}
@@ -77,7 +79,7 @@ const SettingForm = ({ form }, ref) => {
       <FormItem label="场景" tips="切换场景和信息源">
         <Row>
           <Col span={10}>
-            {getFieldDecorator('scene', { initialValue: sceneConfig })(
+            {getFieldDecorator("scene", { initialValue: sceneConfig })(
               <Cascader options={mediaType} allowClear={false} />
             )}
           </Col>
@@ -87,15 +89,15 @@ const SettingForm = ({ form }, ref) => {
       <Item label="代理">
         <Row>
           <Col span={10}>
-            {getFieldDecorator('proxyEnable', {
+            {getFieldDecorator("proxyEnable", {
               initialValue: proxyConfig.enable,
-              valuePropName: 'checked'
+              valuePropName: "checked"
             })(<Switch />)}
           </Col>
         </Row>
       </Item>
       <Item wrapperCol={{ offset: 4 }}>
-        {getFieldDecorator('proxyUrl', {
+        {getFieldDecorator("proxyUrl", {
           initialValue: proxyConfig.url
         })(<Input />)}
       </Item>
@@ -106,9 +108,9 @@ const SettingForm = ({ form }, ref) => {
       >
         <Row>
           <Col span={10}>
-            {getFieldDecorator('thumbnailsEnable', {
+            {getFieldDecorator("thumbnailsEnable", {
               initialValue: thumbnails.enable,
-              valuePropName: 'checked'
+              valuePropName: "checked"
             })(<Switch />)}
           </Col>
         </Row>
@@ -117,7 +119,7 @@ const SettingForm = ({ form }, ref) => {
         label="截图个数"
         tips="每部电影生成截图的个数，过大可能造成性能问题"
       >
-        {getFieldDecorator('thumbnailsCount', {
+        {getFieldDecorator("thumbnailsCount", {
           initialValue: thumbnails.count
         })(<InputNumber />)}
       </FormItem>
@@ -126,7 +128,7 @@ const SettingForm = ({ form }, ref) => {
         tips="固定宽高格式:400x300;定宽格式:400x?;定高格式: ?x300"
         wrapperCol={{ span: 2, offset: 1 }}
       >
-        {getFieldDecorator('thumbnailsSize', {
+        {getFieldDecorator("thumbnailsSize", {
           initialValue: thumbnails.size
         })(<Input />)}
       </FormItem>
@@ -135,7 +137,7 @@ const SettingForm = ({ form }, ref) => {
         tips="同时进行截图的最多文件个数"
         wrapperCol={{ span: 2, offset: 1 }}
       >
-        {getFieldDecorator('thumbnailsParallel', {
+        {getFieldDecorator("thumbnailsParallel", {
           initialValue: thumbnails.parallel
         })(<InputNumber />)}
       </FormItem>

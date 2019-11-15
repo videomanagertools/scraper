@@ -1,17 +1,28 @@
 {
   "name": "uscraper",
   "productName": "uscraper",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "0.4.0",
+  "description": "A scraper that switches between normal mode and gentleman mode, built on Eletron, React",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "eslint src --fix --ext .ts,.tsx "
   },
-  "keywords": [],
+  "keywords": [
+    "electron",
+    "react",
+    "redux",
+    "typescript",
+    "scraper",
+    "jav",
+    "movie"
+  ],
+  "bugs": {
+    "url": "https://github.com/CatbuilderBeyound2/vkit/issues"
+  },
   "author": {
     "name": "Dec-F",
     "email": "dec_fan@icloud.com"
@@ -21,7 +32,6 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.2",
     "@rematch/core": "^1.2.0",
     "@vdts/collect-video": "^0.6.2",
     "antd": "^3.23.3",
@@ -48,6 +58,7 @@
     "@babel/core": "^7.7.2",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.7.1",
+    "@babel/runtime": "^7.7.2",
     "@electron-forge/cli": "6.0.0-beta.45",
     "@electron-forge/maker-deb": "6.0.0-beta.45",
     "@electron-forge/maker-rpm": "6.0.0-beta.45",
@@ -57,15 +68,20 @@
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.2",
     "css-loader": "^3.0.0",
     "electron": "7.1.1",
     "electron-devtools-installer": "^2.2.4",
+    "eslint": "^6.6.0",
+    "eslint-plugin-react": "^7.16.0",
     "fork-ts-checker-webpack-plugin": "^3.1.0",
     "less-loader": "^5.0.0",
     "node-loader": "^0.6.0",
     "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "^2.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.2",
     "typescript-plugin-css-modules": "^2.0.2",

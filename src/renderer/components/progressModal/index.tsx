@@ -1,10 +1,10 @@
-import React from 'react';
-import { Progress, Tooltip, Modal } from 'antd';
-import { TooltipProps } from 'antd/lib/Tooltip';
-import { ProgressProps } from 'antd/lib/progress';
-import { ModalProps, ModalFuncProps } from 'antd/lib/modal';
+import React from "react";
+import { Progress, Tooltip, Modal } from "antd";
+import { TooltipProps } from "antd/lib/tooltip";
+import { ProgressProps } from "antd/lib/progress";
+import { ModalProps, ModalFuncProps } from "antd/lib/modal";
 
-import styles from './index.less';
+import styles from "./index.less";
 
 interface IProps<T> {
   tips?: TooltipProps;
@@ -17,11 +17,11 @@ const getProps = (
   let { tips, modal, progress } = props;
   progress = {
     // strokeColor: '#f5222d',
-    format: percent =>
+    format: () =>
       `${Math.round((progress.successPercent / 100) * progress.total)} / ${
         progress.total
       }`,
-    status: 'active',
+    status: "active",
     ...progress
   };
   tips = {
@@ -36,7 +36,7 @@ const getProps = (
   };
   modal = {
     icon: null,
-    width: '500px',
+    width: "500px",
     ...modal
   };
   return {
@@ -68,7 +68,7 @@ ProgressModal.show = (props: IProps<ModalFuncProps>) => {
   if (modalIns) return;
   const { tips, modal, progress } = getProps(props);
   modalIns = Modal.info({
-    okButtonProps: { style: { display: 'none' } },
+    okButtonProps: { style: { display: "none" } },
     content: getContent({ tips, progress }),
     ...modal
   });

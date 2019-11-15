@@ -1,40 +1,40 @@
-import { NFOModel } from './nfo';
+import { INFOModel } from "./nfo";
 
-export interface MovieModelType {
-  model: NFOModel;
-  setModel(model: NFOModel): MovieModelType;
-  getModel(): NFOModel;
+export interface IMovieModelType {
+  model: INFOModel;
+  setModel(model: INFOModel): IMovieModelType;
+  getModel(): INFOModel;
   getXML();
 }
-export interface Head {
-  (queryString: string): Promise<MovieModelType>;
+export interface IHead {
+  (queryString: string): Promise<IMovieModelType>;
 }
-export interface ToolHead {
+export interface IToolHead {
   name: string;
-  head: Head;
+  head: IHead;
   type: string[];
 }
-export interface QueryOpt {
+export interface IQueryOpt {
   queryString: string;
-  file: FileNode;
+  file: IFileNode;
 }
-export interface FileNode {
+export interface IFileNode {
   title: string;
   key: string;
-  children: FileNode[] | [] | null;
+  children: IFileNode[] | [] | null;
 }
 
 export enum MediaKeys {
-  Music = 'music',
-  Jav = 'jav',
-  Movie = 'movie',
-  Gentleman = 'gentleman',
-  Normal = 'normal',
-  Uncensored = 'uncensored'
+  Music = "music",
+  Jav = "jav",
+  Movie = "movie",
+  Gentleman = "gentleman",
+  Normal = "normal",
+  Uncensored = "uncensored"
 }
 
-export interface MediaTypeNode {
+export interface IMediaTypeNode {
   value: string;
   label: string;
-  children?: MediaTypeNode[];
+  children?: IMediaTypeNode[];
 }

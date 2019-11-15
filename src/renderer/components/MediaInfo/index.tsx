@@ -1,35 +1,35 @@
-import React from 'react';
-import { Row, Col, Tag, Select, Popover } from 'antd';
-import cn from 'classnames';
-import { get } from 'lodash';
-import styles from './index.less';
+import React from "react";
+import { Row, Col, Tag, Select, Popover } from "antd";
+import cn from "classnames";
+import { get } from "lodash";
+import styles from "./index.less";
 
 const { Option } = Select;
 
-interface Props {
+interface IProps {
   currentMediaInfo: any;
   selectable?: boolean;
   onSelect?: (keys: string[]) => void;
   tags?: string[];
 }
-export default ({
+const MediaInfo = ({
   currentMediaInfo,
   selectable = false,
   onSelect = () => {},
   tags = []
-}: Props) => {
-  const selectedTags = get(currentMediaInfo, 'tag', []).map(tag => tag._text);
+}: IProps) => {
+  const selectedTags = get(currentMediaInfo, "tag", []).map(tag => tag._text);
   return (
     <Row>
       <div className={styles.media_info}>
         <div className={styles.media_title}>
-          {get(currentMediaInfo, 'title._text')}
+          {get(currentMediaInfo, "title._text")}
         </div>
         <Row>
           <Col span={8} offset={2}>
             <img
-              style={{ maxWidth: '100%' }}
-              src={get(currentMediaInfo, 'art.poster._text')}
+              style={{ maxWidth: "100%" }}
+              src={get(currentMediaInfo, "art.poster._text")}
               alt=""
             />
           </Col>
@@ -37,19 +37,19 @@ export default ({
             <div className={styles.info_item}>
               <div className={styles.info_label}>ID：</div>
               <div className={cn(styles.info_text, styles.uniqueid)}>
-                {get(currentMediaInfo, 'uniqueid._text')}
+                {get(currentMediaInfo, "uniqueid._text")}
               </div>
             </div>
             <div className={styles.info_item}>
               <div className={styles.info_label}>发行日期：</div>
               <div className={cn(styles.info_text)}>
-                {get(currentMediaInfo, 'premiered._text')}
+                {get(currentMediaInfo, "premiered._text")}
               </div>
             </div>
             <div className={styles.info_item}>
               <div className={styles.info_label}>类型：</div>
               <div className={cn(styles.info_text, styles.genre)}>
-                {get(currentMediaInfo, 'genre', []).map(g => (
+                {get(currentMediaInfo, "genre", []).map(g => (
                   <Tag key={g._text}>{g._text}</Tag>
                 ))}
               </div>
@@ -60,7 +60,7 @@ export default ({
                 {selectable ? (
                   <Select
                     mode="tags"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     placeholder="选择标签"
                     onChange={onSelect}
                     defaultValue={selectedTags}
@@ -78,7 +78,7 @@ export default ({
             <div className={styles.info_item}>
               <div className={styles.info_label}>演员：</div>
               <div className={cn(styles.info_text, styles.actor)}>
-                {get(currentMediaInfo, 'actor', []).map(a => (
+                {get(currentMediaInfo, "actor", []).map(a => (
                   <figure key={a.name._text}>
                     <img src={a.thumb._text} alt="" />
                     <figcaption>{a.name._text}</figcaption>
@@ -107,9 +107,10 @@ export default ({
             </Col>
           </Row>
         ) : (
-          ''
+          ""
         )}
       </div>
     </Row>
   );
 };
+export default MediaInfo;

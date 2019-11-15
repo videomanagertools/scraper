@@ -1,7 +1,8 @@
-import { createStore, compose } from 'redux';
-import rootReducer from '../reducers';
+import { createStore, compose } from "redux";
+import rootReducer from "../reducers";
 
 declare global {
+  /* eslint-disable-next-line */
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__: any;
   }

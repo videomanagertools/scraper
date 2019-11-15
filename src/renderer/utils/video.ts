@@ -1,5 +1,5 @@
-import ffmpeg from 'fluent-ffmpeg';
-import { mkdirSync } from 'fs-extra';
+import ffmpeg from "fluent-ffmpeg";
+import { mkdirSync } from "fs-extra";
 /**
  * multiple screenshots very slow
  * https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/issues/860
@@ -7,8 +7,8 @@ import { mkdirSync } from 'fs-extra';
 export const takeScreenshots = ({
   file,
   count,
-  folder = '',
-  size = '800x?'
+  folder = "",
+  size = "800x?"
 }) => {
   try {
     mkdirSync(folder);
@@ -16,7 +16,7 @@ export const takeScreenshots = ({
     console.error(err);
   }
   const walk = mark =>
-    new Promise((resolve, reject) => {
+    new Promise(resolve => {
       ffmpeg(file)
         .screenshots({
           count: 1,
@@ -25,11 +25,11 @@ export const takeScreenshots = ({
           filename: `%s.jpg`,
           size
         })
-        .on('end', () => {
+        .on("end", () => {
           resolve(mark);
         });
     });
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     ffmpeg(file).ffprobe((err, meta) => {
       if (err) return;
       const { duration } = meta.format;
@@ -38,7 +38,7 @@ export const takeScreenshots = ({
         .fill(0)
         .map((v, i) => interval * (i + 1));
       Promise.all(timemarks.map(mark => walk(mark)))
-        .then(marks => resolve(file))
+        .then(() => resolve(file))
         .catch(error => {
           console.error(error);
         });

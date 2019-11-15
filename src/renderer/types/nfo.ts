@@ -30,7 +30,7 @@ export type Uniqueid = {
    */
   _text: string;
 };
-export interface NFOModel {
+export interface INFOModel {
   /**
    * ID,可多个平台多个ID
    */
@@ -91,7 +91,7 @@ export interface NFOModel {
   /**
    * actor
    */
-  actor?: Actor | Actor[];
+  actor?: Actor[];
   /**
    * 文件信息
    */

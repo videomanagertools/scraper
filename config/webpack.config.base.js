@@ -21,6 +21,59 @@ module.exports = {
             outputAssetBase: "native_modules"
           }
         }
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /(node_modules|.webpack)/,
+        loaders: [
+          {
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true
+            }
+          },
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.global\.(less)$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "less-loader"
+          }
+        ]
+      },
+      {
+        test: /^((?!\.global).)*\.(less)$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              sourceMap: true
+            }
+          },
+          {
+            loader: "less-loader"
+          }
+        ]
       }
     ]
   },
@@ -29,7 +82,7 @@ module.exports = {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: [".ts", ".tsx", ".less", ".js", ".css"],
+    extensions: [".ts", ".tsx", ".less", ".js", ".css", ".json"],
     alias: {
       "@actions": path.resolve(__dirname, "../src/renderer/actions"),
       "@types": path.resolve(__dirname, "../src/renderer/types"),

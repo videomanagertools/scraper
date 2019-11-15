@@ -1,22 +1,27 @@
 // import * as R from 'ramda';
-import fs, { readFileSync, writeFileSync, readdirSync } from 'fs-extra';
-import path from 'path';
-import { message } from 'antd';
-import _emitter from './emitter';
-import { FileNode, NFOModel } from '@types';
-import { xml2js, js2xml } from './xml';
+import fs, { readFileSync, writeFileSync, readdirSync } from "fs-extra";
+import path from "path";
+import { message } from "antd";
+import _emitter from "./emitter";
+import { IFileNode, INFOModel } from "@types";
+import { xml2js, js2xml } from "./xml";
 
-const request = require('request');
+import request from "request";
 
-export { takeScreenshots } from './video';
-export { js2xml, xml2js } from './xml';
-export const generateFileTree = (paths: Array<string>): FileNode[] => {
+export { takeScreenshots } from "./video";
+export { js2xml, xml2js } from "./xml";
+
+export function isDir(spath: string) {
+  const stats = fs.statSync(spath);
+  return stats.isDirectory();
+}
+export const generateFileTree = (paths: Array<string>): IFileNode[] => {
   const result = [];
   let fileCount = 0;
   function walk(wpath, key) {
     let walkRes = {
-      title: '',
-      ext: '',
+      title: "",
+      ext: "",
       isDir: false,
       key,
       children: [],
@@ -40,7 +45,7 @@ export const generateFileTree = (paths: Array<string>): FileNode[] => {
         walkRes = null;
       }
     } else if (/(.mp4|.rmvb|.avi|.wmv)$/.test(wpath)) {
-      const name = path.basename(wpath).split('.');
+      const name = path.basename(wpath).split(".");
       walkRes = {
         title: name[0],
         ext: name[1],
@@ -61,17 +66,13 @@ export const generateFileTree = (paths: Array<string>): FileNode[] => {
     result.push(walk(spath, `0-${index}`));
   });
   if (fileCount === 0) {
-    message.error('no media file');
-    throw new Error('no media file');
+    message.error("no media file");
+    throw new Error("no media file");
   }
   return result;
 };
-export function isDir(spath: string) {
-  const stats = fs.statSync(spath);
-  return stats.isDirectory();
-}
 
-export function flatTrees(trees: Object[]): Object {
+export function flatTrees(trees: Record<string, any>[]): Record<string, any> {
   const result = {};
   function walk(arr) {
     arr.forEach(node => {
@@ -101,28 +102,28 @@ export const downloadImg = (url, ipath, opt?) =>
   new Promise((resolve, reject) => {
     request({ url, ...opt })
       .pipe(fs.createWriteStream(ipath))
-      .on('finish', () => {
+      .on("finish", () => {
         resolve(ipath);
       })
-      .on('error', e => {
+      .on("error", e => {
         reject(e);
       });
   });
 
 export const getDefaultOsPath = () => {
-  if (process.platform === 'win32') {
-    return 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
+  if (process.platform === "win32") {
+    return "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
   }
-  return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+  return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 };
 
 export const emitter = _emitter;
 
-export const readMediaInfoFromNFOSync = (NFOFile: string): NFOModel => {
+export const readMediaInfoFromNFOSync = (NFOFile: string): INFOModel => {
   type Info = {
-    movie: NFOModel;
+    movie: INFOModel;
   };
-  const xml = readFileSync(NFOFile, { encoding: 'utf8' });
+  const xml = readFileSync(NFOFile, { encoding: "utf8" });
   const { movie } = xml2js(xml) as Info;
   return {
     ...movie,
@@ -140,19 +141,19 @@ export const readMediaInfoFromNFOSync = (NFOFile: string): NFOModel => {
 };
 export const writeMediaInfoToNFOSync = (
   ipath: string,
-  data: NFOModel
+  data: INFOModel
 ): void => {
   const base = {
     _declaration: {
-      _attributes: { version: '1.0', encoding: 'utf-8', standalone: 'yes' }
+      _attributes: { version: "1.0", encoding: "utf-8", standalone: "yes" }
     }
   };
   const json = Object.assign({}, base, { movie: data });
   const xml = js2xml(json);
-  writeFileSync(ipath, xml, 'utf8');
+  writeFileSync(ipath, xml, "utf8");
 };
 export const readThumbnails = wpath => {
-  const tbPath = path.join(wpath, '.thumbnails');
+  const tbPath = path.join(wpath, ".thumbnails");
   console.log(readdirSync(tbPath));
   return (readdirSync(tbPath) || [])
     .sort((n1, n2) => parseInt(n1, 10) - parseInt(n2, 10))

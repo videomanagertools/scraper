@@ -1,11 +1,11 @@
-export { NFOModel, Actor, Uniqueid } from './nfo';
-export { EventType } from './event';
+export { INFOModel, Actor, Uniqueid } from "./nfo";
+export { EventType } from "./event";
 export {
-  QueryOpt,
-  MovieModelType,
-  ToolHead,
-  Head,
-  FileNode,
-  MediaTypeNode,
+  IQueryOpt,
+  IMovieModelType,
+  IToolHead,
+  IHead,
+  IFileNode,
+  IMediaTypeNode,
   MediaKeys
-} from './scraper';
+} from "./scraper";

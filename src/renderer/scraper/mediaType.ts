@@ -1,22 +1,22 @@
-import { MediaKeys, MediaTypeNode, ToolHead } from '@types';
-import heads from './heads';
+import { MediaKeys, IMediaTypeNode, IToolHead } from "@types";
+import heads from "./heads";
 
-const mediaType: MediaTypeNode[] = [
+const mediaType: IMediaTypeNode[] = [
   {
     value: MediaKeys.Movie,
-    label: '电影',
+    label: "电影",
     children: [
       {
         value: MediaKeys.Gentleman,
-        label: '绅士（骑兵）'
+        label: "绅士（骑兵）"
       },
       {
         value: MediaKeys.Uncensored,
-        label: '绅士（步兵）'
+        label: "绅士（步兵）"
       },
       {
         value: MediaKeys.Normal,
-        label: '普通'
+        label: "普通"
       }
     ]
   }
@@ -24,7 +24,7 @@ const mediaType: MediaTypeNode[] = [
 export default mediaType;
 
 const mediaSource = heads.reduce((acc, head) => {
-  const sourceId = head.type.join('$$');
+  const sourceId = head.type.join("$$");
   if (acc[sourceId]) {
     acc[sourceId].push(head);
   } else {
@@ -38,11 +38,11 @@ const regular = {
   [`${MediaKeys.Movie}$$${MediaKeys.Uncensored}`]: /\d{3,10}(_|-)\d{3,10}|[a-z]{3,10}(_|-)(\d|[a-z]){3,10}/i,
   [MediaKeys.Music]: /[a-z]/
 };
-export const getHeadsByMediaType: (type: string[]) => ToolHead[] = type => {
-  const sourceId = type.join('$$');
+export const getHeadsByMediaType: (type: string[]) => IToolHead[] = type => {
+  const sourceId = type.join("$$");
   return mediaSource[sourceId] || [];
 };
 export const getRegularByMediaType: (type: string[]) => RegExp = type => {
-  const sourceId = type.join('$$');
+  const sourceId = type.join("$$");
   return regular[sourceId];
 };

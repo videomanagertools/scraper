@@ -1,11 +1,17 @@
-import { writeFile, mkdirp } from 'fs-extra';
-import { downloadImg, emitter } from '../../utils';
-import { EventType, QueryOpt, ToolHead, FileNode } from '@types';
-import config from '@config';
+import { writeFile, mkdirp } from "fs-extra";
+import { downloadImg, emitter } from "../../utils";
+import {
+  EventType,
+  IQueryOpt,
+  IToolHead,
+  IFileNode,
+  IMovieModelType
+} from "@types";
+import config from "@config";
 
-const saveAsserts = async (model, file) => {
-  const proxy = config.get('proxy');
-  const url = proxy.enable ? proxy.url : '';
+const saveAsserts = async (model: IMovieModelType, file) => {
+  const proxy = config.get("proxy");
+  const url = proxy.enable ? proxy.url : "";
   const json = model.getModel();
   await mkdirp(`${file.wpath}/.actors`);
   return Promise.all([
@@ -32,19 +38,19 @@ const saveAsserts = async (model, file) => {
     .then(() => model)
     .catch(e => {
       console.log(e);
-      console.log('save asserts error', file.wpath);
+      console.log("save asserts error", file.wpath);
     });
 };
-interface TaskResult {
-  successTasks: FileNode[];
-  failureTasks: FileNode[];
+interface ITaskResult {
+  successTasks: IFileNode[];
+  failureTasks: IFileNode[];
 }
 class Scraper {
-  heads: ToolHead[] = [];
+  heads: IToolHead[] = [];
 
   stopFlag = false;
 
-  loadHead(heads: ToolHead[]): Scraper {
+  loadHead(heads: IToolHead[]): Scraper {
     this.heads = this.heads.concat(heads);
     return this;
   }
@@ -53,7 +59,7 @@ class Scraper {
     this.stopFlag = true;
   }
 
-  async start(queryOpts: QueryOpt[], name: string): Promise<TaskResult> {
+  async start(queryOpts: IQueryOpt[], name: string): Promise<ITaskResult> {
     this.stopFlag = false;
     const failureTasks = [];
     const successTasks = [];
@@ -67,7 +73,7 @@ class Scraper {
         .then(res => {
           console.log(res.getModel(), file);
           if (this.stopFlag) return;
-          return saveAsserts(res, file);
+          return saveAsserts(res, file) as Promise<IMovieModelType>;
         })
         .then(res => {
           emitter.emit(EventType.SCRAPE_SUCCESS, file, res.getModel());

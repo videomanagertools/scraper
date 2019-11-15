@@ -1,3 +1,8 @@
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REACT_PERF,
+  REDUX_DEVTOOLS
+} from "electron-devtools-installer";
 /**
  * Installs developer tools if we're in dev mode.
  *
@@ -5,13 +10,6 @@
  * @returns {Promise<void>}
  */
 export async function setupDevTools(): Promise<void> {
-  const {
-    default: installExtension,
-    REACT_DEVELOPER_TOOLS,
-    REACT_PERF,
-    REDUX_DEVTOOLS
-  } = require("electron-devtools-installer");
-
   try {
     const react = await installExtension(REACT_DEVELOPER_TOOLS);
     console.log(`installDevTools: Installed ${react}`);

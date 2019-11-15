@@ -1,14 +1,15 @@
-import MovieModel from '../core/model';
-import { MovieModelType, MediaKeys } from '@types';
+/* eslint-disable */
+import MovieModel from "../core/model";
+import { IMovieModelType, MediaKeys } from "@types";
 
 export default request => ({
-  head: async (queryString: string): Promise<MovieModelType> => {
+  head: async (queryString: string): Promise<IMovieModelType> => {
     const movieModel = new MovieModel();
-    const baseUrl = 'http://api.themoviedb.org/3';
-    const baseImgUrl = 'http://image.tmdb.org/t/p';
+    const baseUrl = "http://api.themoviedb.org/3";
+    const baseImgUrl = "http://image.tmdb.org/t/p";
     const baseParam = {
-      api_key: '72b18d1a0b41c17728448bfb2b922d26',
-      language: 'zh'
+      api_key: "72b18d1a0b41c17728448bfb2b922d26",
+      language: "zh"
     };
     const res = await request({
       url: `${baseUrl}/search/movie`,
@@ -20,7 +21,7 @@ export default request => ({
     });
 
     if (!res.total_results) {
-      throw new Error('无影片信息');
+      throw new Error("无影片信息");
     }
     const { id } = res.results[0];
     const info = await request({
@@ -65,7 +66,7 @@ export default request => ({
         {
           _attributes: {
             default: true,
-            type: '1'
+            type: "1"
           },
           _text: id
         }
@@ -74,6 +75,6 @@ export default request => ({
     });
     return movieModel;
   },
-  name: 'TMDB',
+  name: "TMDB",
   type: [MediaKeys.Movie, MediaKeys.Normal]
 });

@@ -1,6 +1,5 @@
-import pLimit from 'p-limit';
+import pLimit from "p-limit";
 
-export default promiseThrottle;
 interface IOptions {
   concurrency?: number;
   onRes?: (limit: any) => void;
@@ -14,9 +13,10 @@ function promiseThrottle(promises: IPromiseTask[], options: IOptions) {
   const limit = pLimit(concurrency);
   return Promise.all(
     promises.map(promise =>
-      limit(() => promise.task(...promise.arguments).then(res => res)).then(
-        () => onRes(limit)
-      )
+      limit(() =>
+        promise.task(...promise.arguments).then(res => res)
+      ).then(() => onRes(limit))
     )
   );
 }
+export default promiseThrottle;

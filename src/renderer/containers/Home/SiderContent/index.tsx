@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Select, Row, Col, Button } from 'antd';
-import { move, mkdirp } from 'fs-extra';
-import path from 'path';
-import FolderViewer from '../../../components/FolderViewer/index';
-import { changeChecked, changeSelected } from '../../../actions/file';
-import { FileNode } from '@types';
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Select, Row, Col, Button } from "antd";
+import { move, mkdirp } from "fs-extra";
+import path from "path";
+import FolderViewer from "../../../components/FolderViewer/index";
+import { changeChecked, changeSelected } from "../../../actions/file";
+import { IFileNode } from "@types";
 
 const { Option } = Select;
 
@@ -26,13 +26,13 @@ const mapDispatchToProps = {
 
 type Props = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {
-    tree: FileNode;
+    tree: IFileNode;
   };
 
 enum OptionValue {
-  movefail = 'movefail'
+  movefail = "movefail"
 }
-const SiderContent: React.FC<Props> = ({
+const SiderContent = ({
   tree,
   onChecked,
   onSelected,
@@ -40,7 +40,7 @@ const SiderContent: React.FC<Props> = ({
   selectedKey,
   failureKeys,
   flatTree
-}) => {
+}: Props) => {
   const [instruction, setInstruction] = useState(null);
   const selectHandle = (iselectedKeys: string[]) => {
     onSelected(iselectedKeys[0]);
@@ -52,7 +52,7 @@ const SiderContent: React.FC<Props> = ({
     setInstruction(val);
   };
   const handleExec = async () => {
-    const failPath = path.join(tree.wpath, 'Fail');
+    const failPath = path.join(tree.wpath, "Fail");
     switch (instruction) {
       case OptionValue.movefail:
         await Promise.all([
@@ -77,7 +77,7 @@ const SiderContent: React.FC<Props> = ({
         <Col span={18}>
           <Select
             placeholder="有失败任务时可选择操作"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             onChange={handleChange}
             disabled={!failureKeys.length}
           >
@@ -92,12 +92,12 @@ const SiderContent: React.FC<Props> = ({
               执行
             </Button>
           ) : (
-            ''
+            ""
           )}
         </Col>
       </Row>
-      {tree.key === 'def' ? (
-        ''
+      {tree.key === "def" ? (
+        ""
       ) : (
         <FolderViewer
           tree={tree}
@@ -112,7 +112,4 @@ const SiderContent: React.FC<Props> = ({
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SiderContent);
+export default connect(mapStateToProps, mapDispatchToProps)(SiderContent);
