@@ -1,6 +1,5 @@
 const { isDev } = require("./config/util");
 module.exports = {
-  packagerConfig: {},
   makers: [
     {
       name: "@electron-forge/maker-squirrel",
@@ -9,8 +8,7 @@ module.exports = {
       }
     },
     {
-      name: "@electron-forge/maker-zip",
-      platforms: ["darwin", "win32", "linux"]
+      name: "@electron-forge/maker-zip"
     },
     {
       name: "@electron-forge/maker-deb",
@@ -28,6 +26,19 @@ module.exports = {
           maintainer: "Dec-F",
           homepage: "https://github.com/videomanagertools/scraper"
         }
+      }
+    }
+  ],
+  publishers: [
+    {
+      name: "@electron-forge/publisher-github",
+      config: {
+        repository: {
+          owner: "videomanagertools",
+          name: "scraper"
+        },
+        prerelease: true,
+        draft: true
       }
     }
   ],

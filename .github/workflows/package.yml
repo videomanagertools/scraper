@@ -1,6 +1,9 @@
-name: Electron CD
+name: package
 
-on: [push]
+on:
+  push:
+    tags:
+      - "*"
 
 jobs:
   build:
@@ -25,24 +28,28 @@ jobs:
       - name: yarn install
         run: |
           yarn install
-      - name: Package
-        run: |
-          yarn package
       - name: Make
         run: |
           yarn make
-      # - name: Cleanup artifacts
-      #   run: |
-      #     npx rimraf "dist/!(*.exe|*.deb|*.AppImage|*.dmg)"
-      # - name: Upload artifacts
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: ${{ matrix.os }}
-      #     path: dist
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     files: "dist/**"
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Asset Path
+        id: get_asset_path
+        env:
+          __OS: ${{ matrix.os }}
+          tag_name: ${{ github.ref }}
+        run: |
+          node ./actions/get-asset-path.js
+      - name: Upload Release
+        uses: lucyio/upload-to-release@master
+        with:
+          # repo username/name
+          name: videomanagertools/scraper
+          # directory of all your files you want to upload (not recursive only flat, directories are skipped)
+          path: ${{steps.get_asset_path.outputs.asset_path}}
+          # can be enum of published, unpublished, created, prereleased
+          action: published
+          # release tag
+          release_id: ${{steps.get_asset_path.outputs.version}}
+          # release repository name
+          release-repo: videomanagertools/scraper
+          # secret for your github token to use
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
