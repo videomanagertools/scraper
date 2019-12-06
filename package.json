@@ -1,7 +1,7 @@
 {
   "name": "uscraper",
   "productName": "uscraper",
-  "version": "0.4.0",
+  "version": "0.4.0-sp",
   "description": "A scraper that switches between normal mode and gentleman mode, built on Eletron, React",
   "main": ".webpack/main",
   "scripts": {
