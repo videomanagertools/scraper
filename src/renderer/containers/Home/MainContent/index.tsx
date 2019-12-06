@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import path from "path";
-import { connect } from "react-redux";
-import MediaInfo from "@components/MediaInfo";
+import React, { useState, useEffect, useRef } from 'react';
+import path from 'path';
+import { connect } from 'react-redux';
+import MediaInfo from '@components/MediaInfo';
 import {
   readMediaInfoFromNFOSync,
   writeMediaInfoToNFOSync,
   readThumbnails
-} from "@utils";
-import config from "@config";
+} from '@utils';
+import config from '@config';
 
 const mapStateToProps = ({ file }) => {
   const { tree, checkedKeys, selectedKey, failureKeys, flatTree } = file;
@@ -22,11 +22,11 @@ const mapStateToProps = ({ file }) => {
 type IProps = ReturnType<typeof mapStateToProps>;
 const MainContent = ({ selectedKey, flatTree }: IProps) => {
   const [mediaInfo, setMediaInfo] = useState(null);
-  const nfoPath = useRef("");
-  const tags = config.get("tags", []) as string[];
+  const nfoPath = useRef('');
+  const tags = config.get('tags', []) as string[];
+  const node = flatTree[selectedKey];
   useEffect(() => {
     if (selectedKey) {
-      const node = flatTree[selectedKey];
       nfoPath.current = path.join(node.wpath, `${node.title}.nfo`);
       try {
         let thumbnails = [];
@@ -40,7 +40,7 @@ const MainContent = ({ selectedKey, flatTree }: IProps) => {
           thumbnails
         });
       } catch (error) {
-        console.warn("no nfo file", error);
+        console.warn('no nfo file', error);
         setMediaInfo(null);
       }
     }
@@ -50,7 +50,7 @@ const MainContent = ({ selectedKey, flatTree }: IProps) => {
       currentMediaInfo={mediaInfo}
       tags={tags}
       onSelect={iTags => {
-        config.set("tags", [...new Set(tags.concat(iTags))]);
+        config.set('tags', [...new Set(tags.concat(iTags))]);
         if (!nfoPath.current) return;
         const info = Object.assign({}, mediaInfo, {
           tag: iTags.map(tag => ({ _text: tag }))
@@ -59,6 +59,7 @@ const MainContent = ({ selectedKey, flatTree }: IProps) => {
         writeMediaInfoToNFOSync(nfoPath.current, info);
       }}
       selectable
+      wpath={node.wpath}
     />
   ) : (
     <div />
