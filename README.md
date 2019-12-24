@@ -1,12 +1,21 @@
-[![Build Status](https://travis-ci.org/videomanagertools/scraper.svg?branch=master)](https://travis-ci.org/videomanagertools/scraper)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/videomanagertools/scraper/master)
 ![GitHub Release Date](https://img.shields.io/github/release-date/videomanagertools/scraper)
 [![Gitter](https://badges.gitter.im/videomanagertools/uScraper.svg)](https://gitter.im/videomanagertools/uScraper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+![GitHub All Releases](https://img.shields.io/github/downloads/videomanagertools/scraper/total)
+
+![WorkFlow](https://img.shields.io/github/workflow/status/videomanagertools/scraper/package?color=orange&label=actions&logo=github&logoColor=orange&style=for-the-badge)
+
+## 注意
+
+这个是媒体元数据管理，推荐和 Jellyfin 配合使用。其他平台尽量兼容。
+
+虽然有绅士模式，但是作者不推荐使用。
+
 ### 食用指南
 
 下载对应平台的安装包，安装，打开。
 
-[更多介绍](https://user-images.githubusercontent.com/20250430/68590465-82588b80-04c9-11ea-94bf-1d64a2e8c2a4.png)
+![更多介绍](https://user-images.githubusercontent.com/20250430/68590465-82588b80-04c9-11ea-94bf-1d64a2e8c2a4.png)
 
 #### 设置
 
@@ -60,6 +69,7 @@ npm run dev
 3. 可能会有一个整合的工具，把 Download，Scrape，Move Files 串联起来
 
 ### 交流
+
 [Gitter](https://gitter.im/videomanagertools/uScraper?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 ### 最后
