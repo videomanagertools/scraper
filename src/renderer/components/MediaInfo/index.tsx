@@ -15,7 +15,7 @@ interface IProps {
 const MediaInfo = ({
   currentMediaInfo,
   selectable = false,
-  onSelect = () => {},
+  onSelect = () => { },
   tags = []
 }: IProps) => {
   const selectedTags = get(currentMediaInfo, "tag", []).map(tag => tag._text);
@@ -71,8 +71,8 @@ const MediaInfo = ({
                     ))}
                   </Select>
                 ) : (
-                  selectedTags.map(g => <Tag key={g._text}>{g._text}</Tag>)
-                )}
+                    selectedTags.map(g => <Tag key={g._text}>{g._text}</Tag>)
+                  )}
               </div>
             </div>
             <div className={styles.info_item}>
@@ -80,7 +80,7 @@ const MediaInfo = ({
               <div className={cn(styles.info_text, styles.actor)}>
                 {get(currentMediaInfo, "actor", []).map(a => (
                   <figure key={a.name._text}>
-                    <img src={a.thumb._text} alt="" />
+                    <img src={get(a, 'thumb._text', '')} alt="" />
                     <figcaption>{a.name._text}</figcaption>
                   </figure>
                 ))}
@@ -107,8 +107,8 @@ const MediaInfo = ({
             </Col>
           </Row>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     </Row>
   );

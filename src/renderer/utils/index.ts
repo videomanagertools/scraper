@@ -136,6 +136,11 @@ export const readMediaInfoFromNFOSync = (NFOFile: string): INFOModel => {
       ? Array.isArray(movie.actor)
         ? movie.actor
         : [movie.actor]
+      : [],
+    tag: movie.tag
+      ? Array.isArray(movie.tag)
+        ? movie.tag
+        : [movie.tag]
       : []
   };
 };

@@ -55,14 +55,14 @@ const MainContent = ({ selectedKey, flatTree }: IProps) => {
         const info = Object.assign({}, mediaInfo, {
           tag: iTags.map(tag => ({ _text: tag }))
         });
-        setMediaInfo({ ...mediaInfo, tag: iTags.map(tag => ({ _text: tag })) });
+        setMediaInfo(info);
         writeMediaInfoToNFOSync(nfoPath.current, info);
       }}
       selectable
     />
   ) : (
-    <div />
-  );
+      <div />
+    );
 };
 
 export default connect(mapStateToProps)(MainContent);
