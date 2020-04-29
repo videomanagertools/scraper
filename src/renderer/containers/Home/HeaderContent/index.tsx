@@ -6,8 +6,8 @@ import { shell } from "electron";
 import * as R from "ramda";
 import CRD from "@vdts/collect-video";
 import promiseThrottle from "@lib/promiseThrottle";
-import ProgressModal from "@components/progressModal";
-import ToolTipIcon from "@components/toolTipIcon";
+import ProgressModal from "@components/ProgressModal";
+import ToolTipIcon from "@components/ToolTipIcon";
 import { generateFileTree, takeScreenshots } from "../../../utils";
 import {
   selectFiles,

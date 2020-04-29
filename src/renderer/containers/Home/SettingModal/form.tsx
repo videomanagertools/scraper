@@ -10,7 +10,7 @@ import {
   InputNumber,
   Divider
 } from "antd";
-import FormItem from "@components/formItem";
+import FormItem from "@components/FormItem";
 import config from "@config";
 import styles from "./index.less";
 import { mediaType } from "@scraper";
