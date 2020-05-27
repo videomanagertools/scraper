@@ -15,11 +15,9 @@
 
 下载对应平台的安装包，安装，打开。
 
-![更多介绍](https://user-images.githubusercontent.com/20250430/68590465-82588b80-04c9-11ea-94bf-1d64a2e8c2a4.png)
-
 #### 设置
 
-![image](https://user-images.githubusercontent.com/20250430/68587173-6355fb80-04c1-11ea-8dbb-02dfbdae542c.png)
+
 
 1. 预设标签
 
