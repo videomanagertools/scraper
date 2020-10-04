@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@rematch/core": "^1.2.0",
+    "@types/fs-extra": "^9.0.1",
     "@vdts/collect-video": "^0.6.2",
     "antd": "^3.23.3",
     "cheerio": "^1.0.0-rc.3",

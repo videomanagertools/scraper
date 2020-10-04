@@ -1,5 +1,5 @@
 import ffmpeg from "fluent-ffmpeg";
-import { mkdirSync } from "fs-extra";
+import { ensureDirSync } from "fs-extra";
 /**
  * multiple screenshots very slow
  * https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/issues/860
@@ -11,7 +11,7 @@ export const takeScreenshots = ({
   size = "800x?"
 }) => {
   try {
-    mkdirSync(folder);
+    ensureDirSync(folder);
   } catch (err) {
     console.error(err);
   }

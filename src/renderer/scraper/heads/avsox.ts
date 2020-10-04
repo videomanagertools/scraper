@@ -7,7 +7,7 @@ export default request => ({
     const movieModel = new MovieModel();
     const encodedQueryString = encodeURIComponent(queryString);
     const searchPage = await request({
-      url: `https://avsox.host/cn/search/${encodedQueryString}`
+      url: `https://avsox.cyou/cn/search/${encodedQueryString}`
     });
     const infoPageUrl = cheerio
       .load(searchPage)('.movie-box')
