@@ -44,7 +44,7 @@ export const generateFileTree = (paths: Array<string>): IFileNode[] => {
       if (needDel) {
         walkRes = null;
       }
-    } else if (/(.mp4|.rmvb|.avi|.wmv)$/.test(wpath)) {
+    } else if (/(\.mp4|\.rmvb|\.avi|\.wmv)$/i.test(wpath)) {
       const name = path.basename(wpath).split(".");
       walkRes = {
         title: name[0],
