@@ -28,7 +28,6 @@ export const generateFileTree = (paths: Array<string>): IFileNode[] => {
       wpath,
       fullpath: wpath
     };
-    debugger;
     if (isDir(wpath)) {
       walkRes.title = path.basename(wpath);
       walkRes.isDir = true;
